@@ -1,10 +1,13 @@
 import { useState, useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
-import { Menu, X, ChevronDown, Moon, Sun, LogIn, Calculator, Brain, GraduationCap } from "lucide-react";
-import { useTheme } from "next-themes";
+import { Menu, X, ChevronDown, LogIn, Calculator, Brain, GraduationCap } from "lucide-react";
+// Dark theme: uncomment Moon, Sun and useTheme when ThemeProvider is restored
+// import { Moon, Sun } from "lucide-react";
+// import { useTheme } from "next-themes";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
-import logo from "../assets/logo.png";
+import logoDarkTheme from "../assets/logo_dark_theme.png";
+import logoLightNavbar from "../assets/logo_white_theme.png";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -32,11 +35,12 @@ interface NavbarProps {
 export const Navbar = ({ transparent = false }: NavbarProps) => {
   const [isOpen, setIsOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
-  const [mounted, setMounted] = useState(false);
+  // Dark theme: uncomment mounted + useTheme + toggleTheme when ThemeProvider is restored
+  // const [mounted, setMounted] = useState(false);
   const [coursesOpen, setCoursesOpen] = useState(false);
   const location = useLocation();
-  const { resolvedTheme, setTheme } = useTheme();
-  const isDark = mounted && resolvedTheme === "dark";
+  // const { resolvedTheme, setTheme } = useTheme();
+  // const isDark = mounted && resolvedTheme === "dark";
 
   useEffect(() => {
     const handleScroll = () => {
@@ -46,13 +50,13 @@ export const Navbar = ({ transparent = false }: NavbarProps) => {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  useEffect(() => {
-    setMounted(true);
-  }, []);
+  // useEffect(() => {
+  //   setMounted(true);
+  // }, []);
 
-  const toggleTheme = () => {
-    setTheme(isDark ? "light" : "dark");
-  };
+  // const toggleTheme = () => {
+  //   setTheme(isDark ? "light" : "dark");
+  // };
 
   // Determine navbar background based on scroll and transparent prop
   const getNavbarBackground = () => {
@@ -62,6 +66,10 @@ export const Navbar = ({ transparent = false }: NavbarProps) => {
     return "bg-background/95 backdrop-blur-md shadow-lg py-2";
   };
 
+  /** Dark hero underlay → light-on-dark logo; solid light bar → dark-on-light logo */
+  const isDarkNavbarBackground = transparent && !scrolled;
+  const logoSrc = isDarkNavbarBackground ? logoDarkTheme : logoLightNavbar;
+
   return (
     <nav
       className={cn(
@@ -69,18 +77,18 @@ export const Navbar = ({ transparent = false }: NavbarProps) => {
         getNavbarBackground()
       )}
     >
-      <div className="container mx-auto px-4">
+      <div className="container mx-auto">
         <div className="flex items-center justify-between">
-          {/* Logo */}
-          <Link to="/" className="flex items-center group">
-  <div className="h-16 flex items-center">
-    <img
-      src={logo}
-      alt="Tiny Vivid Minds Logo"
-      className="h-20 w-auto object-contain transition-transform duration-200 group-hover:scale-105"
-    />
-  </div>
-</Link>
+          {/* Logo — switches with navbar background (transparent/dark vs solid/light) */}
+          <Link to="/" className="flex min-w-0 max-w-[55vw] items-center group sm:max-w-none">
+            <div className="flex h-12 items-center sm:h-14 md:h-16">
+              <img
+                src={logoSrc}
+                alt="Tiny Vivid Minds Logo"
+                className="h-12 w-auto max-h-full object-contain object-left transition-transform duration-200 group-hover:scale-105 sm:h-16 md:h-20"
+              />
+            </div>
+          </Link>
 
 
 
@@ -173,7 +181,7 @@ export const Navbar = ({ transparent = false }: NavbarProps) => {
 
           {/* Right Side Actions */}
           <div className="hidden lg:flex items-center gap-3">
-            {/* Theme Toggle */}
+            {/* Dark theme: Theme toggle — uncomment when ThemeProvider is restored
             <button
               onClick={toggleTheme}
               className={cn(
@@ -184,6 +192,7 @@ export const Navbar = ({ transparent = false }: NavbarProps) => {
             >
               {isDark ? <Sun className="w-5 h-5" /> : <Moon className="w-5 h-5" />}
             </button>
+            */}
 
             {/* Login Icon */}
             {/* <Link
@@ -222,10 +231,10 @@ export const Navbar = ({ transparent = false }: NavbarProps) => {
         <div
           className={cn(
             "lg:hidden overflow-hidden transition-all duration-300",
-            isOpen ? "max-h-[500px] opacity-100 mt-4" : "max-h-0 opacity-0"
+            isOpen ? "max-h-[calc(100dvh-5.5rem)] opacity-100 mt-4" : "max-h-0 opacity-0"
           )}
         >
-          <div className="bg-card/95 backdrop-blur-md rounded-2xl p-4 space-y-2 border border-vedic-gold/20">
+          <div className="bg-card/95 backdrop-blur-md rounded-2xl p-4 space-y-2 border border-vedic-gold/20 overflow-y-auto max-h-[calc(100dvh-6rem)]">
             {navLinks.slice(0, 2).map((link, index) => (
               <Link
                 key={link.path}
@@ -277,12 +286,14 @@ export const Navbar = ({ transparent = false }: NavbarProps) => {
             ))}
 
             <div className="pt-4 flex items-center gap-3 px-4">
+              {/* Dark theme: mobile theme toggle — uncomment when ThemeProvider is restored
               <button
                 onClick={toggleTheme}
                 className="p-2 rounded-full bg-vedic-gold/10 text-vedic-gold"
               >
                 {isDark ? <Sun className="w-5 h-5" /> : <Moon className="w-5 h-5" />}
               </button>
+              */}
               <Link
                 to="/contact"
                 onClick={() => setIsOpen(false)}

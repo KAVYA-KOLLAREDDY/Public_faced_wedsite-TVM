@@ -113,7 +113,7 @@ const SignatureHero = () => {
 
       <ParallaxWatermark text="SIGNATURE" className="top-1/3 -left-20" speed={0.15} />
 
-      <div className="container mx-auto px-6 relative z-10">
+      <div className="container mx-auto relative z-10">
         <div className="max-w-4xl mx-auto text-center">
           {/* Badge - Same style as other pages */}
           <AnimatedSection animation="pop-in">

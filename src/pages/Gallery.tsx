@@ -418,7 +418,7 @@ const Gallery = () => {
   };
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen bg-background min-w-0 w-full max-w-[100vw] overflow-x-clip">
       <Navbar />
       <SocialSidebar />
 
@@ -427,7 +427,7 @@ const Gallery = () => {
         {/* Dynamic Mesh Gradient Background - "Aura" Effect */}
         <MeshGradientBackground />
         
-        <div className="container mx-auto px-6 relative z-10">
+        <div className="container mx-auto relative z-10">
           <div className="grid lg:grid-cols-2 gap-8 lg:gap-16 items-center min-h-[70vh]">
             {/* Left Side - Text Content */}
             <motion.div
@@ -562,7 +562,7 @@ const Gallery = () => {
 
       {/* Featured Video Section - The Cinematic Player */}
       <section className="py-24 bg-background relative overflow-hidden">
-        <div className="container mx-auto px-6">
+        <div className="container mx-auto">
           <AnimatedSection animation="slide-up" className="text-center mb-12">
             <h2 className="font-display text-3xl md:text-4xl font-bold text-foreground mb-4">
               Watch How Learning <span className="text-vedic-gold">Comes Alive!</span>
@@ -616,7 +616,7 @@ const Gallery = () => {
         <div className="absolute top-20 left-10 w-32 h-32 bg-pink-500/10 rounded-full blur-3xl" />
         <div className="absolute bottom-20 right-10 w-40 h-40 bg-purple-500/10 rounded-full blur-3xl" />
         
-        <div className="container mx-auto px-6">
+        <div className="container mx-auto">
           <AnimatedSection animation="slide-up" className="text-center mb-12">
             <motion.span 
               className="inline-flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-pink-500/20 to-purple-500/20 text-pink-500 font-semibold tracking-wider uppercase text-sm rounded-full mb-4 border border-pink-500/30"
@@ -696,7 +696,7 @@ const Gallery = () => {
 
       {/* Photo Gallery - Masonry Wall */}
       <section className="py-24 bg-background relative overflow-hidden">
-        <div className="container mx-auto px-6">
+        <div className="container mx-auto">
           <AnimatedSection animation="slide-up" className="text-center mb-12">
             <h2 className="font-display text-3xl md:text-4xl font-bold text-foreground mb-4">
               Tiny Moments, <span className="text-vedic-gold">Big Achievements</span>
@@ -756,7 +756,7 @@ const Gallery = () => {
 
       {/* More YouTube Videos */}
       <section className="py-24 bg-muted/30 relative overflow-hidden">
-        <div className="container mx-auto px-6">
+        <div className="container mx-auto">
           <AnimatedSection animation="slide-up" className="text-center mb-12">
             <h2 className="font-display text-3xl md:text-4xl font-bold text-foreground mb-4">
               Watch More on Our <span className="text-vedic-gold">YouTube Channel</span>
@@ -852,7 +852,7 @@ const Gallery = () => {
           ))}
         </div>
 
-        <div className="container mx-auto px-6 relative z-10">
+        <div className="container mx-auto relative z-10">
           <AnimatedSection animation="slide-up" className="text-center mb-12">
             <h2 className="font-display text-3xl md:text-4xl font-bold text-white mb-4">
               Celebrating Our Students' <span className="text-vedic-gold">Success</span>
@@ -888,7 +888,7 @@ const Gallery = () => {
 
       {/* Behind Every Smile */}
       <section className="py-24 bg-background relative overflow-hidden">
-        <div className="container mx-auto px-6">
+        <div className="container mx-auto">
           <AnimatedSection animation="slide-up" className="text-center mb-12">
             <h2 className="font-display text-3xl md:text-4xl font-bold text-foreground mb-4">
               Behind Every Smile, <span className="text-vedic-gold">There's a Story</span>
@@ -966,7 +966,7 @@ const Gallery = () => {
           ))}
         </div>
 
-        <div className="container mx-auto px-6 relative z-10 text-center">
+        <div className="container mx-auto relative z-10 text-center">
           <AnimatedSection animation="zoom">
             <motion.div
               initial={{ opacity: 0, y: 30 }}

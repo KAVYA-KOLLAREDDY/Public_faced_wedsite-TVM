@@ -198,7 +198,13 @@ export const SocialSidebar = () => {
       </motion.div>
 
       {/* Mobile FAB - Bottom Right */}
-      <div className="fixed bottom-6 right-6 z-50 lg:hidden">
+      <div
+        className="fixed z-50 lg:hidden"
+        style={{
+          bottom: "max(1.25rem, env(safe-area-inset-bottom, 0px))",
+          right: "max(1.25rem, env(safe-area-inset-right, 0px))",
+        }}
+      >
         <AnimatePresence>
           {mobileExpanded && (
             <motion.div

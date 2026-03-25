@@ -98,7 +98,7 @@ const faqs = [
 const Contact = () => {
   const location = useLocation();
   const [searchParams] = useSearchParams();
-  const [activeTab, setActiveTab] = useState("demo");
+  const [activeTab, setActiveTab] = useState("contact");
   const [activeFaq, setActiveFaq] = useState<number | null>(null);
   const [newsletter, setNewsletter] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -158,7 +158,7 @@ const Contact = () => {
   };
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen min-w-0 bg-background overflow-x-clip">
       <Navbar />
       <SocialSidebar />
 
@@ -176,7 +176,7 @@ const Contact = () => {
 
       {/* World Map Section - The Centerpiece */}
       <section className="py-24 bg-background">
-        <div className="container mx-auto px-4">
+        <div className="container mx-auto">
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -193,7 +193,7 @@ const Contact = () => {
               </span>
             </h2>
             <p className="text-muted-foreground text-lg">
-              Connecting students across 5 countries with world-class mathematics education.
+              Connecting students across 6 countries with world-class mathematics education.
               Watch our learning network expand from India to the world.
             </p>
           </motion.div>
@@ -219,7 +219,7 @@ const Contact = () => {
           `,
         }}
       >
-        <div className="container mx-auto px-4">
+        <div className="container mx-auto">
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -250,7 +250,7 @@ const Contact = () => {
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            className="max-w-3xl mx-auto rounded-3xl p-8 md:p-10"
+            className="max-w-3xl mx-auto rounded-2xl sm:rounded-3xl p-4 sm:p-6 md:p-10 w-full min-w-0"
             style={{
               background: "hsl(var(--card))",
               boxShadow: "0 25px 80px hsl(var(--foreground) / 0.08)",
@@ -614,7 +614,7 @@ const Contact = () => {
 
       {/* Testimonials - Wall of Love */}
       <section className="py-24 bg-gradient-to-b from-background to-muted/30">
-        <div className="container mx-auto px-4">
+        <div className="container mx-auto">
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -651,7 +651,7 @@ const Contact = () => {
 
       {/* Social Media Section */}
       <section className="py-24 bg-background">
-        <div className="container mx-auto px-4">
+        <div className="container mx-auto">
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -704,7 +704,7 @@ const Contact = () => {
 
       {/* FAQ Section */}
       <section className="py-24 bg-muted/20">
-        <div className="container mx-auto px-4">
+        <div className="container mx-auto">
           <div className="grid lg:grid-cols-2 gap-12 items-start">
             <motion.div
               initial={{ opacity: 0, x: -30 }}
@@ -770,7 +770,7 @@ const Contact = () => {
 
       {/* Final CTA */}
       <section className="py-24 bg-gradient-to-r from-primary via-primary to-navy-dark text-white">
-        <div className="container mx-auto px-4 text-center">
+        <div className="container mx-auto text-center">
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}

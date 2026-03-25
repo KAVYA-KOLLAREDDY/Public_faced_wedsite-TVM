@@ -2,162 +2,153 @@ import { Monitor, Trophy, TrendingUp, Wrench, ArrowRight, Play } from "lucide-re
 import { cn } from "@/lib/utils";
 import { AnimatedSection } from "@/components/AnimatedSection";
 
-const features = [
-  {
-    icon: Monitor,
-    title: "Online & Live",
-    description: "Interactive live classes with expert instructors",
-    size: "large",
-    visual: "video",
-  },
-  {
-    icon: Trophy,
-    title: "Monthly Competition",
-    description: "Compete globally in exciting challenges",
-    size: "medium",
-    visual: "trophy",
-  },
-  {
-    icon: TrendingUp,
-    title: "Progress Tracking",
-    description: "Watch skills grow with detailed analytics",
-    size: "medium",
-    visual: "chart",
-  },
-  {
-    icon: Wrench,
-    title: "Virtual Tools",
-    description: "Digital abacus & interactive exercises",
-    size: "small",
-    visual: "tools",
-  },
-];
+/** Shared vertical rhythm: icon → title → body (+ optional footer slot) */
+const iconBox =
+  "flex h-12 w-12 shrink-0 items-center justify-center rounded-xl";
+const titleCls = "font-display text-lg font-bold text-foreground sm:text-xl";
+const bodyCls =
+  "text-sm leading-relaxed text-muted-foreground sm:text-base flex-1 min-h-[3.25rem]";
 
 export const BentoFeatures = () => {
   return (
-    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 max-w-6xl mx-auto">
-      {/* Large tile - Online & Live */}
-      <AnimatedSection 
-        animation="fade-up" 
-        className="lg:col-span-2 lg:row-span-2"
+    <div
+      className={cn(
+        "mx-auto grid max-w-6xl grid-cols-1 gap-4 sm:gap-5",
+        "md:grid-cols-2 md:auto-rows-[minmax(17.5rem,auto)]",
+        "lg:grid-cols-3 lg:auto-rows-[minmax(17.5rem,auto)]"
+      )}
+    >
+      {/* Large tile — grid layout replaces absolute video (no overlap on any width) */}
+      <AnimatedSection
+        animation="fade-up"
+        className="h-full md:col-span-2 lg:col-span-2 lg:row-span-2"
       >
-        <div className="group relative h-full min-h-[320px] bg-gradient-to-br from-teal/20 via-teal/10 to-transparent rounded-3xl p-8 border border-teal/20 overflow-hidden hover:border-teal/40 transition-all duration-500">
-          {/* Animated background */}
-          <div className="absolute inset-0 opacity-30">
-            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-64 h-64 bg-teal/30 rounded-full blur-3xl animate-pulse" />
+        <div
+          className={cn(
+            "group relative flex h-full min-h-[22rem] flex-col overflow-hidden rounded-3xl border border-teal/20 bg-gradient-to-br from-teal/20 via-teal/10 to-transparent transition-all duration-500 hover:border-teal/40 lg:min-h-0",
+            "p-6 sm:p-7 md:p-8"
+          )}
+        >
+          <div className="pointer-events-none absolute inset-0 opacity-30">
+            <div className="absolute left-1/2 top-1/2 h-64 w-64 -translate-x-1/2 -translate-y-1/2 animate-pulse rounded-full bg-teal/30 blur-3xl" />
           </div>
-          
-          {/* Video preview mockup */}
-          <div className="absolute bottom-6 right-6 w-48 h-32 md:w-64 md:h-44 bg-navy/80 rounded-2xl border border-white/10 overflow-hidden shadow-2xl group-hover:scale-105 transition-transform duration-500">
-            <div className="absolute inset-0 bg-gradient-to-br from-white/5 to-transparent" />
-            <div className="absolute inset-0 flex items-center justify-center">
-              <div className="w-14 h-14 rounded-full bg-gold/90 flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform cursor-pointer">
-                <Play className="w-6 h-6 text-navy-dark ml-1" fill="currentColor" />
+
+          <div className="relative z-10 flex min-h-0 flex-1 flex-col gap-8 lg:grid lg:grid-cols-[minmax(0,1fr)_minmax(200px,15rem)] lg:items-stretch lg:gap-8">
+            <div className="flex min-w-0 flex-col">
+              <div className={cn(iconBox, "mb-4 rounded-2xl bg-teal/20 md:mb-4")}>
+                <Monitor className="h-6 w-6 text-teal" />
+              </div>
+              <h3 className={cn(titleCls, "mb-2 md:text-2xl lg:text-3xl")}>Online & Live</h3>
+              <p className={cn(bodyCls, "mb-4 max-w-xl")}>
+                Interactive live classes with expert instructors. Real-time feedback and personalized
+                attention.
+              </p>
+              <a
+                href="#"
+                className="mt-auto inline-flex w-fit items-center gap-2 font-semibold text-teal transition-all hover:gap-3"
+              >
+                Explore <ArrowRight className="h-4 w-4" />
+              </a>
+            </div>
+
+            <div
+              className={cn(
+                "relative aspect-video w-full max-w-md shrink-0 overflow-hidden rounded-2xl border border-white/10 bg-navy/80 shadow-2xl transition-transform duration-500 group-hover:scale-[1.02] sm:max-w-lg lg:max-w-none lg:justify-self-end"
+              )}
+            >
+              <div className="absolute inset-0 bg-gradient-to-br from-white/5 to-transparent" />
+              <div className="absolute inset-0 flex items-center justify-center">
+                <div className="flex h-12 w-12 cursor-pointer items-center justify-center rounded-full bg-gold/90 shadow-lg transition-transform group-hover:scale-105 sm:h-14 sm:w-14">
+                  <Play className="ml-0.5 h-5 w-5 fill-current text-navy-dark sm:h-6 sm:w-6" />
+                </div>
+              </div>
+              <div className="absolute bottom-2 left-2 flex gap-1">
+                <div className="h-7 w-7 rounded-full border border-white/20 bg-teal/50 sm:h-8 sm:w-8" />
+                <div className="h-7 w-7 rounded-full border border-white/20 bg-gold/50 sm:h-8 sm:w-8" />
+                <div className="h-7 w-7 rounded-full border border-white/20 bg-purple-400/50 sm:h-8 sm:w-8" />
               </div>
             </div>
-            {/* Video call indicators */}
-            <div className="absolute bottom-2 left-2 flex gap-1">
-              <div className="w-8 h-8 rounded-full bg-teal/50 border border-white/20" />
-              <div className="w-8 h-8 rounded-full bg-gold/50 border border-white/20" />
-              <div className="w-8 h-8 rounded-full bg-purple-400/50 border border-white/20" />
-            </div>
-          </div>
-
-          <div className="relative z-10">
-            <div className="w-14 h-14 rounded-2xl bg-teal/20 flex items-center justify-center mb-6">
-              <Monitor className="w-7 h-7 text-teal" />
-            </div>
-            <h3 className="font-display text-2xl md:text-3xl font-bold text-foreground mb-3">
-              Online & Live
-            </h3>
-            <p className="text-muted-foreground text-lg max-w-sm mb-6">
-              Interactive live classes with expert instructors. Real-time feedback and personalized attention.
-            </p>
-            <a href="#" className="inline-flex items-center gap-2 text-teal font-semibold hover:gap-3 transition-all">
-              Explore <ArrowRight className="w-4 h-4" />
-            </a>
           </div>
         </div>
       </AnimatedSection>
 
-      {/* Medium tile - Competition */}
-      <AnimatedSection animation="fade-left" delay={100}>
-        <div className="group relative h-full min-h-[200px] bg-gradient-to-br from-gold/20 via-gold/10 to-transparent rounded-3xl p-6 border border-gold/20 overflow-hidden hover:border-gold/40 transition-all duration-500">
-          {/* Trophy visual */}
-          <div className="absolute -bottom-4 -right-4 opacity-20 group-hover:opacity-40 transition-opacity">
-            <Trophy className="w-32 h-32 text-gold" strokeWidth={1} />
+      {/* Medium — Competition */}
+      <AnimatedSection animation="fade-left" delay={100} className="h-full">
+        <div
+          className={cn(
+            "group relative flex h-full min-h-[17.5rem] flex-col overflow-hidden rounded-3xl border border-gold/20 bg-gradient-to-br from-gold/20 via-gold/10 to-transparent p-6 sm:p-7 transition-all duration-500 hover:border-gold/40 lg:min-h-0"
+          )}
+        >
+          <div className="pointer-events-none absolute -bottom-4 -right-4 opacity-20 transition-opacity group-hover:opacity-40">
+            <Trophy className="h-28 w-28 text-gold sm:h-32 sm:w-32" strokeWidth={1} />
           </div>
-          
-          <div className="relative z-10">
-            <div className="w-12 h-12 rounded-xl bg-gold/20 flex items-center justify-center mb-4">
-              <Trophy className="w-6 h-6 text-gold" />
+          <div className="relative z-10 flex min-h-0 flex-1 flex-col pr-12">
+            <div className={cn(iconBox, "mb-4 bg-gold/20")}>
+              <Trophy className="h-6 w-6 text-gold" />
             </div>
-            <h3 className="font-display text-xl font-bold text-foreground mb-2">
-              Monthly Competition
-            </h3>
-            <p className="text-muted-foreground text-sm">
-              Test skills and win prizes in global challenges
-            </p>
+            <h3 className={cn(titleCls, "mb-2")}>Monthly Competition</h3>
+            <p className={bodyCls}>Compete globally in exciting challenges.</p>
           </div>
         </div>
       </AnimatedSection>
 
-      {/* Medium tile - Progress */}
-      <AnimatedSection animation="fade-left" delay={200}>
-        <div className="group relative h-full min-h-[200px] bg-gradient-to-br from-purple-500/20 via-purple-500/10 to-transparent rounded-3xl p-6 border border-purple-500/20 overflow-hidden hover:border-purple-500/40 transition-all duration-500">
-          {/* Mini chart visual */}
-          <div className="absolute bottom-4 right-4 flex items-end gap-1.5 opacity-60 group-hover:opacity-100 transition-opacity">
+      {/* Medium — Progress */}
+      <AnimatedSection animation="fade-left" delay={200} className="h-full">
+        <div
+          className={cn(
+            "group relative flex h-full min-h-[17.5rem] flex-col overflow-hidden rounded-3xl border border-purple-500/20 bg-gradient-to-br from-purple-500/20 via-purple-500/10 to-transparent p-6 sm:p-7 transition-all duration-500 hover:border-purple-500/40 lg:min-h-0"
+          )}
+        >
+          <div className="pointer-events-none absolute bottom-3 right-3 flex items-end gap-1.5 opacity-50 transition-opacity group-hover:opacity-100">
             {[40, 55, 45, 70, 60, 85, 95].map((h, i) => (
-              <div 
+              <div
                 key={i}
-                className="w-3 bg-gradient-to-t from-purple-500 to-purple-300 rounded-t transition-all duration-500"
-                style={{ 
-                  height: `${h * 0.6}px`,
-                  transitionDelay: `${i * 50}ms`
+                className="w-2.5 rounded-t bg-gradient-to-t from-purple-500 to-purple-300 transition-all duration-500 sm:w-3"
+                style={{
+                  height: `${h * 0.5}px`,
+                  transitionDelay: `${i * 50}ms`,
                 }}
               />
             ))}
           </div>
-          
-          <div className="relative z-10">
-            <div className="w-12 h-12 rounded-xl bg-purple-500/20 flex items-center justify-center mb-4">
-              <TrendingUp className="w-6 h-6 text-purple-400" />
+          <div className="relative z-10 flex min-h-0 flex-1 flex-col pr-14">
+            <div className={cn(iconBox, "mb-4 bg-purple-500/20")}>
+              <TrendingUp className="h-6 w-6 text-purple-400" />
             </div>
-            <h3 className="font-display text-xl font-bold text-foreground mb-2">
-              Progress Tracking
-            </h3>
-            <p className="text-muted-foreground text-sm">
-              Detailed analytics and growth insights
-            </p>
+            <h3 className={cn(titleCls, "mb-2")}>Progress Tracking</h3>
+            <p className={bodyCls}>Detailed analytics and growth insights for every learner.</p>
           </div>
         </div>
       </AnimatedSection>
 
-      {/* Wide tile - Virtual Tools */}
-      <AnimatedSection animation="fade-up" delay={300} className="lg:col-span-2">
-        <div className="group relative h-full min-h-[160px] bg-gradient-to-r from-rose-500/20 via-orange-500/10 to-transparent rounded-3xl p-6 border border-rose-500/20 overflow-hidden hover:border-rose-500/40 transition-all duration-500 flex items-center">
-          {/* Tool icons */}
-          <div className="absolute right-8 flex gap-3 opacity-40 group-hover:opacity-70 transition-opacity">
-            <div className="w-16 h-16 rounded-2xl bg-white/5 border border-white/10 flex items-center justify-center">
+      {/* Wide — Virtual Tools */}
+      <AnimatedSection animation="fade-up" delay={300} className="h-full md:col-span-2 lg:col-span-2">
+        <div
+          className={cn(
+            "group relative flex h-full min-h-[17.5rem] flex-col justify-center gap-6 overflow-hidden rounded-3xl border border-rose-500/20 bg-gradient-to-r from-rose-500/20 via-orange-500/10 to-transparent p-6 sm:p-7 transition-all duration-500 hover:border-rose-500/40 sm:flex-row sm:items-stretch lg:min-h-0"
+          )}
+        >
+          <div className="pointer-events-none absolute right-6 top-1/2 hidden -translate-y-1/2 gap-3 opacity-40 transition-opacity group-hover:opacity-70 sm:flex">
+            <div className="flex h-14 w-14 items-center justify-center rounded-2xl border border-white/10 bg-white/5 sm:h-16 sm:w-16">
               <div className="grid grid-cols-5 gap-0.5">
                 {Array.from({ length: 15 }).map((_, i) => (
-                  <div key={i} className={cn(
-                    "w-1.5 h-1.5 rounded-full",
-                    i % 3 === 0 ? "bg-orange-400" : "bg-white/30"
-                  )} />
+                  <div
+                    key={i}
+                    className={cn(
+                      "h-1.5 w-1.5 rounded-full",
+                      i % 3 === 0 ? "bg-orange-400" : "bg-white/30"
+                    )}
+                  />
                 ))}
               </div>
             </div>
           </div>
-          
-          <div className="relative z-10 flex-1">
-            <div className="w-12 h-12 rounded-xl bg-rose-500/20 flex items-center justify-center mb-4">
-              <Wrench className="w-6 h-6 text-rose-400" />
+          <div className="relative z-10 flex min-h-0 min-w-0 flex-1 flex-col pr-0 sm:pr-24">
+            <div className={cn(iconBox, "mb-4 bg-rose-500/20")}>
+              <Wrench className="h-6 w-6 text-rose-400" />
             </div>
-            <h3 className="font-display text-xl font-bold text-foreground mb-2">
-              Virtual Tools
-            </h3>
-            <p className="text-muted-foreground text-sm max-w-md">
+            <h3 className={cn(titleCls, "mb-2")}>Virtual Tools</h3>
+            <p className={cn(bodyCls, "max-w-2xl")}>
               Digital abacus platforms and interactive exercises for immersive learning
             </p>
           </div>

@@ -2,15 +2,15 @@ import React from 'react';
 import { Users, Trophy, Headphones } from 'lucide-react';
 
 const stats = [
-  { icon: Users, value: "10,000+", label: "Students" },
   { icon: Trophy, value: "Level 6", label: "Mastery" },
   { icon: Headphones, value: "Live 1-on-1", label: "Support" },
+  { icon: Users, value: "Group Sessions", label: "Students" },
 ];
 
 export const StatsBar = () => {
   return (
     <div className="relative py-6 border-y border-primary/20 bg-gradient-to-r from-primary/5 via-transparent to-secondary/5">
-      <div className="container mx-auto px-6">
+      <div className="container mx-auto">
         <div className="flex flex-wrap justify-center gap-8 md:gap-16">
           {stats.map((stat) => (
             <div 

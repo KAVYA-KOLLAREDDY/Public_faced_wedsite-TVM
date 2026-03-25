@@ -62,7 +62,7 @@ const fourPillars = [
 
 const About = () => {
   return (
-    <div className="min-h-screen bg-background overflow-hidden">
+    <div className="min-h-screen min-w-0 bg-background overflow-x-clip">
       <Navbar />
       <SocialSidebar />
 
@@ -79,7 +79,7 @@ const About = () => {
         <div className="absolute top-1/4 right-1/4 w-[500px] h-[500px] bg-vedic-gold/10 rounded-full blur-[120px] animate-float" />
         <div className="absolute bottom-0 left-1/4 w-[400px] h-[400px] bg-vedic-teal/10 rounded-full blur-[100px] animate-float-delayed" />
 
-        <div className="container mx-auto px-4 relative z-10">
+        <div className="container mx-auto relative z-10">
           <div className="max-w-5xl mx-auto text-center">
             {/* Badge */}
             <AnimatedSection animation="pop-in">
@@ -134,7 +134,7 @@ const About = () => {
       <section className="py-[120px] relative overflow-hidden">
         <ParallaxWatermark text="CURIOUS" className="-right-32 top-0" speed={0.2} />
         
-        <div className="container mx-auto px-4">
+        <div className="container mx-auto">
           <div className="grid lg:grid-cols-2 gap-12 lg:gap-20 items-center">
             {/* Left: Artistic Image */}
             <AnimatedSection animation="fade-right" className="relative">
@@ -210,7 +210,7 @@ const About = () => {
       <section className="py-[120px] bg-muted/30 relative overflow-hidden">
         <ParallaxWatermark text="GROWTH" className="top-20 -left-20" speed={0.18} />
         
-        <div className="container mx-auto px-4">
+        <div className="container mx-auto">
           {/* Section Header */}
           <div className="text-center max-w-3xl mx-auto mb-16">
             <AnimatedSection animation="blur-in">
@@ -294,7 +294,7 @@ const About = () => {
 
         <ParallaxWatermark text="GLOBAL" className="-right-20 top-1/3" speed={0.12} />
 
-        <div className="container mx-auto px-4 relative z-10">
+        <div className="container mx-auto relative z-10">
           <div className="max-w-4xl mx-auto">
             {/* Glassmorphism Panel */}
             <AnimatedSection animation="scale">
@@ -363,7 +363,7 @@ const About = () => {
         <div className="absolute top-0 right-0 w-[400px] h-[400px] bg-vedic-teal/15 rounded-full blur-[100px]" />
         <div className="absolute bottom-0 left-0 w-[300px] h-[300px] bg-vedic-gold/10 rounded-full blur-[80px]" />
 
-        <div className="container mx-auto px-4 relative z-10">
+        <div className="container mx-auto relative z-10">
           <div className="max-w-4xl mx-auto text-center">
             <AnimatedSection animation="fade-up">
               <Quote className="w-16 h-16 text-vedic-gold/40 mx-auto mb-8" />
@@ -404,7 +404,7 @@ const About = () => {
       <section className="py-[120px] relative overflow-hidden">
         <ParallaxWatermark text="LEARN" className="top-1/4 -left-32" speed={0.2} />
         
-        <div className="container mx-auto px-4">
+        <div className="container mx-auto">
           <AnimatedSection className="text-center max-w-3xl mx-auto mb-20" animation="fade-up">
             <span className="text-vedic-gold font-semibold tracking-widest uppercase text-sm">Our Programs</span>
             <h2 className="font-display text-4xl md:text-5xl lg:text-6xl font-bold text-foreground mt-4 mb-6">
@@ -559,7 +559,7 @@ const About = () => {
       <section className="py-[120px] bg-muted/30 relative overflow-hidden">
         <ParallaxWatermark text="WHY" className="top-10 -right-20" speed={0.15} />
         
-        <div className="container mx-auto px-4">
+        <div className="container mx-auto">
           <AnimatedSection className="text-center max-w-3xl mx-auto mb-16" animation="blur-in">
             <span className="text-vedic-gold font-semibold tracking-widest uppercase text-sm">Why Choose Us</span>
             <h2 className="font-display text-4xl md:text-5xl font-bold text-foreground mt-4">
@@ -609,7 +609,7 @@ const About = () => {
       <section className="py-[120px] relative overflow-hidden">
         <ParallaxWatermark text="VALUES" className="top-1/4 -left-20" speed={0.2} />
         
-        <div className="container mx-auto px-4">
+        <div className="container mx-auto">
           <AnimatedSection className="text-center max-w-3xl mx-auto mb-16" animation="fade-up">
             <span className="text-vedic-teal font-semibold tracking-widest uppercase text-sm">Our Core Values</span>
             <h2 className="font-display text-4xl md:text-5xl font-bold text-foreground mt-4">
@@ -643,7 +643,7 @@ const About = () => {
       <section className="py-[120px] bg-muted/30 relative overflow-hidden">
         <ParallaxWatermark text="TEAM" className="-right-32 top-20" speed={0.18} />
         
-        <div className="container mx-auto px-4">
+        <div className="container mx-auto">
           <div className="grid lg:grid-cols-5 gap-12 lg:gap-20 items-center max-w-6xl mx-auto">
             {/* Image */}
             <AnimatedSection animation="fade-right" className="lg:col-span-2">
@@ -706,14 +706,13 @@ const About = () => {
       <section className="py-20 bg-gradient-to-r from-vedic-navy via-vedic-navy-light to-vedic-navy relative overflow-hidden">
         <div className="absolute inset-0 bg-[url('data:image/svg+xml,...')] opacity-5" />
         
-        <div className="container mx-auto px-4 relative z-10">
+        <div className="container mx-auto relative z-10">
           <AnimatedSection animation="fade-up">
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-8 max-w-4xl mx-auto">
-              <StatsCounter end={200} suffix="+" label="Students Taught" />
-              <StatsCounter end={95} suffix="%" label="Success Rate" />
-              <StatsCounter end={4} suffix="+" label="Years Experience" />
-              <StatsCounter end={5} suffix="+" label="Countries Reached" />
-            </div>
+          <div className="flex flex-wrap justify-center gap-12 max-w-4xl mx-auto text-center">
+            <StatsCounter end={5} suffix="+" label="Countries Reached" />
+            <StatsCounter end={4} suffix="+" label="Years Experience" />
+            <StatsCounter end={95} suffix="%" label="Success Rate" />
+          </div>
           </AnimatedSection>
         </div>
       </section>
@@ -725,7 +724,7 @@ const About = () => {
         <div className="absolute inset-0 bg-gradient-to-br from-vedic-gold/10 via-transparent to-vedic-teal/10" />
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-vedic-gold/10 rounded-full blur-[150px]" />
         
-        <div className="container mx-auto px-4 relative z-10">
+        <div className="container mx-auto relative z-10">
           <div className="max-w-4xl mx-auto text-center">
             <AnimatedSection animation="zoom">
               <span className="text-vedic-gold font-semibold tracking-widest uppercase text-sm">Start Today</span>

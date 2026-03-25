@@ -21,9 +21,9 @@ export const BentoItem = ({
   className,
 }: BentoItemProps) => {
   const sizeClasses = {
-    small: "p-6",
-    medium: "p-8",
-    large: "p-10",
+    small: "p-6 sm:p-7",
+    medium: "p-6 sm:p-7",
+    large: "p-6 sm:p-8",
   };
 
   const variantClasses = {
@@ -35,28 +35,28 @@ export const BentoItem = ({
   return (
     <div
       className={cn(
-        "rounded-3xl transition-all duration-500 group relative overflow-hidden h-full flex flex-col",
+        "group relative flex h-full min-h-[17.5rem] flex-col overflow-hidden rounded-3xl transition-all duration-500 md:min-h-0",
         sizeClasses[size],
         variantClasses[variant],
-        "hover:shadow-xl hover:-translate-y-1",
+        "hover:-translate-y-1 hover:shadow-xl",
         className
       )}
     >
       {/* Glow effect on hover */}
-      <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none">
+      <div className="pointer-events-none absolute inset-0 opacity-0 transition-opacity duration-500 group-hover:opacity-100">
         <div className="absolute -inset-1 bg-gradient-to-r from-vedic-gold/20 to-vedic-teal/20 blur-xl" />
       </div>
 
-      <div className="relative z-10">
+      <div className="relative z-10 flex min-h-0 flex-1 flex-col">
         {Icon && (
-          <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-vedic-gold/20 to-vedic-teal/20 flex items-center justify-center mb-4 group-hover:scale-110 group-hover:rotate-3 transition-all duration-500">
-            <Icon className="w-7 h-7 text-vedic-gold" />
+          <div className="mb-4 flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-gradient-to-br from-vedic-gold/20 to-vedic-teal/20 transition-all duration-500 group-hover:scale-110 group-hover:rotate-3">
+            <Icon className="h-6 w-6 text-vedic-gold" />
           </div>
         )}
-        <h3 className="font-display font-bold text-xl text-foreground mb-2 group-hover:text-vedic-gold transition-colors">
+        <h3 className="mb-2 shrink-0 font-display text-lg font-bold text-foreground transition-colors group-hover:text-vedic-gold sm:text-xl">
           {title}
         </h3>
-        <p className="text-muted-foreground text-sm leading-relaxed">
+        <p className="min-h-[3.25rem] flex-1 text-sm leading-relaxed text-muted-foreground">
           {description}
         </p>
       </div>
@@ -73,7 +73,7 @@ export const BentoGrid = ({ children, className }: BentoGridProps) => {
   return (
     <div
       className={cn(
-        "grid gap-4",
+        "grid auto-rows-[minmax(17.5rem,auto)] gap-4 sm:gap-5",
         className
       )}
     >

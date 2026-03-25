@@ -244,9 +244,18 @@ export const StackedLevelCards: React.FC<StackedLevelCardsProps> = ({ variant = 
   const levels = variant === 'abacus' ? abacusLevels : vedicLevels;
   const [activeIndex, setActiveIndex] = useState(0);
   const [direction, setDirection] = useState<1 | -1>(1);
+  const [parallaxEnabled, setParallaxEnabled] = useState(false);
   const containerRef = useRef<HTMLDivElement>(null);
   const { ref: revealRef, isVisible } = useScrollReveal(0.15);
   const { ref: parallaxRef, scrollProgress } = useParallax();
+
+  useEffect(() => {
+    const mq = window.matchMedia("(min-width: 768px)");
+    const apply = () => setParallaxEnabled(mq.matches);
+    apply();
+    mq.addEventListener("change", apply);
+    return () => mq.removeEventListener("change", apply);
+  }, []);
 
   // Auto-advance when section is visible
   useEffect(() => {
@@ -275,7 +284,7 @@ export const StackedLevelCards: React.FC<StackedLevelCardsProps> = ({ variant = 
       // Combine both refs
       (revealRef as React.MutableRefObject<HTMLDivElement | null>).current = el;
       (parallaxRef as React.MutableRefObject<HTMLDivElement | null>).current = el;
-    }} className="max-w-5xl mx-auto">
+    }} className="max-w-5xl mx-auto pb-20 sm:pb-16 md:pb-6 lg:pb-4">
       {/* Main reveal container with staggered animation */}
       <div 
         className={`
@@ -290,10 +299,12 @@ export const StackedLevelCards: React.FC<StackedLevelCardsProps> = ({ variant = 
           ref={containerRef}
           className="relative"
         >
-          {/* Cards Stack Container */}
+          {/* Card area: document flow on mobile (no clip/overlap); fixed-height centering from md up */}
           <div 
             className={`
-              relative h-[420px] md:h-[380px] perspective-1000 flex items-center justify-center
+              relative z-[1] w-full perspective-1000
+              py-2 sm:py-4
+              md:min-h-[380px] md:flex md:items-center md:justify-center md:py-0
               transition-all duration-700 delay-300
               ${isVisible ? 'opacity-100 scale-100' : 'opacity-0 scale-95'}
             `}
@@ -302,13 +313,13 @@ export const StackedLevelCards: React.FC<StackedLevelCardsProps> = ({ variant = 
             const isActive = index === activeIndex;
             if (!isActive) return null;
 
-            const parallaxOffset = scrollProgress * 15;
-            const parallaxRotate = scrollProgress;
+            const parallaxOffset = parallaxEnabled ? scrollProgress * 15 : 0;
+            const parallaxRotate = parallaxEnabled ? scrollProgress : 0;
 
             return (
               <div
                 key={`${level.id}-${activeIndex}`}
-                className="absolute w-full max-w-2xl px-4 cursor-pointer"
+                className="relative mx-auto w-full max-w-2xl cursor-pointer px-3 sm:px-4 md:absolute md:left-1/2 md:top-1/2 md:w-full md:-translate-x-1/2 md:-translate-y-1/2"
                 style={{
                   animation: `${direction === 1 ? 'levelCardFadeNext' : 'levelCardFadePrev'} 320ms ease-out`,
                 }}
@@ -339,8 +350,8 @@ export const StackedLevelCards: React.FC<StackedLevelCardsProps> = ({ variant = 
                   
                   <div className="absolute inset-0 bg-gradient-to-br from-gold/10 via-transparent to-teal/10 pointer-events-none" />
 
-                  <div className="relative p-6 md:p-8">
-                    <div className="flex flex-col md:flex-row gap-6">
+                  <div className="relative p-4 sm:p-6 md:p-8">
+                    <div className="flex flex-col gap-4 sm:gap-6 md:flex-row">
                       {/* Left: Level Badge & Icon */}
                       <div className="flex md:flex-col items-center md:items-start gap-4 md:gap-3">
                         <div className={`
@@ -364,11 +375,11 @@ export const StackedLevelCards: React.FC<StackedLevelCardsProps> = ({ variant = 
                       </div>
 
                       {/* Right: Content */}
-                      <div className="flex-1 space-y-4">
+                      <div className="min-w-0 flex-1 space-y-3 sm:space-y-4">
                         {/* Header */}
                         <div>
                           <div className="flex flex-wrap items-center gap-3 mb-2">
-                            <h3 className="font-display text-2xl md:text-3xl font-bold text-white">
+                            <h3 className="font-display text-xl sm:text-2xl md:text-3xl font-bold text-white">
                               {level.title}
                             </h3>
                             <span className={`
@@ -388,7 +399,7 @@ export const StackedLevelCards: React.FC<StackedLevelCardsProps> = ({ variant = 
                           </p>
                         </div>
 
-                        <p className="text-white/70 leading-relaxed">
+                        <p className="text-sm text-white/70 leading-relaxed sm:text-base">
                           {level.description}
                         </p>
                         <div className="flex flex-wrap gap-2">
@@ -431,10 +442,10 @@ export const StackedLevelCards: React.FC<StackedLevelCardsProps> = ({ variant = 
           })}
           </div>
 
-          {/* Navigation Arrows */}
+          {/* Navigation — below card with clear gap (mobile FAB sits bottom-right; extra root pb avoids overlap) */}
           <div 
             className={`
-              flex justify-center items-center gap-4 mt-6
+              relative z-[2] mt-8 flex flex-wrap justify-center items-center gap-3 sm:mt-10 sm:gap-4
               transition-all duration-700 delay-500
               ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}
             `}

@@ -44,7 +44,7 @@ export const Footer = () => {
       <div className="absolute bottom-0 right-0 w-96 h-96 bg-vedic-teal/5 rounded-full blur-3xl" />
 
       {/* Main Footer */}
-      <div className="container mx-auto px-4 py-16 relative z-10">
+      <div className="container mx-auto py-12 sm:py-16 relative z-10">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10">
           
           {/* Brand Section */}
@@ -164,7 +164,7 @@ export const Footer = () => {
 
       {/* Bottom Bar */}
       <div className="border-t border-white/10 relative z-10">
-        <div className="container mx-auto px-4 py-6">
+        <div className="container mx-auto py-6">
           <div className="flex flex-col md:flex-row items-center justify-between gap-4 text-white/50 text-sm">
             <p>© {currentYear} Tiny Vivid Minds. All rights reserved.</p>
             <div className="flex gap-6">

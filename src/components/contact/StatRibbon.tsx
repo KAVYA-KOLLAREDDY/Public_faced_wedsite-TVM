@@ -32,7 +32,6 @@ const StatRibbon = () => {
 
   const studentsCount = useCounter(200, 2000, isInView);
   const countriesCount = useCounter(5, 1500, isInView);
-  const hoursCount = useCounter(1000, 2500, isInView);
 
   const stats = [
     {
@@ -70,33 +69,39 @@ const StatRibbon = () => {
       className="relative -mt-16 z-20 mx-6 lg:mx-auto max-w-5xl"
     >
       <div className="rounded-2xl p-6 md:p-8 bg-card/95 dark:bg-card/90 backdrop-blur-xl border border-border dark:border-vedic-gold/20 shadow-lg dark:shadow-none dark:ring-1 dark:ring-vedic-gold/20">
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-6 md:gap-8">
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-x-4 gap-y-8 md:gap-8">
           {stats.map((stat, index) => (
             <motion.div
               key={stat.label}
               initial={{ opacity: 0, y: 20 }}
               animate={isInView ? { opacity: 1, y: 0 } : {}}
               transition={{ delay: index * 0.1 + 0.3 }}
-              className="text-center group"
+              className="group flex flex-col items-center text-center"
             >
-              <motion.div
-                className={`w-12 h-12 mx-auto mb-3 rounded-xl flex items-center justify-center transition-transform group-hover:scale-110 border ${
-                  stat.color.includes("gold") ? "bg-vedic-gold/20 dark:bg-vedic-gold/30 border-vedic-gold/30" : "bg-vedic-teal/20 dark:bg-vedic-teal/30 border-vedic-teal/30"
-                }`}
-              >
-                <stat.icon
-                  className={`w-6 h-6 ${stat.color.includes("gold") ? "text-vedic-gold" : "text-vedic-teal"}`}
-                />
-              </motion.div>
-              <motion.div
-                className="text-2xl md:text-3xl font-bold mb-1 text-foreground"
-                key={stat.value}
-              >
-                {stat.value}
-              </motion.div>
-              <p className="text-sm text-muted-foreground font-medium">
-                {stat.label}
-              </p>
+              <div className="flex w-full flex-col items-center">
+                <motion.div
+                  className={`mb-3 flex h-12 w-12 shrink-0 items-center justify-center rounded-xl border transition-transform group-hover:scale-110 ${
+                    stat.color.includes("gold")
+                      ? "bg-vedic-gold/20 dark:bg-vedic-gold/30 border-vedic-gold/30"
+                      : "bg-vedic-teal/20 dark:bg-vedic-teal/30 border-vedic-teal/30"
+                  }`}
+                >
+                  <stat.icon
+                    className={`h-6 w-6 ${stat.color.includes("gold") ? "text-vedic-gold" : "text-vedic-teal"}`}
+                  />
+                </motion.div>
+                <motion.div
+                  className="flex min-h-[2.75rem] w-full items-center justify-center px-1"
+                  key={stat.value}
+                >
+                  <span className="text-2xl font-bold tabular-nums text-foreground md:text-3xl">
+                    {stat.value}
+                  </span>
+                </motion.div>
+                <p className="mt-1 flex min-h-[2.75rem] max-w-[12rem] items-start justify-center text-balance text-xs font-medium leading-snug text-muted-foreground sm:text-sm">
+                  {stat.label}
+                </p>
+              </div>
             </motion.div>
           ))}
         </div>

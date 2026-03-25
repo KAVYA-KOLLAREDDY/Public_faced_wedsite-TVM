@@ -158,7 +158,7 @@ const Index = () => {
   const currentTestimonial = testimonials[currentTestimonialIndex];
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen min-w-0 bg-background overflow-x-clip">
       <Navbar transparent />
       <SocialSidebar />
 
@@ -174,7 +174,7 @@ const Index = () => {
           style={{ animationDelay: "300ms" }}
         />
 
-        <div className="container mx-auto px-6 relative z-10">
+        <div className="container mx-auto relative z-10">
           <AnimatedSection animation="slide-up" className="text-center max-w-3xl mx-auto mb-16">
             <span className="inline-block px-4 py-2 bg-gold/10 text-gold font-semibold tracking-wider uppercase text-sm rounded-full mb-4">
               Discover
@@ -248,7 +248,7 @@ const Index = () => {
         />
         <div className="absolute bottom-10 right-20 w-32 h-32 bg-teal/5 rounded-full blur-2xl animate-float-slow" />
 
-        <div className="container mx-auto px-6 relative z-10">
+        <div className="container mx-auto relative z-10">
           <div className="grid lg:grid-cols-2 gap-12 items-center">
             <AnimatedSection animation="zoom">
               <div className="relative group">
@@ -286,7 +286,7 @@ const Index = () => {
       <section className="py-24 bg-background relative overflow-hidden">
         <MathBackground />
 
-        <div className="container mx-auto px-6 relative z-10">
+        <div className="container mx-auto relative z-10">
           <AnimatedSection animation="slide-up" className="text-center max-w-3xl mx-auto mb-16">
             <span className="inline-block px-4 py-2 bg-teal/10 text-teal font-semibold tracking-wider uppercase text-sm rounded-full mb-4">
               Why Choose Us
@@ -328,7 +328,7 @@ const Index = () => {
           style={{ animationDelay: "400ms" }}
         />
 
-        <div className="container mx-auto px-6 relative z-10">
+        <div className="container mx-auto relative z-10">
           <div className="grid lg:grid-cols-2 gap-12 items-center">
             <AnimatedSection animation="slide-up">
               <span className="inline-block px-4 py-2 bg-teal/10 text-teal font-semibold tracking-wider uppercase text-sm rounded-full mb-4">
@@ -409,7 +409,7 @@ const Index = () => {
           style={{ animationDelay: "300ms" }}
         />
 
-        <div className="container mx-auto px-6">
+        <div className="container mx-auto">
           <AnimatedSection animation="blur" className="max-w-3xl mx-auto text-center">
             <div className="flex justify-center gap-1 mb-6">
               {Array.from({ length: currentTestimonial.rating }).map((_, i) => (
@@ -484,7 +484,7 @@ const Index = () => {
         <MathBackground />
         <div className="absolute top-20 left-20 w-24 h-24 border border-gold/10 rounded-full animate-float-slow" />
 
-        <div className="container mx-auto px-6 relative z-10">
+        <div className="container mx-auto relative z-10">
           <AnimatedSection animation="slide-up" className="text-center max-w-3xl mx-auto mb-16">
             <h2 className="font-display text-4xl md:text-5xl font-bold text-foreground mb-4">
               Learning <span className="text-gold">moments</span>
@@ -533,7 +533,7 @@ const Index = () => {
         />
         <div className="absolute bottom-20 left-20 w-20 h-20 border border-teal/10 rounded-full animate-float-slow" />
 
-        <div className="container mx-auto px-6 relative z-10">
+        <div className="container mx-auto relative z-10">
           <div className="max-w-3xl">
             <AnimatedSection animation="slide-up">
               <h2 className="font-display text-4xl md:text-5xl font-bold text-foreground mb-4">
@@ -588,7 +588,7 @@ const Index = () => {
           style={{ animationDelay: "150ms" }}
         />
 
-        <div className="container mx-auto px-6 relative z-10">
+        <div className="container mx-auto relative z-10">
           <div className="max-w-3xl">
             <AnimatedSection animation="slide-up">
               <h2 className="font-display text-4xl md:text-5xl font-bold text-foreground mb-4">
@@ -619,7 +619,7 @@ const Index = () => {
         />
         <div className="absolute bottom-1/3 right-1/3 w-24 h-24 border border-teal/10 rounded-full animate-float-slow" />
 
-        <div className="container mx-auto px-6 relative z-10">
+        <div className="container mx-auto relative z-10">
           <AnimatedSection animation="blur" className="text-center max-w-3xl mx-auto">
             <h2 className="font-display text-4xl md:text-5xl font-bold text-foreground mb-6">
               Ready to start your math <span className="text-gold">journey</span>

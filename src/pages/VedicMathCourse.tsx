@@ -62,9 +62,9 @@ const whyChoose = [
 ];
 
 const stats = [
-  { icon: Users, value: "10,000+", label: "Students" },
-  { icon: Trophy, value: "Level 6", label: "Mastery" },
+  { icon: Trophy, value: "Level 4", label: "Mastery" },
   { icon: Headphones, value: "Live 1-on-1", label: "Support" },
+  { icon: Users, value: "Group Sessions", label: "Students" },
 ];
 
 const benefits = [
@@ -91,7 +91,7 @@ const VedicMathCourse = () => {
   };
 
   return (
-    <div className="min-h-screen bg-background overflow-hidden">
+    <div className="min-h-screen min-w-0 bg-background overflow-x-clip">
       <Navbar />
       <SocialSidebar />
 
@@ -115,7 +115,7 @@ const VedicMathCourse = () => {
 
         <ParallaxWatermark text="VEDIC" className="top-1/3 -left-20" speed={0.15} />
 
-        <div className="container mx-auto px-6 relative z-10">
+        <div className="container mx-auto relative z-10">
           <div className="max-w-4xl mx-auto text-center">
             {/* Badge - Same style as About */}
             <AnimatedSection animation="pop-in">
@@ -127,7 +127,7 @@ const VedicMathCourse = () => {
 
             {/* Heading - Using TextReveal like About */}
             <TextReveal delay={100}>
-              <h1 className="font-display text-5xl md:text-6xl lg:text-7xl font-bold text-white mb-8 leading-[1.1]">
+              <h1 className="font-display text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-bold text-white mb-6 sm:mb-8 leading-[1.1] px-1 sm:px-0">
                 Think Faster, Solve
                 <span className="block bg-gradient-to-r from-gold via-gold-light to-gold bg-clip-text text-transparent mt-2">
                   Smarter
@@ -179,21 +179,25 @@ const VedicMathCourse = () => {
       </section>
 
       {/* Stats Bar - Below Hero */}
-      <div className="relative py-6 border-y border-border bg-gradient-to-r from-gold/5 via-transparent to-teal/5">
-        <div className="container mx-auto px-6">
-          <div className="flex flex-wrap justify-center gap-8 md:gap-16">
+      <div className="relative border-y border-border bg-gradient-to-r from-gold/5 via-transparent to-teal/5 py-6">
+        <div className="container mx-auto px-2 sm:px-4">
+          <div className="mx-auto grid max-w-4xl grid-cols-3 gap-2 sm:gap-8 md:gap-16">
             {stats.map((stat) => (
-              <div 
+              <div
                 key={stat.label}
-                className="flex items-center gap-3 group stat-card-warm cursor-default px-4 py-2 rounded-xl"
+                className="stat-card-warm group flex cursor-default flex-col items-center rounded-xl px-1 py-2 text-center sm:px-3 sm:py-3"
               >
-                <div className="stat-icon w-10 h-10 rounded-lg bg-gradient-to-br from-gold/20 to-teal/20 flex items-center justify-center transition-all duration-300">
-                  <stat.icon className="w-5 h-5 text-gold" />
+                <div className="stat-icon mb-2 flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-gradient-to-br from-gold/20 to-teal/20 transition-all duration-300 sm:h-11 sm:w-11">
+                  <stat.icon className="h-5 w-5 text-gold" />
                 </div>
-                <div>
-                  <div className="text-xl font-bold text-foreground group-hover:text-gold transition-colors duration-300">{stat.value}</div>
-                  <div className="text-sm text-muted-foreground">{stat.label}</div>
+                <div className="flex min-h-[2.5rem] w-full items-center justify-center px-0.5">
+                  <span className="text-balance text-base font-bold tabular-nums text-foreground group-hover:text-gold transition-colors duration-300 sm:text-lg md:text-xl">
+                    {stat.value}
+                  </span>
                 </div>
+                <span className="mt-1 line-clamp-2 min-h-[2.5rem] max-w-[10rem] text-[11px] leading-tight text-muted-foreground sm:max-w-none sm:text-xs md:text-sm">
+                  {stat.label}
+                </span>
               </div>
             ))}
           </div>
@@ -206,7 +210,7 @@ const VedicMathCourse = () => {
         <div className="absolute top-20 right-10 w-32 h-32 border border-gold/10 rounded-full animate-float-slow" />
         <div className="absolute bottom-20 left-10 w-20 h-20 bg-teal/5 rotate-45 animate-bounce-gentle" />
         
-        <div className="container mx-auto px-6 relative z-10">
+        <div className="container mx-auto relative z-10">
           <AnimatedSection animation="slide-up" className="text-center max-w-3xl mx-auto mb-16">
             <span className="inline-block px-4 py-2 bg-gold/10 text-gold font-semibold tracking-wider uppercase text-sm rounded-full mb-4 animate-pop-in">
               Why Vedic Maths?
@@ -219,30 +223,43 @@ const VedicMathCourse = () => {
             </p>
           </AnimatedSection>
 
-          <div className="grid md:grid-cols-3 gap-8 max-w-5xl mx-auto">
+          <div className="mx-auto grid max-w-5xl grid-cols-1 gap-6 sm:grid-cols-2 sm:gap-8 md:grid-cols-3 md:gap-8 md:auto-rows-[1fr]">
             {whyChoose.map((item, index) => (
-              <AnimatedSection key={item.title} delay={index * 150} animation="pop">
-                <div className="group bg-card p-8 rounded-3xl shadow-lg hover:shadow-xl text-center transition-all duration-500 transform hover:-translate-y-3 hover:rotate-1 border border-transparent hover:border-gold/20 relative overflow-hidden">
+              <AnimatedSection
+                key={item.title}
+                delay={index * 150}
+                animation="pop"
+                className="h-full min-h-0"
+              >
+                <div className="group relative flex h-full min-h-0 flex-col overflow-hidden rounded-3xl border border-transparent bg-card p-6 text-center shadow-lg transition-all duration-500 hover:-translate-y-3 hover:rotate-1 hover:border-gold/20 hover:shadow-xl sm:p-8">
                   {/* Shimmer effect on hover */}
-                  <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none">
-                    <div className="absolute inset-0 bg-gradient-to-r from-transparent via-gold/5 to-transparent animate-shimmer" />
+                  <div className="pointer-events-none absolute inset-0 opacity-0 transition-opacity duration-500 group-hover:opacity-100">
+                    <div className="absolute inset-0 animate-shimmer bg-gradient-to-r from-transparent via-gold/5 to-transparent" />
                   </div>
-                  
-                  <div className={`w-20 h-20 rounded-full flex items-center justify-center mx-auto mb-6 transition-all duration-500 group-hover:scale-110 group-hover:rotate-6 ${
-                    item.color === 'gold' ? 'bg-gold/15 group-hover:bg-gold/25' :
-                    item.color === 'teal' ? 'bg-teal/15 group-hover:bg-teal/25' :
-                    'bg-navy/10 group-hover:bg-navy/20'
-                  }`}>
-                    <item.icon className={`w-10 h-10 transition-transform duration-300 group-hover:scale-110 ${
-                      item.color === 'gold' ? 'text-gold' :
-                      item.color === 'teal' ? 'text-teal' :
-                      'text-navy'
-                    }`} />
+
+                  <div className="relative z-10 flex min-h-0 flex-1 flex-col items-center">
+                    <div
+                      className={`mb-5 flex h-16 w-16 shrink-0 items-center justify-center rounded-full transition-all duration-500 group-hover:scale-110 group-hover:rotate-6 sm:mb-6 sm:h-20 sm:w-20 ${
+                        item.color === "gold"
+                          ? "bg-gold/15 group-hover:bg-gold/25"
+                          : item.color === "teal"
+                            ? "bg-teal/15 group-hover:bg-teal/25"
+                            : "bg-navy/10 group-hover:bg-navy/20"
+                      }`}
+                    >
+                      <item.icon
+                        className={`h-9 w-9 transition-transform duration-300 group-hover:scale-110 sm:h-10 sm:w-10 ${
+                          item.color === "gold" ? "text-gold" : item.color === "teal" ? "text-teal" : "text-navy"
+                        }`}
+                      />
+                    </div>
+                    <h3 className="mb-3 shrink-0 font-display text-lg font-bold text-foreground transition-colors duration-300 group-hover:text-gold sm:text-xl">
+                      {item.title}
+                    </h3>
+                    <p className="flex-1 text-pretty text-sm leading-relaxed text-muted-foreground sm:text-base">
+                      {item.description}
+                    </p>
                   </div>
-                  <h3 className="font-display font-bold text-xl text-foreground mb-3 group-hover:text-gold transition-colors duration-300">
-                    {item.title}
-                  </h3>
-                  <p className="text-muted-foreground">{item.description}</p>
                 </div>
               </AnimatedSection>
             ))}
@@ -257,7 +274,7 @@ const VedicMathCourse = () => {
         
         <ParallaxWatermark text="LEARN" className="-right-20 top-1/4" speed={0.12} />
         
-        <div className="container mx-auto px-6 relative z-10">
+        <div className="container mx-auto relative z-10">
           <AnimatedSection className="text-center max-w-3xl mx-auto mb-16">
             <span className="inline-block px-4 py-2 bg-teal/10 text-teal font-semibold tracking-wider uppercase text-sm rounded-full mb-4">
               About the Program
@@ -275,7 +292,7 @@ const VedicMathCourse = () => {
       </section>
 
       {/* Auto-Glide Levels */}
-      <section ref={levelsRef} id="levels" className="py-24 relative overflow-hidden">
+      <section ref={levelsRef} id="levels" className="relative overflow-x-clip overflow-y-visible pt-16 pb-28 sm:pt-20 sm:pb-24 md:py-24">
         <div 
           className="absolute inset-0"
           style={{ 
@@ -290,15 +307,15 @@ const VedicMathCourse = () => {
 
         <ParallaxWatermark text="LEVELS" className="-right-20 top-1/4" speed={0.12} />
 
-        <div className="container mx-auto px-6 relative z-10">
-          <AnimatedSection className="text-center max-w-3xl mx-auto mb-12">
+        <div className="container mx-auto relative z-10">
+          <AnimatedSection className="relative z-[2] mx-auto mb-8 max-w-3xl text-center sm:mb-10 md:mb-12">
             <span className="inline-block px-4 py-2 bg-gold/20 text-gold font-semibold tracking-wider uppercase text-sm rounded-full mb-4">
               Learning Path
             </span>
-            <h2 className="font-display text-4xl md:text-5xl font-bold text-white mb-6">
+            <h2 className="font-display text-3xl font-bold text-white mb-4 sm:text-4xl md:mb-6 md:text-5xl">
               Master Vedic Math in <span className="text-gold">Six Levels</span>
             </h2>
-            <p className="text-white/70 text-lg">
+            <p className="text-base text-white/70 sm:text-lg">
               Navigate through our carefully designed curriculum that builds mathematical confidence step by step.
             </p>
           </AnimatedSection>
@@ -309,7 +326,7 @@ const VedicMathCourse = () => {
 
       {/* Benefits Section */}
       <section className="py-24 bg-background relative overflow-hidden">
-        <div className="container mx-auto px-6">
+        <div className="container mx-auto">
           <AnimatedSection className="text-center max-w-3xl mx-auto mb-16">
             <span className="inline-block px-4 py-2 bg-teal/10 text-teal font-semibold tracking-wider uppercase text-sm rounded-full mb-4">
               Benefits
@@ -319,18 +336,22 @@ const VedicMathCourse = () => {
             </h2>
           </AnimatedSection>
 
-          <div className="grid md:grid-cols-4 gap-6 max-w-5xl mx-auto">
+          <div className="mx-auto grid max-w-5xl grid-cols-1 gap-6 sm:grid-cols-2 md:auto-rows-[1fr] lg:grid-cols-4">
             {benefits.map((benefit, index) => (
-              <AnimatedSection key={benefit.title} delay={index * 100} animation="pop" className="h-full">
-                <div className="group text-center p-6 rounded-3xl bg-card border border-border hover:border-gold/30 transition-all duration-500 hover:shadow-xl hover:-translate-y-2 relative overflow-hidden h-full flex flex-col">
+              <AnimatedSection key={benefit.title} delay={index * 100} animation="pop" className="h-full min-h-0">
+                <div className="group relative flex h-full min-h-0 flex-col overflow-hidden rounded-3xl border border-border bg-card p-6 text-center transition-all duration-500 hover:-translate-y-2 hover:border-gold/30 hover:shadow-xl">
                   {/* Hover glow */}
-                  <div className="absolute inset-0 bg-gradient-to-br from-gold/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-                  <div className="relative z-10">
-                    <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-gold/20 to-teal/20 flex items-center justify-center mx-auto mb-4 group-hover:scale-110 group-hover:rotate-6 transition-all duration-300">
-                      <benefit.icon className="w-7 h-7 text-gold" />
+                  <div className="pointer-events-none absolute inset-0 bg-gradient-to-br from-gold/5 to-transparent opacity-0 transition-opacity duration-500 group-hover:opacity-100" />
+                  <div className="relative z-10 flex min-h-0 flex-1 flex-col items-center">
+                    <div className="mx-auto mb-4 flex h-14 w-14 shrink-0 items-center justify-center rounded-2xl bg-gradient-to-br from-gold/20 to-teal/20 transition-all duration-300 group-hover:scale-110 group-hover:rotate-6">
+                      <benefit.icon className="h-7 w-7 text-gold" />
                     </div>
-                    <h3 className="font-display font-semibold text-foreground mb-2 group-hover:text-gold transition-colors duration-300">{benefit.title}</h3>
-                    <p className="text-sm text-muted-foreground">{benefit.description}</p>
+                    <h3 className="mb-2 shrink-0 font-display font-semibold text-foreground transition-colors duration-300 group-hover:text-gold">
+                      {benefit.title}
+                    </h3>
+                    <p className="flex-1 text-pretty text-sm leading-relaxed text-muted-foreground">
+                      {benefit.description}
+                    </p>
                   </div>
                 </div>
               </AnimatedSection>
@@ -360,7 +381,7 @@ const VedicMathCourse = () => {
 
         <ParallaxWatermark text="GLOBAL" className="-right-20 top-1/3" speed={0.12} />
 
-        <div className="container mx-auto px-6 relative z-10">
+        <div className="container mx-auto relative z-10">
           <div className="max-w-4xl mx-auto">
             {/* Glassmorphism Panel */}
             <AnimatedSection animation="scale">
@@ -424,7 +445,7 @@ const VedicMathCourse = () => {
 
       {/* Testimonials - Infinite Slider */}
       <section className="py-24 bg-muted/30 overflow-hidden">
-        <div className="container mx-auto px-6">
+        <div className="container mx-auto">
           <AnimatedSection className="text-center mb-12">
             <span className="inline-block px-4 py-2 bg-gold/10 text-gold font-semibold tracking-wider uppercase text-sm rounded-full mb-4">
               Testimonials
@@ -443,7 +464,7 @@ const VedicMathCourse = () => {
 
       {/* FAQ Section */}
       <section className="py-24 bg-background relative overflow-hidden">
-        <div className="container mx-auto px-6">
+        <div className="container mx-auto">
           <div className="grid lg:grid-cols-2 gap-12 items-start max-w-5xl mx-auto">
             <AnimatedSection animation="fade-right">
               <span className="inline-block px-4 py-2 bg-gold/10 text-gold font-semibold tracking-wider uppercase text-sm rounded-full mb-4">
@@ -483,7 +504,7 @@ const VedicMathCourse = () => {
         {/* Floating Math Symbols in CTA */}
         <CTAMathSymbols />
         
-        <div className="container mx-auto px-6 relative z-10">
+        <div className="container mx-auto relative z-10">
           <AnimatedSection className="text-center max-w-3xl mx-auto">
             <h2 className="font-display text-3xl md:text-5xl font-bold text-white mb-6">
               Help Your Child Discover the{" "}

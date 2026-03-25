@@ -20,8 +20,9 @@ const tabs: Tab[] = [
 
 const SegmentedTabs = ({ activeTab, onTabChange }: SegmentedTabsProps) => {
   return (
+    <div className="w-full max-w-full flex justify-center px-1">
     <div
-      className="inline-flex rounded-xl p-1.5 relative"
+      className="inline-flex max-w-full flex-nowrap overflow-x-auto rounded-xl p-1 sm:p-1.5 relative [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
       style={{
         background: "hsl(var(--muted))",
         boxShadow: "inset 0 2px 4px hsl(var(--foreground) / 0.05)",
@@ -35,7 +36,7 @@ const SegmentedTabs = ({ activeTab, onTabChange }: SegmentedTabsProps) => {
           <button
             key={tab.id}
             onClick={() => onTabChange(tab.id)}
-            className="relative px-6 py-3 rounded-lg font-medium text-sm flex items-center gap-2 transition-colors z-10"
+            className="relative shrink-0 px-3 py-2.5 sm:px-5 sm:py-3 rounded-lg font-medium text-xs sm:text-sm flex items-center gap-1.5 sm:gap-2 transition-colors z-10"
             style={{
               color: isActive ? "hsl(var(--primary-foreground))" : "hsl(var(--muted-foreground))",
             }}
@@ -56,6 +57,7 @@ const SegmentedTabs = ({ activeTab, onTabChange }: SegmentedTabsProps) => {
           </button>
         );
       })}
+    </div>
     </div>
   );
 };

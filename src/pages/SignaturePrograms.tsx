@@ -34,7 +34,7 @@ import { SocialSidebar } from "@/components/SocialSidebar";
 
 const SignaturePrograms = () => {
   return (
-    <div className="min-h-screen bg-background font-quicksand">
+    <div className="min-h-screen min-w-0 bg-background overflow-x-clip font-quicksand">
       <Navbar />
       <SocialSidebar />
       

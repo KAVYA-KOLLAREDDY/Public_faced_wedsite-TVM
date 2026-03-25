@@ -223,10 +223,10 @@ export const FuturisticHero = () => {
         initial={{ opacity: 0, y: 30 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.8, ease: "easeOut" }}
-        className="relative z-10 mx-4 max-w-4xl w-full"
+        className="relative z-10 mx-3 max-w-4xl w-full min-w-0 sm:mx-4 md:mx-6"
       >
         <div
-          className="relative p-8 md:p-12 lg:p-16 rounded-3xl"
+          className="relative p-5 sm:p-8 md:p-12 lg:p-16 rounded-2xl sm:rounded-3xl"
           style={{
             background: "rgba(255, 255, 255, 0.02)",
             backdropFilter: "blur(8px)",
@@ -240,7 +240,7 @@ export const FuturisticHero = () => {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.2, duration: 0.6 }}
-              className="font-display text-5xl md:text-6xl lg:text-7xl font-bold text-white mb-8 leading-tight"
+              className="font-display text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-bold text-white mb-6 sm:mb-8 leading-tight"
             >
               Unlock your child's{" "}
               <span
@@ -258,7 +258,7 @@ export const FuturisticHero = () => {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.4, duration: 0.6 }}
-              className="text-white/75 text-lg md:text-xl max-w-2xl mx-auto mb-12 leading-loose"
+              className="text-white/75 text-base sm:text-lg md:text-xl max-w-2xl mx-auto mb-8 sm:mb-12 leading-relaxed sm:leading-loose px-0"
             >
               Transforming math learning into an exciting adventure for every age! Explore Abacus for ages 3–8, Vedic Math for ages 12+, and Personalized Math Coaching for learners of all ages.
             </motion.p>
@@ -270,18 +270,18 @@ export const FuturisticHero = () => {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.6, duration: 0.6 }}
-              className="flex flex-wrap items-center justify-center gap-5"
+              className="flex flex-col sm:flex-row flex-wrap items-stretch sm:items-center justify-center gap-3 sm:gap-5 w-full"
             >
               {/* Primary Button with Glow */}
               <Button
                 size="lg"
-                className="bg-gold hover:bg-gold-light text-navy-dark font-display font-semibold px-8 py-6 text-lg rounded-2xl group transform hover:-translate-y-1 transition-all duration-300"
+                className="bg-gold hover:bg-gold-light text-navy-dark font-display font-semibold px-6 py-4 sm:px-8 sm:py-6 text-base sm:text-lg rounded-2xl group transform hover:-translate-y-1 transition-all duration-300 w-full sm:w-auto justify-center"
                 style={{
                   boxShadow: "0 0 30px rgba(234, 179, 8, 0.4), 0 0 60px rgba(234, 179, 8, 0.2), 0 4px 20px rgba(0,0,0,0.3)",
                 }}
                 asChild
               >
-                <Link to="/contact#contact-form" className="flex items-center gap-2">
+                <Link to="/contact#contact-form" className="flex items-center justify-center gap-2">
                   <motion.span
                     className="inline-flex"
                     animate={{ translateY: [0, -3, 0] }}
@@ -297,11 +297,11 @@ export const FuturisticHero = () => {
               <Button
                 size="lg"
                 variant="outline"
-                className="bg-transparent border border-white/30 text-white hover:bg-white/10 hover:border-white/50 font-display font-medium px-8 py-6 text-lg rounded-2xl backdrop-blur-sm transition-all duration-300"
+                className="bg-transparent border border-white/30 text-white hover:bg-white/10 hover:border-white/50 font-display font-medium px-6 py-4 sm:px-8 sm:py-6 text-base sm:text-lg rounded-2xl backdrop-blur-sm transition-all duration-300 w-full sm:w-auto justify-center"
                 asChild
               >
-                <Link to="/courses/abacus">
-                  <Play className="w-5 h-5 mr-2 fill-white/20" />
+                <Link to="/courses/abacus" className="flex items-center justify-center gap-2">
+                  <Play className="w-5 h-5 shrink-0 fill-white/20" />
                   Explore Courses
                 </Link>
               </Button>

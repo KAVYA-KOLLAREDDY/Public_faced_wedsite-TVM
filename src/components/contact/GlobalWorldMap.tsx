@@ -1,4 +1,4 @@
-import { memo } from "react";
+import { memo, useEffect, useState } from "react";
 import {
   ComposableMap,
   Geographies,
@@ -27,6 +27,30 @@ const arcDestinations = highlightedCountries.filter(c => c.name !== "India");
 const GlobalWorldMap = () => {
   const containerRef = useRef<HTMLDivElement>(null);
   const isInView = useInView(containerRef, { once: true, margin: "-100px" });
+  const [mapLayout, setMapLayout] = useState<"mobile" | "tablet" | "desktop">("mobile");
+
+  useEffect(() => {
+    const apply = () => {
+      const w = window.innerWidth;
+      if (w < 640) setMapLayout("mobile");
+      else if (w < 1024) setMapLayout("tablet");
+      else setMapLayout("desktop");
+    };
+    apply();
+    window.addEventListener("resize", apply);
+    return () => window.removeEventListener("resize", apply);
+  }, []);
+
+  const projectionConfig =
+    mapLayout === "mobile"
+      ? { scale: 96, center: [48, 18] as [number, number] }
+      : mapLayout === "tablet"
+        ? { scale: 104, center: [24, -8] as [number, number] }
+        : { scale: 110, center: [6, -42] as [number, number] };
+
+  const markerLabelSize = mapLayout === "mobile" ? 8 : 10;
+  const lineStroke =
+    mapLayout === "mobile" ? 1.25 : mapLayout === "tablet" ? 1.65 : 2;
 
   return (
     <motion.div
@@ -34,26 +58,32 @@ const GlobalWorldMap = () => {
       initial={{ opacity: 0, scale: 0.95 }}
       animate={isInView ? { opacity: 1, scale: 1 } : {}}
       transition={{ duration: 0.8 }}
-      className="relative w-full rounded-3xl overflow-hidden max-h-[500px]"
+      className="relative w-full overflow-hidden rounded-2xl border border-primary/15 ring-1 ring-primary/5 sm:rounded-3xl min-h-[280px] h-[min(72vw,340px)] sm:min-h-[380px] sm:h-[min(52vw,440px)] md:h-[min(440px,50vh)] md:max-h-[500px] lg:h-[480px]"
       style={{
-        background: "linear-gradient(135deg, hsl(var(--background)), hsl(var(--muted)))",
+        background: "linear-gradient(135deg, hsl(var(--background)), hsl(var(--muted) / 0.85))",
         boxShadow: "0 20px 60px hsl(var(--primary) / 0.15)",
       }}
     >
+      {/* Depth + vignette (stronger on small screens for contrast) */}
+      <div
+        className="pointer-events-none absolute inset-0 z-[1] opacity-40 sm:opacity-30"
+        style={{
+          background:
+            "radial-gradient(ellipse 85% 70% at 50% 45%, transparent 30%, hsl(var(--background) / 0.65) 100%)",
+        }}
+      />
       {/* Decorative gradient overlay */}
       <div 
         className="absolute inset-0 pointer-events-none opacity-30"
         style={{
-          background: "radial-gradient(ellipse at center, hsl(var(--primary) / 0.1), transparent 70%)",
+          background: "radial-gradient(ellipse at center, hsl(var(--primary) / 0.12), transparent 72%)",
         }}
       />
 
       <ComposableMap
         projection="geoMercator"
-        projectionConfig={{
-          scale: 110,
-          center: [6, -42],
-        }}
+        projectionConfig={projectionConfig}
+        className="relative z-0 block h-full w-full [&_svg]:block [&_svg]:h-full [&_svg]:max-h-full [&_svg]:w-full"
         style={{ width: "100%", height: "100%" }}
       >
 
@@ -71,7 +101,7 @@ const GlobalWorldMap = () => {
                   geography={geo}
                   fill={isHighlighted ? "hsl(var(--gold))" : "hsl(var(--muted))"}
                   stroke="hsl(var(--primary))"
-                  strokeWidth={0.5}
+                  strokeWidth={mapLayout === "mobile" ? 0.35 : 0.5}
                   style={{
                     default: {
                       outline: "none",
@@ -102,7 +132,7 @@ const GlobalWorldMap = () => {
       from={indiaCoords}
       to={dest.coordinates}
       stroke="hsl(var(--teal))"
-      strokeWidth={2}
+      strokeWidth={lineStroke}
       strokeLinecap="round"
       strokeDasharray="6 4"
       style={{
@@ -121,16 +151,16 @@ const GlobalWorldMap = () => {
             <g>
               {/* Pulse ring animation */}
               <circle
-                r={8}
+                r={mapLayout === "mobile" ? 6 : 8}
                 fill="none"
                 stroke="hsl(var(--primary))"
-                strokeWidth={2}
+                strokeWidth={mapLayout === "mobile" ? 1.5 : 2}
                 opacity={0.4}
               >
                 <animate
                   attributeName="r"
-                  from="6"
-                  to="14"
+                  from={mapLayout === "mobile" ? "5" : "6"}
+                  to={mapLayout === "mobile" ? "11" : "14"}
                   dur="1.5s"
                   repeatCount="indefinite"
                 />
@@ -144,22 +174,22 @@ const GlobalWorldMap = () => {
               </circle>
               {/* Main marker dot */}
               <circle
-                r={6}
+                r={mapLayout === "mobile" ? 4.5 : 6}
                 fill="hsl(var(--primary))"
                 stroke="hsl(var(--background))"
-                strokeWidth={2}
+                strokeWidth={mapLayout === "mobile" ? 1.5 : 2}
                 style={{ cursor: "pointer" }}
               />
               {/* Country label */}
               <text
                 textAnchor="middle"
-                y={-14}
+                y={mapLayout === "mobile" ? -11 : -14}
                 style={{
                   fontFamily: "var(--font-display), system-ui, sans-serif",
                   fill: "hsl(var(--foreground))",
-                  fontSize: 10,
+                  fontSize: markerLabelSize,
                   fontWeight: 600,
-                  textShadow: "0 1px 2px hsl(var(--background))",
+                  textShadow: "0 1px 0 hsl(var(--background)), 0 0 8px hsl(var(--background) / 0.9)",
                 }}
               >
                 {country.label}
@@ -170,9 +200,31 @@ const GlobalWorldMap = () => {
         ))}
       </ComposableMap>
 
+      {/* Mobile / small-screen legend — readable when map is dense */}
+      <div className="pointer-events-none absolute inset-x-0 bottom-0 z-[2] md:hidden">
+        <div
+          className="bg-gradient-to-t from-background via-background/92 to-transparent px-3 pb-3 pt-10 sm:px-4 sm:pb-4"
+        >
+          <p className="text-center font-display text-[10px] font-bold uppercase tracking-[0.2em] text-primary">
+            Our learning network
+          </p>
+          <div className="mt-2 flex flex-wrap items-center justify-center gap-x-2 gap-y-1.5">
+            {highlightedCountries.map((c) => (
+              <span
+                key={c.name}
+                className="inline-flex items-center gap-1 rounded-full border border-gold/25 bg-card/90 px-2 py-0.5 text-[10px] font-semibold text-foreground shadow-sm backdrop-blur-sm"
+              >
+                <span className="h-1.5 w-1.5 shrink-0 rounded-full bg-gold" aria-hidden />
+                {c.label}
+              </span>
+            ))}
+          </div>
+        </div>
+      </div>
+
       {/* Corner decorations */}
-      <div className="absolute top-4 left-4 w-16 h-16 rounded-full bg-gradient-to-br from-primary/20 to-transparent blur-xl" />
-      <div className="absolute bottom-4 right-4 w-20 h-20 rounded-full bg-gradient-to-br from-teal/20 to-transparent blur-xl" />
+      <div className="pointer-events-none absolute top-4 left-4 z-[1] h-16 w-16 rounded-full bg-gradient-to-br from-primary/25 to-transparent blur-xl" />
+      <div className="pointer-events-none absolute bottom-24 right-4 z-[1] h-20 w-20 rounded-full bg-gradient-to-br from-teal/25 to-transparent blur-xl md:bottom-4" />
     </motion.div>
   );
 };

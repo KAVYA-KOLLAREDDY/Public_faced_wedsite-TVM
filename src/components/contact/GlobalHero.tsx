@@ -21,8 +21,8 @@ const GlobalHero = ({ onBookDemo, onContact }: GlobalHeroProps) => {
         }}
       />
 
-      <div className="container mx-auto px-4 py-8 relative z-10">
-        <div className="grid lg:grid-cols-2 gap-12 items-center">
+      <div className="container mx-auto py-6 sm:py-8 relative z-10">
+        <div className="grid lg:grid-cols-2 gap-8 md:gap-10 lg:gap-12 items-center">
           {/* Left - Text Content */}
           <motion.div
             initial={{ opacity: 0, y: 30 }}
@@ -39,7 +39,7 @@ const GlobalHero = ({ onBookDemo, onContact }: GlobalHeroProps) => {
               Global Learning Community
             </motion.span>
 
-            <h1 className="font-display text-4xl md:text-5xl lg:text-6xl font-bold leading-tight mb-6 text-white">
+            <h1 className="font-display text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold leading-tight mb-4 sm:mb-6 text-white">
               We're Here to Help Your Child{" "}
               <span className="relative inline-block">
                 <span className="text-gold">Shine in Maths!</span>
