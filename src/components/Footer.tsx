@@ -1,5 +1,5 @@
 import { Link, useLocation, useNavigate } from "react-router-dom";
-import { Mail, Phone, MapPin, Facebook, Twitter, Instagram, Youtube, ArrowRight, MessageCircle, Send, Calendar } from "lucide-react";
+import { Mail, Phone, MapPin, Facebook, Twitter, Instagram, Youtube, ArrowRight, MessageCircle, Send } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 
@@ -148,8 +148,8 @@ export const Footer = () => {
             <div className="space-y-2">
               <Button asChild className="w-full bg-gradient-to-r from-vedic-gold to-vedic-gold-light text-vedic-navy font-semibold hover:shadow-lg hover:shadow-vedic-gold/30 transition-all">
                 <Link to="/contact#contact-form" onClick={scrollToContactForm}>
-                  <Calendar className="w-4 h-4 mr-2" />
-                  Book Free Demo
+                  <Mail className="w-4 h-4 mr-2" />
+                  Contact Us
                 </Link>
               </Button>
               <Button asChild variant="outline" className="w-full border-vedic-gold/50 text-vedic-gold hover:bg-vedic-gold hover:text-vedic-navy transition-all">

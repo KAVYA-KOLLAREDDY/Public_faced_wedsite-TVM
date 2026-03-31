@@ -1,5 +1,6 @@
 import { useRef } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
+import { DiscoverProgramsLink } from "@/components/DiscoverProgramsLink";
 import { motion } from "framer-motion";
 import { 
   ArrowRight, 
@@ -13,13 +14,12 @@ import {
   Headphones,
   Sparkles,
   Globe,
-  Calendar
+  Mail
 } from "lucide-react";
 import FloatingMathSymbols from "@/components/FloatingMathSymbols";
 import HeroMathSymbols from "@/components/HeroMathSymbols";
 import CTAMathSymbols from "@/components/CTAMathSymbols";
 import MagneticButton from "@/components/MagneticButton";
-import { useConfetti } from "@/hooks/useConfetti";
 import worldNetworkImg from "@/assets/world-network.jpg";
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
@@ -42,32 +42,24 @@ const benefits = [
 ];
 
 const stats = [
-  { icon: Users, value: "10,000+", label: "Students" },
-  { icon: Trophy, value: "Level 6", label: "Mastery" },
+  { icon: Trophy, value: "Level 12", label: "Mastery" },
   { icon: Headphones, value: "Live 1-on-1", label: "Support" },
+  { icon: Users, value: "Group Sessions", label: "Students" },
 ];
 
 const faqs = [
-  { question: "What age can my child start?", answer: "Children aged 4-14 can join our program. We have tailored levels for different age groups and abilities." },
-  { question: "How long does each level take?", answer: "Typically 3-4 months per level. Progress depends on individual pace and practice." },
-  { question: "Do we need a physical abacus?", answer: "No physical abacus required! We provide virtual tools and digital platforms." },
+  { question: "What age can my child start?", answer: "Children aged 3-8 can join our program. We have tailored levels for different age groups and abilities." },
+  { question: "How long does each level take?", answer: "Typically 4-5   months per level. Progress depends on individual pace and practice." },
+  { question: "Do we need a physical abacus?", answer: "Yes, a physical abacus is used throughout the learning process to help students understand and practice calculations effectively."
+ },
   { question: "How many classes per week?", answer: "Up to 90 minutes of live classes per week with flexible scheduling." },
 ];
 
 const AbacusCourse = () => {
   const levelsRef = useRef<HTMLElement>(null);
-  const navigate = useNavigate();
-  const { triggerConfetti } = useConfetti();
 
   const scrollToLevels = () => {
     levelsRef.current?.scrollIntoView({ behavior: "smooth" });
-  };
-
-  const handleBookDemo = () => {
-    triggerConfetti();
-    setTimeout(() => {
-      navigate('/contact#contact-form');
-    }, 400);
   };
 
   return (
@@ -128,16 +120,18 @@ const AbacusCourse = () => {
                   <Button 
                     size="lg" 
                     className="bg-gold hover:bg-gold-light text-navy-dark font-display font-semibold px-8 py-6 text-lg rounded-2xl hero-cta-warm ripple-effect group transform hover:-translate-y-2 hover:scale-105 transition-all duration-300"
-                    onClick={handleBookDemo}
+                    asChild
                   >
-                    <motion.span
-                      className="inline-flex mr-2"
-                      animate={{ translateY: [0, -3, 0] }}
-                      transition={{ duration: 1.5, repeat: Infinity, ease: "easeInOut" }}
-                    >
-                      <Calendar className="w-5 h-5" />
-                    </motion.span>
-                    Book Free Demo
+                    <Link to="/contact#contact-form" className="inline-flex items-center">
+                      <motion.span
+                        className="inline-flex mr-2"
+                        animate={{ translateY: [0, -3, 0] }}
+                        transition={{ duration: 1.5, repeat: Infinity, ease: "easeInOut" }}
+                      >
+                        <Mail className="w-5 h-5" />
+                      </motion.span>
+                      Contact Us
+                    </Link>
                   </Button>
                 </MagneticButton>
                 <MagneticButton strength={0.25}>
@@ -459,9 +453,9 @@ const AbacusCourse = () => {
                       animate={{ translateY: [0, -3, 0] }}
                       transition={{ duration: 1.5, repeat: Infinity, ease: "easeInOut" }}
                     >
-                      <Calendar className="w-5 h-5" />
+                      <Mail className="w-5 h-5" />
                     </motion.span>
-                    Book Free Demo
+                    Contact Us
                   </Link>
                 </Button>
               </MagneticButton>
@@ -472,9 +466,9 @@ const AbacusCourse = () => {
                     className="border-2 border-gold text-gold hover:bg-gold hover:text-navy-dark font-display font-medium px-8 py-6 text-lg rounded-2xl backdrop-blur-sm transition-all"
                     asChild
                 >
-                  <Link to="/courses/abacus">
+                  <DiscoverProgramsLink>
                     View All Courses
-                  </Link>
+                  </DiscoverProgramsLink>
                 </Button>
               </MagneticButton>
             </div>

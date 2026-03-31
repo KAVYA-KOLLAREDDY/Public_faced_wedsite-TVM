@@ -212,11 +212,11 @@ export const LevelsCarousel = () => {
         </div>
         
         <Link 
-          to="/contact"
+          to="/contact#contact-form"
           className="group px-6 py-3 rounded-2xl bg-gradient-to-r from-gold to-amber-400 text-navy font-bold text-sm flex items-center gap-2 hover:shadow-lg hover:shadow-gold/30 transition-all duration-300 hover:scale-105"
         >
           <Sparkles className="w-4 h-4" />
-          Book Free Assessment
+          Contact Us
           <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
         </Link>
       </div>
@@ -408,7 +408,7 @@ export const LevelsCarousel = () => {
             to="/contact#contact-form"
             className="px-5 py-2.5 rounded-xl bg-white text-navy font-bold text-sm hover:bg-gold transition-colors duration-300 flex items-center gap-2"
           >
-            Book Free Demo
+            Contact Us
             <ArrowRight className="w-4 h-4" />
           </Link>
         </div>

@@ -2,7 +2,7 @@ import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
 import AnimatedSection from "@/components/AnimatedSection";
 import MagneticButton from "@/components/MagneticButton";
-import { Calendar, Phone } from "lucide-react";
+import { Mail, Phone } from "lucide-react";
 
 // Course-related symbols for background
 const courseSymbols = [
@@ -127,9 +127,9 @@ const SignatureCTA = () => {
                   transition={{ duration: 1.5, repeat: Infinity, ease: "easeInOut" }}
                   className="relative z-10 inline-flex"
                 >
-                  <Calendar className="w-5 h-5" />
+                  <Mail className="w-5 h-5" />
                 </motion.span>
-                <span className="relative z-10">Book Free Demo</span>
+                <span className="relative z-10">Contact Us</span>
               </Link>
             </MagneticButton>
 

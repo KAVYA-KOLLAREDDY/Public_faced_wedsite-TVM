@@ -14,7 +14,7 @@ interface SlidingTabsProps {
 }
 
 const tabs: Tab[] = [
-  { id: "demo", label: "Book Free Demo", icon: Calendar },
+  { id: "demo", label: "Demo", icon: Calendar },
   { id: "contact", label: "Contact Us", icon: Mail },
   { id: "join", label: "Join Our Team", icon: UserPlus },
 ];
