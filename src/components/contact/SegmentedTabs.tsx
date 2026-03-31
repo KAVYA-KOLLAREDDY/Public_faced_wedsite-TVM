@@ -13,7 +13,7 @@ interface SegmentedTabsProps {
 }
 
 const tabs: Tab[] = [
-  { id: "demo", label: "Book Demo", icon: Calendar },
+  { id: "demo", label: "Demo", icon: Calendar },
   { id: "contact", label: "Contact Us", icon: Mail },
   { id: "join", label: "Feedback", icon: MessageCircle },
 ];

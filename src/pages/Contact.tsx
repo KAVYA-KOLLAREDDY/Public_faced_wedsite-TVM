@@ -7,7 +7,7 @@ import {
   Instagram,
   Facebook,
   Youtube,
-  Calendar,
+  Mail,
   Star,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -16,20 +16,30 @@ import { Label } from "@/components/ui/label";
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
 import { toast } from "sonner";
-import { Link, useLocation, useSearchParams } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
+import { DiscoverProgramsLink } from "@/components/DiscoverProgramsLink";
 import { SocialSidebar } from "@/components/SocialSidebar";
 
 // New components
 import GlobalHero from "@/components/contact/GlobalHero";
 import GlobalWorldMap from "@/components/contact/GlobalWorldMap";
-import StatRibbon from "@/components/contact/StatRibbon";
-import SegmentedTabs from "@/components/contact/SegmentedTabs";
 import FloatingLabelInput from "@/components/contact/FloatingLabelInput";
 import FloatingLabelSelect from "@/components/contact/FloatingLabelSelect";
 import FloatingLabelTextarea from "@/components/contact/FloatingLabelTextarea";
 import TestimonialBubble from "@/components/contact/TestimonialBubble";
 import ToggleSwitch from "@/components/contact/ToggleSwitch";
 import TrustSection from "@/components/signature/TrustSection";
+import {
+  insertContactRequest,
+  insertDemoRequest,
+  insertFeedback,
+} from "@/subabase/contactInserts";
+import {
+  scrollToFirstContactError,
+  validateContactPageForm,
+  type ContactFieldErrorKey,
+  type ContactFieldErrors,
+} from "@/lib/contactFormValidation";
 
 // Smooth scroll handler
 const smoothScroll = (targetId: string) => {
@@ -91,70 +101,111 @@ const faqs = [
   },
   {
     question: "How can I book a free trial class?",
-    answer: "Simply fill out the 'Book Free Demo' form above, and we'll contact you within 24 hours to schedule your free trial.",
+    answer: "Simply use the contact form above (or choose the demo request option), and we'll contact you within 24 hours to schedule your free trial.",
   },
 ];
 
+const initialDemoForm = {
+  fatherName: "",
+  fatherOccupation: "",
+  motherName: "",
+  motherOccupation: "",
+  motherTongue: "",
+  gradeOrClass: "",
+  cityAndState: "",
+  siblingsAndAge: "",
+  promoOrReferral: "promo" as "promo" | "referral",
+  promoReferralValue: "",
+  timezone: "",
+};
+
+const initialContactForm = {
+  name: "",
+  email: "",
+  phone: "",
+  subject: "",
+  message: "",
+};
+
+const initialFeedbackForm = {
+  parentName: "",
+  course: "",
+  rating: 0,
+  message: "",
+  email: "",
+};
+
 const Contact = () => {
   const location = useLocation();
-  const [searchParams] = useSearchParams();
-  const [activeTab, setActiveTab] = useState("contact");
   const [activeFaq, setActiveFaq] = useState<number | null>(null);
   const [newsletter, setNewsletter] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [fieldErrors, setFieldErrors] = useState<ContactFieldErrors>({});
+
+  const dismissErrors = (...keys: ContactFieldErrorKey[]) => {
+    setFieldErrors((prev) => {
+      const next = { ...prev };
+      keys.forEach((k) => {
+        delete next[k];
+      });
+      return next;
+    });
+  };
 
   // Scroll to form and switch tab when navigating with #contact-form and ?tab= (e.g. from footer)
   useEffect(() => {
     if (location.hash === "#contact-form") {
-      const tab = searchParams.get("tab");
-      if (tab === "contact" || tab === "join" || tab === "demo") {
-        setActiveTab(tab);
-      }
       smoothScroll("contact-form");
     }
-  }, [location.hash, location.search]);
+  }, [location.hash]);
 
   // Form states
-  const [demoForm, setDemoForm] = useState({
-    studentFullName: "",
-    fatherName: "",
-    fatherOccupation: "",
-    motherName: "",
-    motherOccupation: "",
-    motherTongue: "",
-    gradeOrClass: "",
-    cityAndState: "",
-    contactNumber: "",
-    gmailId: "",
-    siblingsAndAge: "",
-    promoOrReferral: "promo" as "promo" | "referral",
-    promoReferralValue: "",
-    timezone: "",
-  });
+  const [demoForm, setDemoForm] = useState(initialDemoForm);
 
-  const [contactForm, setContactForm] = useState({
-    name: "",
-    email: "",
-    phone: "",
-    subject: "",
-    message: "",
-  });
+  const [contactForm, setContactForm] = useState(initialContactForm);
 
-  const [feedbackForm, setFeedbackForm] = useState({
-    parentName: "",
-    childName: "",
-    course: "",
-    rating: 0,
-    message: "",
-    email: "",
-  });
+  const [feedbackForm, setFeedbackForm] = useState(initialFeedbackForm);
 
-  const handleSubmit = async (e: React.FormEvent, formType: string) => {
+  useEffect(() => {
+    setFieldErrors({});
+  }, [contactForm.subject]);
+
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    const errors = validateContactPageForm(contactForm, demoForm, feedbackForm);
+    if (Object.keys(errors).length > 0) {
+      setFieldErrors(errors);
+      toast.error("Please fill in all required fields.");
+      scrollToFirstContactError(errors);
+      return;
+    }
+    setFieldErrors({});
     setIsSubmitting(true);
-    await new Promise((resolve) => setTimeout(resolve, 1500));
-    toast.success(`${formType} submitted successfully! We'll get back to you soon.`);
-    setIsSubmitting(false);
+    try {
+      const { subject } = contactForm;
+      if (subject === "feedback") {
+        await insertFeedback(contactForm, feedbackForm, newsletter);
+        toast.success("Feedback submitted successfully. Thank you!");
+      } else if (subject === "demo" || subject === "courses") {
+        await insertDemoRequest(contactForm, demoForm, newsletter);
+        toast.success("Demo request submitted successfully. We'll be in touch soon.");
+      } else {
+        await insertContactRequest(contactForm, newsletter);
+        toast.success("Message sent successfully. We'll get back to you soon.");
+      }
+      setContactForm({ ...initialContactForm });
+      setDemoForm({ ...initialDemoForm });
+      setFeedbackForm({ ...initialFeedbackForm });
+      setNewsletter(false);
+      setFieldErrors({});
+    } catch (err) {
+      console.error(err);
+      const message =
+        err instanceof Error ? err.message : "Something went wrong. Please try again.";
+      toast.error(message);
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
@@ -168,11 +219,8 @@ const Contact = () => {
         onContact={() => smoothScroll("contact-form")}
       />
 
-      {/* Stat Ribbon - Overlapping Map Section */}
-      <StatRibbon />
-
       {/* Trust Section - Why Parents Trust Us */}
-      <TrustSection />
+      {/* <TrustSection /> */}
 
       {/* World Map Section - The Centerpiece */}
       <section className="py-24 bg-background">
@@ -224,12 +272,12 @@ const Contact = () => {
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            className="text-center max-w-3xl mx-auto mb-12"
+            className="text-center max-w-3xl mx-auto mb-6"
           >
             <span className="text-primary font-semibold tracking-wider uppercase text-sm">
               Get Started
             </span>
-            <h2 className="font-display text-4xl md:text-5xl font-bold mt-4 mb-6">
+            <h2 className="font-display text-4xl md:text-5xl font-bold mt-2 mb-3">
               Connect With{" "}
               <span className="bg-gradient-to-r from-primary to-teal bg-clip-text text-transparent">
                 Our Team
@@ -240,110 +288,206 @@ const Contact = () => {
             </p>
           </motion.div>
 
-          {/* Segmented Tabs */}
-          <div className="flex justify-center mb-8">
-            <SegmentedTabs activeTab={activeTab} onTabChange={setActiveTab} />
-          </div>
-
           {/* Form Container */}
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            className="max-w-3xl mx-auto rounded-2xl sm:rounded-3xl p-4 sm:p-6 md:p-10 w-full min-w-0"
+            className="max-w-3xl mx-auto rounded-2xl sm:rounded-3xl p-4 sm:p-5 md:p-7 w-full min-w-0"
             style={{
               background: "hsl(var(--card))",
               boxShadow: "0 25px 80px hsl(var(--foreground) / 0.08)",
               border: "1px solid hsl(var(--border))",
             }}
           >
-            {/* Demo Form */}
-            {activeTab === "demo" && (
-              <form onSubmit={(e) => handleSubmit(e, "Demo booking")}>
-                <div className="grid md:grid-cols-2 gap-6 mb-6">
+            {/* Unified Contact Form */}
+            <form onSubmit={handleSubmit} noValidate>
+              <div className="grid md:grid-cols-2 gap-6 mb-6">
+                <FloatingLabelInput
+                  id="contactName"
+                  label={
+                    contactForm.subject === "demo" ||
+                    contactForm.subject === "courses" ||
+                    contactForm.subject === "feedback"
+                      ? "Student's full name"
+                      : "Full name"
+                  }
+                  value={contactForm.name}
+                  onChange={(v) => {
+                    setContactForm({ ...contactForm, name: v });
+                    dismissErrors("name");
+                  }}
+                  required
+                  error={fieldErrors.name}
+                />
+                {contactForm.subject === "feedback" ? (
                   <FloatingLabelInput
-                    id="studentFullName"
-                    label="Student's Full Name"
-                    value={demoForm.studentFullName}
-                    onChange={(v) => setDemoForm({ ...demoForm, studentFullName: v })}
+                    id="feedbackParentName"
+                    label="Parent's Name"
+                    value={feedbackForm.parentName}
+                    onChange={(v) => {
+                      setFeedbackForm({ ...feedbackForm, parentName: v });
+                      dismissErrors("parentName");
+                    }}
                     required
+                    error={fieldErrors.parentName}
                   />
+                ) : (
+                  <FloatingLabelInput
+                    id="contactEmail"
+                    label="Email Address"
+                    type="email"
+                    value={contactForm.email}
+                    onChange={(v) => {
+                      setContactForm({ ...contactForm, email: v });
+                      dismissErrors("email");
+                    }}
+                    required
+                    error={fieldErrors.email}
+                  />
+                )}
+              </div>
+              <div className="grid md:grid-cols-2 gap-6 mb-6">
+                <FloatingLabelInput
+                  id="contactPhone"
+                  label={
+                    contactForm.subject === "demo" || contactForm.subject === "courses"
+                      ? "Contact number (WhatsApp preferred)"
+                      : "Phone Number"
+                  }
+                  type="tel"
+                  inputMode={
+                    contactForm.subject === "demo" || contactForm.subject === "courses" ? "numeric" : undefined
+                  }
+                  value={contactForm.phone}
+                  onChange={(v) => {
+                    setContactForm({ ...contactForm, phone: v });
+                    dismissErrors("phone");
+                  }}
+                  required
+                  error={fieldErrors.phone}
+                />
+                <FloatingLabelSelect
+                  id="subject"
+                  label="How can we help you?"
+                  value={contactForm.subject}
+                  onChange={(v) => {
+                    setContactForm({ ...contactForm, subject: v });
+                    dismissErrors("subject");
+                  }}
+                  options={[
+                    { value: "courses", label: "Ask about courses" },
+                    { value: "demo", label: "Request a free demo" },
+                    { value: "feedback", label: "Share feedback" },
+                    { value: "issue", label: "Report an issue" },
+                    { value: "enquiry", label: "General Inquiry" },
+                  ]}
+                  required
+                  error={fieldErrors.subject}
+                />
+              </div>
+              {(contactForm.subject === "demo" || contactForm.subject === "courses") && (
+                <div className="grid md:grid-cols-2 gap-6 mb-6">
                   <FloatingLabelInput
                     id="fatherName"
                     label="Father's Name"
                     value={demoForm.fatherName}
-                    onChange={(v) => setDemoForm({ ...demoForm, fatherName: v })}
+                    onChange={(v) => {
+                      setDemoForm({ ...demoForm, fatherName: v });
+                      dismissErrors("fatherName");
+                    }}
                     required
+                    error={fieldErrors.fatherName}
                   />
-                </div>
-                <div className="grid md:grid-cols-2 gap-6 mb-6">
                   <FloatingLabelInput
                     id="fatherOccupation"
                     label="Father's Occupation"
                     value={demoForm.fatherOccupation}
-                    onChange={(v) => setDemoForm({ ...demoForm, fatherOccupation: v })}
+                    onChange={(v) => {
+                      setDemoForm({ ...demoForm, fatherOccupation: v });
+                      dismissErrors("fatherOccupation");
+                    }}
                     required
+                    error={fieldErrors.fatherOccupation}
                   />
+                </div>
+              )}
+              {(contactForm.subject === "demo" || contactForm.subject === "courses") && (
+                <div className="grid md:grid-cols-2 gap-6 mb-6">
                   <FloatingLabelInput
                     id="motherName"
                     label="Mother's Full Name"
                     value={demoForm.motherName}
-                    onChange={(v) => setDemoForm({ ...demoForm, motherName: v })}
+                    onChange={(v) => {
+                      setDemoForm({ ...demoForm, motherName: v });
+                      dismissErrors("motherName");
+                    }}
                     required
+                    error={fieldErrors.motherName}
                   />
-                </div>
-                <div className="grid md:grid-cols-2 gap-6 mb-6">
                   <FloatingLabelInput
                     id="motherOccupation"
                     label="Mother's Occupation"
                     value={demoForm.motherOccupation}
-                    onChange={(v) => setDemoForm({ ...demoForm, motherOccupation: v })}
+                    onChange={(v) => {
+                      setDemoForm({ ...demoForm, motherOccupation: v });
+                      dismissErrors("motherOccupation");
+                    }}
                     required
-                  />
-                  <FloatingLabelInput
-                    id="motherTongue"
-                    label="Mother tongue"
-                    value={demoForm.motherTongue}
-                    onChange={(v) => setDemoForm({ ...demoForm, motherTongue: v })}
-                    required
+                    error={fieldErrors.motherOccupation}
                   />
                 </div>
+              )}
+              {(contactForm.subject === "demo" || contactForm.subject === "courses") && (
                 <div className="grid md:grid-cols-2 gap-6 mb-6">
                   <FloatingLabelInput
                     id="gradeOrClass"
                     label="Current Grade / Class"
                     value={demoForm.gradeOrClass}
-                    onChange={(v) => setDemoForm({ ...demoForm, gradeOrClass: v })}
+                    onChange={(v) => {
+                      setDemoForm({ ...demoForm, gradeOrClass: v });
+                      dismissErrors("gradeOrClass");
+                    }}
                     required
+                    error={fieldErrors.gradeOrClass}
                   />
                   <FloatingLabelInput
                     id="cityAndState"
                     label="City & State of Residence"
                     value={demoForm.cityAndState}
-                    onChange={(v) => setDemoForm({ ...demoForm, cityAndState: v })}
+                    onChange={(v) => {
+                      setDemoForm({ ...demoForm, cityAndState: v });
+                      dismissErrors("cityAndState");
+                    }}
                     required
+                    error={fieldErrors.cityAndState}
                   />
+                  
                 </div>
+              )}
+              {(contactForm.subject === "demo" || contactForm.subject === "courses") && (
                 <div className="grid md:grid-cols-2 gap-6 mb-6">
+                  
                   <FloatingLabelInput
-                    id="contactNumber"
-                    label="Contact number (WhatsApp preferred)"
-                    type="tel"
-                    inputMode="numeric"
-                    pattern="[0-9]{10}"
-                    value={demoForm.contactNumber}
-                    onChange={(v) => setDemoForm({ ...demoForm, contactNumber: v })}
+                    id="motherTongue"
+                    label="Mother tongue"
+                    value={demoForm.motherTongue}
+                    onChange={(v) => {
+                      setDemoForm({ ...demoForm, motherTongue: v });
+                      dismissErrors("motherTongue");
+                    }}
                     required
+                    error={fieldErrors.motherTongue}
                   />
                   <FloatingLabelInput
-                    id="gmailId"
-                    label="Email Address"
-                    type="email"
-                    value={demoForm.gmailId}
-                    onChange={(v) => setDemoForm({ ...demoForm, gmailId: v })}
-                    required
+                    id="timezone"
+                    label="Time zone (If outside India)"
+                    value={demoForm.timezone}
+                    onChange={(v) => setDemoForm({ ...demoForm, timezone: v })}
                   />
                 </div>
+              )}
+              {(contactForm.subject === "demo" || contactForm.subject === "courses") && (
                 <div className="mb-2">
                   <FloatingLabelTextarea
                     id="siblingsAndAge"
@@ -353,6 +497,8 @@ const Contact = () => {
                     rows={1}
                   />
                 </div>
+              )}
+              {(contactForm.subject === "demo" || contactForm.subject === "courses") && (
                 <div className="mb-6">
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:items-center">
                     <div className="flex flex-col gap-2">
@@ -385,123 +531,9 @@ const Contact = () => {
                     </div>
                   </div>
                 </div>
-                <div className="mb-6">
-                  <FloatingLabelInput
-                    id="timezone"
-                    label="Time zone (If outside India)"
-                    value={demoForm.timezone}
-                    onChange={(v) => setDemoForm({ ...demoForm, timezone: v })}
-                  />
-                </div>
-                <Button
-                  type="submit"
-                  size="lg"
-                  disabled={isSubmitting}
-                  className="w-full text-lg py-6 rounded-xl"
-                >
-                  {isSubmitting ? (
-                    <>
-                      <Loader2 className="w-5 h-5 mr-2 animate-spin" />
-                      Booking...
-                    </>
-                  ) : (
-                    <>
-                      <Send className="w-5 h-5 mr-2" />
-                      Book Free Demo
-                    </>
-                  )}
-                </Button>
-              </form>
-            )}
-
-            {/* Contact Form */}
-            {activeTab === "contact" && (
-              <form onSubmit={(e) => handleSubmit(e, "Message")}>
-                <div className="grid md:grid-cols-2 gap-6 mb-6">
-                  <FloatingLabelInput
-                    id="contactName"
-                    label="Full Name"
-                    value={contactForm.name}
-                    onChange={(v) => setContactForm({ ...contactForm, name: v })}
-                    required
-                  />
-                  <FloatingLabelInput
-                    id="contactEmail"
-                    label="Email Address"
-                    type="email"
-                    value={contactForm.email}
-                    onChange={(v) => setContactForm({ ...contactForm, email: v })}
-                    required
-                  />
-                </div>
-                <div className="grid md:grid-cols-2 gap-6 mb-6">
-                  <FloatingLabelInput
-                    id="contactPhone"
-                    label="Phone Number"
-                    type="tel"
-                    value={contactForm.phone}
-                    onChange={(v) => setContactForm({ ...contactForm, phone: v })}
-                    required
-                  />
-                  <FloatingLabelSelect
-                    id="subject"
-                    label="How can we help you?"
-                    value={contactForm.subject}
-                    onChange={(v) => setContactForm({ ...contactForm, subject: v })}
-                    options={[
-                      { value: "courses", label: "Ask about courses" },
-                      { value: "demo", label: "Request a free demo" },
-                      { value: "feedback", label: "Share feedback" },
-                      { value: "issue", label: "Report an issue" },
-                      { value: "enquiry", label: "General Inquiry" },
-
-                    ]}
-                    required
-                  />
-                </div>
-                <div className="mb-6">
-                  <FloatingLabelTextarea
-                    id="contactMessage"
-                    label="Message"
-                    value={contactForm.message}
-                    onChange={(v) => setContactForm({ ...contactForm, message: v })}
-                    required
-                  />
-                </div>
-                <div className="flex items-center gap-3 mb-6">
-                  <ToggleSwitch
-                    checked={newsletter}
-                    onChange={setNewsletter}
-                    id="newsletter"
-                  />
-                  <label htmlFor="newsletter" className="text-sm text-muted-foreground">
-                  I’d like to receive updates and learning tips via email
-                  </label>
-                </div>
-                <Button
-                  type="submit"
-                  size="lg"
-                  disabled={isSubmitting}
-                  className="w-full text-lg py-6 rounded-xl"
-                >
-                  {isSubmitting ? (
-                    <>
-                      <Loader2 className="w-5 h-5 mr-2 animate-spin" />
-                      Sending...
-                    </>
-                  ) : (
-                    <>
-                      <Send className="w-5 h-5 mr-2" />
-                      Send Message
-                    </>
-                  )}
-                </Button>
-              </form>
-            )}
-
-            {/* Feedback Form */}
-            {activeTab === "join" && (
-              <form onSubmit={(e) => handleSubmit(e, "Feedback")}>
+              )}
+              {contactForm.subject === "feedback" && (
+                <>
                 <div className="text-center mb-8">
                   <h3 className="font-display text-2xl font-bold text-foreground mb-2">
                   We’d Love Your Feedback
@@ -509,28 +541,15 @@ const Contact = () => {
                   <p className="text-muted-foreground">
                   Your feedback helps us continuously improve and create a better learning experience for every child.                  </p>
                 </div>
-                <div className="grid md:grid-cols-2 gap-6 mb-6">
-                  <FloatingLabelInput
-                    id="feedbackParentName"
-                    label="Parent's Full Name"
-                    value={feedbackForm.parentName}
-                    onChange={(v)  => setFeedbackForm({ ...feedbackForm, parentName: v })}
-                    required
-                  />
-                  <FloatingLabelInput
-                    id="feedbackChildName"
-                    label="Student's Full Name"
-                    value={feedbackForm.childName}
-                    onChange={(v) =>   setFeedbackForm({ ...feedbackForm, childName: v })}
-                    required
-                  />
-                </div>
-                <div className="grid md:grid-cols-2 gap-6 mb-6">
+                <div className="grid md:grid-cols-2 gap-6 mb-6 items-start">
                   <FloatingLabelSelect
                     id="feedbackCourse"
                     label="Program Enrolled In"
                     value={feedbackForm.course}
-                    onChange={(v) => setFeedbackForm({ ...feedbackForm, course: v })}
+                    onChange={(v) => {
+                      setFeedbackForm({ ...feedbackForm, course: v });
+                      dismissErrors("course");
+                    }}
                     options={[
                       { value: "", label: "Select a course" },
                       { value: "Abacus", label: "Abacus" },
@@ -541,8 +560,9 @@ const Contact = () => {
 
                     ]}
                     required
+                    error={fieldErrors.course}
                   />
-                  <div className="space-y-2">
+                  <div id="feedback-rating" className="space-y-2">
                     <Label className="text-sm font-medium text-muted-foreground">
                       Overall Experience Rating <span className="text-destructive">*</span>
                     </Label>
@@ -551,7 +571,10 @@ const Contact = () => {
                         <button
                           key={star}
                           type="button"
-                          onClick={() => setFeedbackForm({ ...feedbackForm, rating: star })}
+                          onClick={() => {
+                            setFeedbackForm({ ...feedbackForm, rating: star });
+                            dismissErrors("rating");
+                          }}
                           className="p-1 rounded focus:outline-none focus-visible:ring-2 focus-visible:ring-ring"
                           aria-label={`${star} star${star > 1 ? "s" : ""}`}
                         >
@@ -564,6 +587,11 @@ const Contact = () => {
                         </button>
                       ))}
                     </div>
+                    {fieldErrors.rating ? (
+                      <p className="text-destructive text-xs px-0.5" role="alert">
+                        {fieldErrors.rating}
+                      </p>
+                    ) : null}
                   </div>
                 </div>
                 <div className="mb-6">
@@ -572,8 +600,12 @@ const Contact = () => {
                     label="Your Experience with Tiny Vivid Minds"
                     placeholder="Tell us what you liked, what we can improve, or how your child has benefited..."
                     value={feedbackForm.message}
-                    onChange={(v) => setFeedbackForm({ ...feedbackForm, message: v })}
+                    onChange={(v) => {
+                      setFeedbackForm({ ...feedbackForm, message: v });
+                      dismissErrors("feedbackMessage");
+                    }}
                     required
+                    error={fieldErrors.feedbackMessage}
                   />
                 </div>
                 <div className="mb-6">
@@ -582,32 +614,66 @@ const Contact = () => {
                     label="Email Address"
                     type="email"
                     value={feedbackForm.email}
-                    onChange={(v) => setFeedbackForm({ ...feedbackForm, email: v })}
+                    onChange={(v) => {
+                      setFeedbackForm({ ...feedbackForm, email: v });
+                      dismissErrors("feedbackEmail");
+                    }}
                     required
+                    error={fieldErrors.feedbackEmail}
                   />
                   <p className="text-sm text-muted-foreground mt-2">
                   We’ll use this only to send a thank-you note and respond if needed. We respect your privacy.                  </p>
                 </div>
-                <Button
-                  type="submit"
-                  size="lg"
-                  disabled={isSubmitting || feedbackForm.rating === 0}
-                  className="w-full text-lg py-6 rounded-xl"
-                >
-                  {isSubmitting ? (
-                    <>
-                      <Loader2 className="w-5 h-5 mr-2 animate-spin" />
-                      Sending...
-                    </>
-                  ) : (
-                    <>
-                      <Send className="w-5 h-5 mr-2" />
-                      Submit Feedback
-                    </>
-                  )}
-                </Button>
-              </form>
-            )}
+                </>
+              )}
+              {contactForm.subject !== "feedback" && (
+                <div className="mb-6">
+                  <FloatingLabelTextarea
+                    id="contactMessage"
+                    label="Message"
+                    value={contactForm.message}
+                    onChange={(v) => {
+                      setContactForm({ ...contactForm, message: v });
+                      dismissErrors("message");
+                    }}
+                    required
+                    error={fieldErrors.message}
+                  />
+                </div>
+              )}
+              <div className="flex items-center gap-3 mb-6">
+                <ToggleSwitch
+                  checked={newsletter}
+                  onChange={setNewsletter}
+                  id="newsletter"
+                />
+                <label htmlFor="newsletter" className="text-sm text-muted-foreground">
+                I’d like to receive updates and learning tips via email
+                </label>
+              </div>
+              <Button
+                type="submit"
+                size="lg"
+                disabled={isSubmitting}
+                className="w-full text-base py-4 rounded-md"
+              >
+                {isSubmitting ? (
+                  <>
+                    <Loader2 className="w-5 h-5 mr-2 animate-spin" />
+                    Sending...
+                  </>
+                ) : (
+                  <>
+                    <Send className="w-5 h-5 mr-2" />
+                    {contactForm.subject === "feedback"
+                      ? "Submit Feedback"
+                      : contactForm.subject === "demo" || contactForm.subject === "courses"
+                        ? "Send request"
+                        : "Send Message"}
+                  </>
+                )}
+              </Button>
+            </form>
           </motion.div>
         </div>
       </section>
@@ -720,11 +786,11 @@ const Contact = () => {
               <p className="text-muted-foreground text-lg mb-8">
                 Find answers to common questions about our math learning programs.
               </p>
-              <Link to="/courses/abacus">
+              <DiscoverProgramsLink>
                 <Button variant="outline" size="lg" className="rounded-xl">
                   Explore Our Courses
                 </Button>
-              </Link>
+              </DiscoverProgramsLink>
             </motion.div>
 
             <div className="space-y-4">
@@ -781,7 +847,7 @@ const Contact = () => {
               Ready to Build Your Child's Confidence in Maths?
             </h2>
             <p className="text-xl text-white/80 mb-10">
-              Join 200+ parents who trust Tiny Vivid Minds to make maths simple, smart, and joyful.
+              Join parents worldwide who trust Tiny Vivid Minds to make maths simple, smart, and joyful.
             </p>
             <div className="flex flex-wrap justify-center gap-4">
               <Button
@@ -794,11 +860,11 @@ const Contact = () => {
                   animate={{ translateY: [0, -3, 0] }}
                   transition={{ duration: 1.5, repeat: Infinity, ease: "easeInOut" }}
                 >
-                  <Calendar className="w-5 h-5" />
+                  <Mail className="w-5 h-5" />
                 </motion.span>
-                Book a Free Demo Now
+                Contact Us
               </Button>
-              <Link to="/courses/abacus">
+              <DiscoverProgramsLink>
                 <Button
                   size="lg"
                   variant="outline"
@@ -806,7 +872,7 @@ const Contact = () => {
                 >
                   Explore Programs
                 </Button>
-              </Link>
+              </DiscoverProgramsLink>
             </div>
           </motion.div>
         </div>

@@ -151,10 +151,10 @@ export const LevelsGrid = () => {
       {/* CTA */}
       <AnimatedSection delay={500} className="text-center mt-12">
         <Link
-          to="/contact"
+          to="/contact#contact-form"
           className="inline-flex items-center gap-2 px-6 py-3 bg-gold text-navy-dark font-display font-semibold rounded-xl hover:bg-gold-light transition-all duration-300 hover:-translate-y-0.5 hover:shadow-lg hover:shadow-gold/20 group"
         >
-          Book Free Assessment
+          Contact Us
           <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
         </Link>
         <p className="text-white/40 text-sm mt-4">

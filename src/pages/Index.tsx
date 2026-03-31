@@ -1,5 +1,5 @@
-import { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
+import { useState, useEffect, useRef } from "react";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
 import {
   Calculator,
@@ -15,7 +15,7 @@ import {
   Lightbulb,
   Award,
   Users,
-  Calendar,
+  Mail,
   MessageSquare,
   Globe,
 } from "lucide-react";
@@ -26,6 +26,8 @@ import { AnimatedSection } from "@/components/AnimatedSection";
 import { MathBackground } from "@/components/MathBackground";
 import { SocialSidebar } from "@/components/SocialSidebar";
 import { FuturisticHero } from "@/components/home/FuturisticHero";
+import { DiscoverProgramsLink } from "@/components/DiscoverProgramsLink";
+import { DISCOVER_PROGRAMS_HASH } from "@/lib/homeAnchors";
 import childrenLearning from "@/assets/children-learning.jpg";
 import teamTeacher from "@/assets/team-teacher1.jpg";
 import abacusHands from "@/assets/abacus-hands.jpg";
@@ -37,18 +39,21 @@ const programs = [
     title: "Abacus Learning",
     description: "Master mental calculation through traditional abacus techniques.",
     color: "teal",
+    to: "/courses/abacus",
   },
   {
     icon: Brain,
     title: "Vedic Math",
     description: "Explore ancient mathematical strategies for faster problem-solving.",
     color: "gold",
+    to: "/courses/vedic-math",
   },
   {
     icon: GraduationCap,
     title: "Personalized Coaching",
     description: "Tailored learning experiences that adapt to each child's unique needs.",
     color: "navy",
+    to: "/courses/signature-programs",
   },
 ];
 
@@ -132,8 +137,11 @@ const faqs = [
 ];
 
 const Index = () => {
+  const location = useLocation();
+  const navigate = useNavigate();
   const [currentTestimonialIndex, setCurrentTestimonialIndex] = useState(0);
   const [activeFaq, setActiveFaq] = useState<number | null>(null);
+  const discoverSectionWasVisibleRef = useRef(false);
 
   // Auto-rotate testimonials
   useEffect(() => {
@@ -142,6 +150,61 @@ const Index = () => {
     }, 5000);
     return () => clearInterval(timer);
   }, []);
+
+  useEffect(() => {
+    if (location.hash !== `#${DISCOVER_PROGRAMS_HASH}`) return;
+    const el = document.getElementById(DISCOVER_PROGRAMS_HASH);
+    if (!el) return;
+    const t = window.setTimeout(() => {
+      el.scrollIntoView({ behavior: "smooth", block: "start" });
+    }, 80);
+    return () => window.clearTimeout(t);
+  }, [location.pathname, location.hash]);
+
+  useEffect(() => {
+    if (location.pathname !== "/" || location.hash !== `#${DISCOVER_PROGRAMS_HASH}`) return;
+    discoverSectionWasVisibleRef.current = false;
+    const el = document.getElementById(DISCOVER_PROGRAMS_HASH);
+    if (!el) return;
+
+    let clearHashTimer: number | undefined;
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        const [entry] = entries;
+        if (entry.isIntersecting && entry.intersectionRatio >= 0.05) {
+          discoverSectionWasVisibleRef.current = true;
+          return;
+        }
+        if (!discoverSectionWasVisibleRef.current || entry.isIntersecting) return;
+
+        const rect = entry.boundingClientRect;
+        const vh = window.innerHeight;
+        const sectionAbove = rect.bottom < 120;
+        const sectionBelow = rect.top > vh - 80;
+        if (!(sectionAbove || sectionBelow)) return;
+
+        // Debounce: immediate navigate() here can race with a course <Link> click and cancel SPA navigation.
+        window.clearTimeout(clearHashTimer);
+        clearHashTimer = window.setTimeout(() => {
+          if (window.location.pathname !== "/" || window.location.hash !== `#${DISCOVER_PROGRAMS_HASH}`) {
+            return;
+          }
+          const r = el.getBoundingClientRect();
+          const v = window.innerHeight;
+          if (r.bottom < 120 || r.top > v - 80) {
+            navigate({ pathname: "/", hash: "" }, { replace: true });
+          }
+        }, 220);
+      },
+      { threshold: [0, 0.05, 0.15] }
+    );
+    observer.observe(el);
+    return () => {
+      observer.disconnect();
+      window.clearTimeout(clearHashTimer);
+    };
+  }, [location.pathname, location.hash, navigate]);
 
   const nextTestimonial = () => {
     setCurrentTestimonialIndex((prev) => (prev + 1) % testimonials.length);
@@ -166,7 +229,10 @@ const Index = () => {
       <FuturisticHero />
 
       {/* Programs Section */}
-      <section className="py-24 bg-background relative overflow-hidden">
+      <section
+        id={DISCOVER_PROGRAMS_HASH}
+        className="scroll-mt-[1.5rem] pt-10 pb-24 sm:pt-14 md:pt-20 lg:pt-24 bg-background relative overflow-hidden"
+      >
         <MathBackground />
         <div className="absolute top-20 right-10 w-32 h-32 border border-gold/10 rounded-full animate-float-slow" />
         <div
@@ -190,32 +256,38 @@ const Index = () => {
 
           <div className="grid md:grid-cols-3 gap-8">
             {programs.map((program, index) => (
-              <AnimatedSection key={program.title} delay={index * 150} animation="pop">
-                <div className="group bg-card p-8 rounded-3xl shadow-lg hover:shadow-xl text-center transition-all duration-500 transform hover:-translate-y-3 border border-transparent hover:border-gold/20 relative overflow-hidden">
-                  <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none">
-                    <div className="absolute inset-0 bg-gradient-to-r from-transparent via-gold/5 to-transparent animate-shimmer" />
-                  </div>
+              <AnimatedSection key={program.title} delay={index * 150} animation="pop" className="h-full">
+                <Link
+                  to={program.to}
+                  className="group block h-full rounded-3xl text-center transition-all duration-500 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold focus-visible:ring-offset-2 focus-visible:ring-offset-background"
+                  aria-label={`Open ${program.title} course page`}
+                >
+                  <div className="h-full bg-card p-8 rounded-3xl shadow-lg hover:shadow-xl transition-all duration-500 transform hover:-translate-y-3 border border-transparent hover:border-gold/20 relative overflow-hidden">
+                    <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none">
+                      <div className="absolute inset-0 bg-gradient-to-r from-transparent via-gold/5 to-transparent animate-shimmer" />
+                    </div>
 
-                  <div
-                    className={`w-20 h-20 rounded-full flex items-center justify-center mx-auto mb-6 transition-all duration-500 group-hover:scale-110 ${
-                      program.color === "teal"
-                        ? "bg-teal/15 group-hover:bg-teal/25"
-                        : program.color === "gold"
-                          ? "bg-gold/15 group-hover:bg-gold/25"
-                          : "bg-navy/10 group-hover:bg-navy/20"
-                    }`}
-                  >
-                    <program.icon
-                      className={`w-10 h-10 transition-transform duration-300 group-hover:-translate-y-1 ${
-                        program.color === "teal" ? "text-teal" : program.color === "gold" ? "text-gold" : "text-navy"
+                    <div
+                      className={`w-20 h-20 rounded-full flex items-center justify-center mx-auto mb-6 transition-all duration-500 group-hover:scale-110 ${
+                        program.color === "teal"
+                          ? "bg-teal/15 group-hover:bg-teal/25"
+                          : program.color === "gold"
+                            ? "bg-gold/15 group-hover:bg-gold/25"
+                            : "bg-navy/10 group-hover:bg-navy/20"
                       }`}
-                    />
+                    >
+                      <program.icon
+                        className={`w-10 h-10 transition-transform duration-300 group-hover:-translate-y-1 ${
+                          program.color === "teal" ? "text-teal" : program.color === "gold" ? "text-gold" : "text-navy"
+                        }`}
+                      />
+                    </div>
+                    <h3 className="font-display font-bold text-xl text-foreground mb-3 group-hover:text-gold transition-colors duration-300">
+                      {program.title}
+                    </h3>
+                    <p className="text-muted-foreground">{program.description}</p>
                   </div>
-                  <h3 className="font-display font-bold text-xl text-foreground mb-3 group-hover:text-gold transition-colors duration-300">
-                    {program.title}
-                  </h3>
-                  <p className="text-muted-foreground">{program.description}</p>
-                </div>
+                </Link>
               </AnimatedSection>
             ))}
           </div>
@@ -227,7 +299,7 @@ const Index = () => {
                 className="border-2 border-foreground/20 text-foreground hover:border-gold hover:text-gold font-display px-6"
                 asChild
               >
-                <Link to="/courses/abacus">Explore All</Link>
+                <DiscoverProgramsLink>Explore All</DiscoverProgramsLink>
               </Button>
               <Button variant="link" className="text-gold hover:text-gold-dark font-display group" asChild>
                 <Link to="/about">
@@ -375,7 +447,7 @@ const Index = () => {
                   className="border-2 border-foreground/20 text-foreground hover:border-gold hover:text-gold font-display px-6"
                   asChild
                 >
-                  <Link to="/courses/abacus">Explore</Link>
+                  <DiscoverProgramsLink>Explore</DiscoverProgramsLink>
                 </Button>
                 <Button variant="link" className="text-gold hover:text-gold-dark font-display group" asChild>
                   <Link to="/about">
@@ -640,9 +712,9 @@ const Index = () => {
                     animate={{ translateY: [0, -3, 0] }}
                     transition={{ duration: 1.5, repeat: Infinity, ease: "easeInOut" }}
                   >
-                    <Calendar className="h-5 w-5" />
+                    <Mail className="h-5 w-5" />
                   </motion.span>
-                  Book a Free Demo Now
+                  Contact Us
                 </Link>
               </Button>
               <Button
@@ -651,10 +723,10 @@ const Index = () => {
                 className="border-2 border-gold text-gold hover:bg-gold hover:text-navy-dark transition-all duration-300 hover:scale-105 hover:-translate-y-1"
                 asChild
               >
-                <Link to="/courses/abacus">
+                <DiscoverProgramsLink>
                   <GraduationCap className="mr-2 h-5 w-5" />
                   Explore Programs
-                </Link>
+                </DiscoverProgramsLink>
               </Button>
             </div>
           </AnimatedSection>

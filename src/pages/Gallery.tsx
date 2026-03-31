@@ -1,21 +1,22 @@
 import { useState, useEffect, useRef } from "react";
 import { Link } from "react-router-dom";
+import { DiscoverProgramsLink } from "@/components/DiscoverProgramsLink";
 import { motion, AnimatePresence } from "framer-motion";
 import { 
   Play, 
-  Youtube, 
   Instagram, 
   X, 
   ChevronLeft, 
   ChevronRight,
   Users,
+  Award,
   Globe,
   Clock,
   ExternalLink,
   Camera,
   Heart,
   Sparkles,
-  Calendar
+  Mail
 } from "lucide-react";
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
@@ -50,6 +51,10 @@ const instagramReels = [
 ];
 
 const playlistVideoIds = ["j4BNwKJLfb0", "W5atWB1FszM", "8w5eDclKS_w"];
+const youtubeWatchUrl = (videoId: string) =>
+  `https://www.youtube.com/watch?v=${videoId}`;
+const youtubeEmbedUrl = (videoId: string) =>
+  `https://www.youtube.com/embed/${videoId}`;
 const videoTitles = [
   "Tips, Tricks & Learning Activities",
   "Interactive Math Sessions",
@@ -66,7 +71,7 @@ const galleryPhotos = [
 ];
 
 const achievementsStats = [
-  { value: 200, suffix: "+", label: "Happy Students", icon: Users },
+  { value: 20, suffix: "+", label: "Certificates Awarded", icon: Award },
   { value: 5, suffix: "+", label: "Countries", icon: Globe },
   { value: 1000, suffix: "+", label: "Hours of Learning", icon: Clock },
 ];
@@ -588,14 +593,21 @@ const Gallery = () => {
                 {/* Camera dot */}
                 <div className="absolute top-2 left-1/2 -translate-x-1/2 w-2 h-2 bg-muted-foreground/50 rounded-full group-hover:bg-green-400 transition-colors duration-300" />
                 
-                {/* Screen */}
+                {/* Real YouTube embed UI; iframe ignores clicks — overlay sends users to YouTube to play */}
                 <div className="relative bg-background rounded-lg overflow-hidden aspect-video shadow-inner">
                   <iframe
-                    src="https://www.youtube.com/embed/j4BNwKJLfb0"
+                    src={youtubeEmbedUrl("j4BNwKJLfb0")}
                     title="Featured Video"
-                    className="w-full h-full"
+                    className="absolute inset-0 h-full w-full border-0 pointer-events-none"
                     allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                     allowFullScreen
+                  />
+                  <a
+                    href={youtubeWatchUrl("j4BNwKJLfb0")}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    aria-label="Play featured video"
+                    className="absolute inset-0 z-10 block focus:outline-none focus-visible:ring-2 focus-visible:ring-vedic-gold focus-visible:ring-inset"
                   />
                 </div>
               </div>
@@ -769,7 +781,7 @@ const Gallery = () => {
           <div className="grid md:grid-cols-3 gap-6 max-w-5xl mx-auto mb-8">
             {playlistVideoIds.map((id, index) => (
               <AnimatedSection key={id} animation="pop" delay={index * 150}>
-                <motion.div 
+                <motion.div
                   className="group relative rounded-2xl overflow-hidden shadow-lg bg-card"
                   whileHover={{ 
                     y: -10,
@@ -779,16 +791,16 @@ const Gallery = () => {
                 >
                   <div className="aspect-video bg-vedic-navy relative overflow-hidden">
                     <iframe
-                      src={`https://www.youtube.com/embed/${id}`}
+                      src={youtubeEmbedUrl(id)}
                       title={videoTitles[index]}
-                      className="w-full h-full"
+                      className="absolute inset-0 h-full w-full border-0 pointer-events-none"
                       allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                       allowFullScreen
+                      loading="lazy"
                     />
-                    {/* Hover overlay */}
-                    <div className="absolute inset-0 bg-vedic-gold/0 group-hover:bg-vedic-gold/10 transition-colors duration-300 pointer-events-none" />
+                    <div className="absolute inset-0 bg-vedic-gold/0 group-hover:bg-vedic-gold/10 transition-colors duration-300 pointer-events-none z-[1]" />
                   </div>
-                  <div className="p-4 group-hover:bg-vedic-gold/5 transition-colors duration-300">
+                  <div className="p-4 group-hover:bg-vedic-gold/5 transition-colors duration-300 relative z-0">
                     <div className="flex items-center gap-2">
                       <div className="w-8 h-8 rounded-full bg-red-500 flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
                         <Play className="w-4 h-4 text-white fill-white" />
@@ -798,6 +810,13 @@ const Gallery = () => {
                       </p>
                     </div>
                   </div>
+                  <a
+                    href={youtubeWatchUrl(id)}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    aria-label={videoTitles[index]}
+                    className="absolute inset-0 z-10 block focus:outline-none focus-visible:ring-2 focus-visible:ring-vedic-gold focus-visible:ring-inset rounded-2xl"
+                  />
                 </motion.div>
               </AnimatedSection>
             ))}
@@ -992,9 +1011,9 @@ const Gallery = () => {
                         animate={{ translateY: [0, -3, 0] }}
                         transition={{ duration: 1.5, repeat: Infinity, ease: "easeInOut" }}
                       >
-                        <Calendar className="w-5 h-5" />
+                        <Mail className="w-5 h-5" />
                       </motion.span>
-                      Book a Free Demo Now
+                      Contact Us
                     </Link>
                   </Button>
                 </motion.div>
@@ -1005,7 +1024,7 @@ const Gallery = () => {
                     className="border-2 border-vedic-gold text-vedic-gold hover:bg-vedic-gold hover:text-vedic-navy font-display px-8 py-6 text-lg rounded-2xl"
                     asChild
                   >
-                    <Link to="/courses/abacus">Explore Programs</Link>
+                    <DiscoverProgramsLink>Explore Programs</DiscoverProgramsLink>
                   </Button>
                 </motion.div>
               </div>

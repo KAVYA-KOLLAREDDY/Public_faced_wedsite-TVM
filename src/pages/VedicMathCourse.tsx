@@ -1,5 +1,6 @@
 import { useRef } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
+import { DiscoverProgramsLink } from "@/components/DiscoverProgramsLink";
 import { motion } from "framer-motion";
 import { 
   ArrowRight, 
@@ -11,18 +12,15 @@ import {
   Brain, 
   Smile, 
   Trophy,
-  Users,
-  Headphones,
   Sparkles,
   Globe,
   CheckCircle,
-  Calendar
+  Mail
 } from "lucide-react";
 import FloatingMathSymbols from "@/components/FloatingMathSymbols";
 import HeroMathSymbols from "@/components/HeroMathSymbols";
 import CTAMathSymbols from "@/components/CTAMathSymbols";
 import MagneticButton from "@/components/MagneticButton";
-import { useConfetti } from "@/hooks/useConfetti";
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
 import { AnimatedSection } from "@/components/AnimatedSection";
@@ -36,6 +34,7 @@ import StackedLevelCards from "@/components/levels/StackedLevelCards";
 import VedicBentoGrid from "@/components/vedic/VedicBentoGrid";
 import InfiniteTestimonials from "@/components/vedic/InfiniteTestimonials";
 import VedicFAQ from "@/components/vedic/VedicFAQ";
+import StatsBar from "@/components/vedic/StatsBar";
 
 // Images
 import worldNetworkImg from "@/assets/world-network.jpg";
@@ -61,12 +60,6 @@ const whyChoose = [
   },
 ];
 
-const stats = [
-  { icon: Trophy, value: "Level 4", label: "Mastery" },
-  { icon: Headphones, value: "Live 1-on-1", label: "Support" },
-  { icon: Users, value: "Group Sessions", label: "Students" },
-];
-
 const benefits = [
   { icon: Timer, title: "10x Faster Calculations", description: "Students perform operations 10-15 times faster than traditional methods." },
   { icon: Brain, title: "Enhanced Memory", description: "Pattern-based learning improves memory retention significantly." },
@@ -76,18 +69,9 @@ const benefits = [
 
 const VedicMathCourse = () => {
   const levelsRef = useRef<HTMLElement>(null);
-  const navigate = useNavigate();
-  const { triggerConfetti } = useConfetti();
 
   const scrollToLevels = () => {
     levelsRef.current?.scrollIntoView({ behavior: "smooth" });
-  };
-
-  const handleBookDemo = () => {
-    triggerConfetti();
-    setTimeout(() => {
-      navigate('/contact#contact-form');
-    }, 400);
   };
 
   return (
@@ -149,16 +133,18 @@ const VedicMathCourse = () => {
                   <Button 
                     size="lg" 
                     className="bg-gold hover:bg-gold-light text-navy-dark font-display font-semibold px-8 py-6 text-lg rounded-2xl hero-cta-warm ripple-effect group transform hover:-translate-y-2 hover:scale-105 transition-all duration-300"
-                    onClick={handleBookDemo}
+                    asChild
                   >
-                    <motion.span
-                      className="inline-flex mr-2"
-                      animate={{ translateY: [0, -3, 0] }}
-                      transition={{ duration: 1.5, repeat: Infinity, ease: "easeInOut" }}
-                    >
-                      <Calendar className="w-5 h-5" />
-                    </motion.span>
-                    Book Free Demo
+                    <Link to="/contact#contact-form" className="inline-flex items-center">
+                      <motion.span
+                        className="inline-flex mr-2"
+                        animate={{ translateY: [0, -3, 0] }}
+                        transition={{ duration: 1.5, repeat: Infinity, ease: "easeInOut" }}
+                      >
+                        <Mail className="w-5 h-5" />
+                      </motion.span>
+                      Contact Us
+                    </Link>
                   </Button>
                 </MagneticButton>
                 <MagneticButton strength={0.25}>
@@ -178,31 +164,8 @@ const VedicMathCourse = () => {
         </div>
       </section>
 
-      {/* Stats Bar - Below Hero */}
-      <div className="relative border-y border-border bg-gradient-to-r from-gold/5 via-transparent to-teal/5 py-6">
-        <div className="container mx-auto px-2 sm:px-4">
-          <div className="mx-auto grid max-w-4xl grid-cols-3 gap-2 sm:gap-8 md:gap-16">
-            {stats.map((stat) => (
-              <div
-                key={stat.label}
-                className="stat-card-warm group flex cursor-default flex-col items-center rounded-xl px-1 py-2 text-center sm:px-3 sm:py-3"
-              >
-                <div className="stat-icon mb-2 flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-gradient-to-br from-gold/20 to-teal/20 transition-all duration-300 sm:h-11 sm:w-11">
-                  <stat.icon className="h-5 w-5 text-gold" />
-                </div>
-                <div className="flex min-h-[2.5rem] w-full items-center justify-center px-0.5">
-                  <span className="text-balance text-base font-bold tabular-nums text-foreground group-hover:text-gold transition-colors duration-300 sm:text-lg md:text-xl">
-                    {stat.value}
-                  </span>
-                </div>
-                <span className="mt-1 line-clamp-2 min-h-[2.5rem] max-w-[10rem] text-[11px] leading-tight text-muted-foreground sm:max-w-none sm:text-xs md:text-sm">
-                  {stat.label}
-                </span>
-              </div>
-            ))}
-          </div>
-        </div>
-      </div>
+      {/* Stats Bar - Below Hero (icon left, copy right — matches Abacus-style strip) */}
+      <StatsBar />
 
       {/* Why Choose Vedic Maths - Matching Programs Section Style */}
       <section className="py-24 bg-background relative overflow-hidden">
@@ -528,9 +491,9 @@ const VedicMathCourse = () => {
                       animate={{ translateY: [0, -3, 0] }}
                       transition={{ duration: 1.5, repeat: Infinity, ease: "easeInOut" }}
                     >
-                      <Calendar className="w-5 h-5" />
+                      <Mail className="w-5 h-5" />
                     </motion.span>
-                    Book Free Demo Now
+                    Contact Us
                   </Link>
                 </Button>
               </MagneticButton>
@@ -541,9 +504,9 @@ const VedicMathCourse = () => {
                     className="border-2 border-gold text-gold hover:bg-gold hover:text-navy-dark font-display font-medium px-8 py-6 text-lg rounded-2xl backdrop-blur-sm transition-all"
                     asChild
                 >
-                  <Link to="/courses/abacus">
+                  <DiscoverProgramsLink>
                     View All Courses
-                  </Link>
+                  </DiscoverProgramsLink>
                 </Button>
               </MagneticButton>
             </div>

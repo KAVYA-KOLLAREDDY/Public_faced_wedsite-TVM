@@ -1,18 +1,17 @@
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import {
-  Facebook,
+  // Facebook,
   Instagram,
   MessageCircle,
   Plus,
   X,
   Youtube,
-  Linkedin,
-  Mail,
-  Twitter,
-  Send,
+  // Linkedin,
+  // Mail,
+  // Twitter,
+  // Send,
 } from "lucide-react";
-import { cn } from "@/lib/utils";
 
 interface SocialLink {
   name: string;
@@ -23,16 +22,14 @@ interface SocialLink {
 }
 
 const whatsAppUrl = import.meta.env.VITE_WHATSAPP_NUMBER ? `https://wa.me/${import.meta.env.VITE_WHATSAPP_NUMBER}` : "#";
-const contactEmail = import.meta.env.VITE_CONTACT_EMAIL ?? "info@example.com";
+// const contactEmail = import.meta.env.VITE_CONTACT_EMAIL ?? "info@example.com";
 
+/**
+ * Sidebar + “Follow us” modal: YouTube, WhatsApp, Instagram only (for now).
+ *
+ * Previously also: Facebook (sidebar), Telegram / LinkedIn / Gmail / Twitter (modal) — see git history to restore.
+ */
 const socialLinks: SocialLink[] = [
-  {
-    name: "Facebook",
-    icon: Facebook,
-    url: "https://facebook.com/tinyvividminds",
-    color: "#1877f2",
-    hoverColor: "#166fe5",
-  },
   {
     name: "WhatsApp",
     icon: MessageCircle,
@@ -40,16 +37,6 @@ const socialLinks: SocialLink[] = [
     color: "#25d366",
     hoverColor: "#20ba5a",
   },
-  {
-    name: "Instagram",
-    icon: Instagram,
-    url: "https://www.instagram.com/tiny_vivid_minds",
-    color: "#e4405f",
-    hoverColor: "#c13584",
-  },
-];
-
-const additionalSocialLinks: SocialLink[] = [
   {
     name: "YouTube",
     icon: Youtube,
@@ -64,51 +51,12 @@ const additionalSocialLinks: SocialLink[] = [
     color: "#e4405f",
     hoverColor: "#c13584",
   },
-  {
-    name: "Telegram",
-    icon: Send,
-    url: "https://t.me/tinyvividminds",
-    color: "#0088cc",
-    hoverColor: "#006699",
-  },
   
-  // {
-  //   name: "LinkedIn",
-  //   icon: Linkedin,
-  //   url: "https://linkedin.com/company/tinyvividminds",
-  //   color: "#0077b5",
-  //   hoverColor: "#005885",
-  // },
-  // {
-  //   name: "Gmail",
-  //   icon: Mail,
-  //   url: `mailto:${contactEmail}`,
-  //   color: "#ea4335",
-  //   hoverColor: "#d33b2c",
-  // },
-  // {
-  //   name: "Twitter",
-  //   icon: Twitter,
-  //   url: "https://twitter.com/tinyvividminds",
-  //   color: "#1da1f2",
-  //   hoverColor: "#0d8bd9",
-  // },
-  // {
-  //   name: "TikTok",
-  //   icon: () => (
-  //     <svg
-  //       viewBox="0 0 24 24"
-  //       fill="currentColor"
-  //       className="w-5 h-5"
-  //     >
-  //       <path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-5.2 1.74 2.89 2.89 0 0 1 2.31-4.64 2.93 2.93 0 0 1 .88.13V9.4a6.84 6.84 0 0 0-1-.05A6.33 6.33 0 0 0 5 20.1a6.34 6.34 0 0 0 10.86-4.43v-7a8.16 8.16 0 0 0 4.77 1.52v-3.4a4.85 4.85 0 0 1-1-.1z" />
-  //     </svg>
-  //   ),
-  //   url: "https://tiktok.com/@tinyvividminds",
-  //   color: "#000000",
-  //   hoverColor: "#333333",
-  // },
+  
+  
 ];
+
+const modalSocialLinks = socialLinks;
 
 export const SocialSidebar = () => {
   const [showModal, setShowModal] = useState(false);
@@ -297,9 +245,9 @@ export const SocialSidebar = () => {
                 </motion.button>
               </div>
 
-              {/* Social Links Grid */}
+              {/* Social Links Grid — YouTube, WhatsApp, Instagram only */}
               <div className="grid grid-cols-3 gap-4">
-                {additionalSocialLinks.map((link, index) => (
+                {modalSocialLinks.map((link, index) => (
                   <motion.button
                     key={link.name}
                     initial={{ opacity: 0, y: 20 }}

@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { Menu, X, ChevronDown, LogIn, Calculator, Brain, GraduationCap } from "lucide-react";
 // Dark theme: uncomment Moon, Sun and useTheme when ThemeProvider is restored
 // import { Moon, Sun } from "lucide-react";
@@ -39,6 +39,7 @@ export const Navbar = ({ transparent = false }: NavbarProps) => {
   // const [mounted, setMounted] = useState(false);
   const [coursesOpen, setCoursesOpen] = useState(false);
   const location = useLocation();
+  const navigate = useNavigate();
   // const { resolvedTheme, setTheme } = useTheme();
   // const isDark = mounted && resolvedTheme === "dark";
 
@@ -137,21 +138,25 @@ export const Navbar = ({ transparent = false }: NavbarProps) => {
                 className="min-w-[220px] z-[100] rounded-xl border border-gold/20 bg-card/95 backdrop-blur-xl shadow-xl shadow-gold/10 py-1.5 data-[state=open]:animate-in data-[state=closed]:animate-out"
               >
                 {courseLinks.map((course) => (
-                  <DropdownMenuItem key={course.name} asChild className="border-0 outline-none focus:bg-transparent">
-                    <Link
-                      to={course.path}
-                      className={cn(
-                        "flex items-center gap-3 px-4 py-3 mx-1 rounded-lg cursor-pointer font-medium transition-all duration-200",
-                        "hover:bg-gold/10 hover:text-foreground focus:bg-gold/10 focus:text-foreground",
-                        "border-2 border-transparent hover:border-gold focus:border-gold",
-                        course.accent === "gold" && "[&>svg]:text-gold",
-                        course.accent === "teal" && "[&>svg]:text-vedic-teal hover:[&>svg]:text-vedic-teal",
-                        course.accent === "navy" && "[&>svg]:text-navy dark:[&>svg]:text-gold"
-                      )}
-                    >
-                      <course.icon className="w-4 h-4 shrink-0 transition-colors" />
-                      <span>{course.name}</span>
-                    </Link>
+                  <DropdownMenuItem
+                    key={course.name}
+                    className={cn(
+                      "flex items-center gap-3 px-4 py-3 mx-1 rounded-lg cursor-pointer font-medium transition-all duration-200",
+                      "border-0 outline-none focus:bg-transparent focus:text-foreground",
+                      "hover:bg-gold/10 data-[highlighted]:bg-gold/10 data-[highlighted]:text-foreground",
+                      "border-2 border-transparent hover:border-gold data-[highlighted]:border-gold",
+                      course.accent === "gold" && "[&>svg]:text-gold",
+                      course.accent === "teal" && "[&>svg]:text-vedic-teal data-[highlighted]:[&>svg]:text-vedic-teal",
+                      course.accent === "navy" && "[&>svg]:text-navy dark:[&>svg]:text-gold"
+                    )}
+                    onSelect={(e) => {
+                      e.preventDefault();
+                      navigate(course.path);
+                      setCoursesOpen(false);
+                    }}
+                  >
+                    <course.icon className="w-4 h-4 shrink-0 transition-colors" />
+                    <span>{course.name}</span>
                   </DropdownMenuItem>
                 ))}
               </DropdownMenuContent>

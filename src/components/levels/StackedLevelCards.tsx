@@ -507,7 +507,7 @@ export const StackedLevelCards: React.FC<StackedLevelCardsProps> = ({ variant = 
             className="px-6 py-3 rounded-xl bg-gold text-navy-dark font-display font-bold text-sm hover:bg-gold-light transition-all duration-300 hover:scale-105 flex items-center gap-2 shadow-lg shadow-gold/20"
           >
             <Sparkles className="w-4 h-4" />
-            Book Free Demo
+            Contact Us
             <ArrowRight className="w-4 h-4" />
           </Link>
         </div>

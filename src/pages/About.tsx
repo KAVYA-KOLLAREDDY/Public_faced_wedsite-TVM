@@ -1,10 +1,11 @@
 import { Link } from "react-router-dom";
+import { DiscoverProgramsLink } from "@/components/DiscoverProgramsLink";
 import { motion } from "framer-motion";
 import { 
   ArrowRight, Target, Heart, Lightbulb, Users, Award, Calculator, Brain, 
   UserCheck, Laptop, ChartLine, Shield, Medal, Gamepad2, UsersRound, 
   BarChart3, Quote, Eye, Sparkles, GraduationCap, BookOpen, Star, Zap, Globe,
-  Smile, Activity, BrainCircuit, HeartHandshake, Calendar
+  Smile, Activity, BrainCircuit, HeartHandshake, Mail
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Navbar } from "@/components/Navbar";
@@ -748,9 +749,9 @@ const About = () => {
                       animate={{ translateY: [0, -3, 0] }}
                       transition={{ duration: 1.5, repeat: Infinity, ease: "easeInOut" }}
                     >
-                      <Calendar className="h-5 w-5" />
+                      <Mail className="h-5 w-5" />
                     </motion.span>
-                    Book a Free Demo
+                    Contact Us
                   </Link>
                 </Button>
                 <Button
@@ -759,7 +760,7 @@ const About = () => {
                   variant="outline"
                   className="border-2 border-vedic-gold text-vedic-gold hover:bg-vedic-gold hover:text-vedic-navy px-10 py-6 text-lg transition-all"
                 >
-                  <Link to="/courses/abacus">Explore Programs</Link>
+                  <DiscoverProgramsLink>Explore Programs</DiscoverProgramsLink>
                 </Button>
               </div>
             </AnimatedSection>
