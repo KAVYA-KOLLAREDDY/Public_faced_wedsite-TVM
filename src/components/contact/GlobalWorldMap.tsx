@@ -43,9 +43,9 @@ const GlobalWorldMap = () => {
 
   const projectionConfig =
     mapLayout === "mobile"
-      ? { scale: 96, center: [48, 18] as [number, number] }
+      ? { scale: 110, center: [6, -42] as [number, number] }
       : mapLayout === "tablet"
-        ? { scale: 104, center: [24, -8] as [number, number] }
+        ? { scale: 110, center: [6, -42] as [number, number] }
         : { scale: 110, center: [6, -42] as [number, number] };
 
   const markerLabelSize = mapLayout === "mobile" ? 8 : 10;
