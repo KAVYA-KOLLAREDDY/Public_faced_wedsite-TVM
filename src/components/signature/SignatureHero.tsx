@@ -63,7 +63,7 @@ const SignatureHero = () => {
   }, [currentSubject]);
 
   return (
-    <section className="relative min-h-screen flex items-center py-32 overflow-hidden">
+    <section className="relative min-h-screen flex items-center py-24 overflow-hidden">
       {/* Background Gradient - Matching other pages */}
       <div 
         className="absolute inset-0"
@@ -108,17 +108,17 @@ const SignatureHero = () => {
           <AnimatedSection animation="pop-in">
             <span className="inline-flex items-center gap-2 text-gold font-semibold tracking-widest uppercase text-xs bg-gold/10 px-4 py-2 rounded-full mb-8 badge-warm">
               <Sparkles className="w-4 h-4 animate-wiggle" />
-              Signature Small Group Programs
+              Signature Academic Programs
             </span>
           </AnimatedSection>
 
           {/* Heading - Using TextReveal like other pages */}
           <TextReveal delay={100}>
-            <h1 className="font-display text-5xl md:text-6xl lg:text-7xl font-bold text-white mb-8 leading-[1.1]">
+            <h1 className="font-display text-5xl md:text-6xl lg:text-7xl font-bold text-white mb-8 leading-[1.2] md:leading-[1.18]">
               Learning made personal —
               <motion.span 
                 key={currentSubject}
-                className={`block bg-gradient-to-r ${subjects[currentSubject].color} bg-clip-text text-transparent mt-2`}
+                className={`block bg-gradient-to-r ${subjects[currentSubject].color} bg-clip-text pb-[0.12em] text-transparent mt-2 [box-decoration-break:clone]`}
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 transition={{ duration: 0.3 }}
@@ -134,8 +134,8 @@ const SignatureHero = () => {
 
           <AnimatedSection animation="fade-up" delay={300}>
             <p className="text-xl md:text-2xl text-white/80 mb-10 leading-relaxed max-w-2xl mx-auto">
-              Intimate small group sessions (3-5 students) that strengthen skills and build confidence 
-              through engaging, collaborative learning experiences.
+              Live, instructor-led programs in Mathematics, Handwriting, and Phonetics—structured paths
+              that build clarity, confidence, and lasting habits.
             </p>
           </AnimatedSection>
 
@@ -168,7 +168,7 @@ const SignatureHero = () => {
           </AnimatedSection>
 
           {/* CTA Buttons - Same style as other pages */}
-          <AnimatedSection animation="fade-up" delay={400}>
+          {/* <AnimatedSection animation="fade-up" delay={400}>
             <div className="flex flex-wrap justify-center gap-4 hero-content-warm">
               <MagneticButton strength={0.25}>
                 <Button 
@@ -194,7 +194,7 @@ const SignatureHero = () => {
                 </Button>
               </MagneticButton>
             </div>
-          </AnimatedSection>
+          </AnimatedSection> */}
 
           {/* Progress indicators */}
           <div className="flex justify-center gap-2 mt-8">

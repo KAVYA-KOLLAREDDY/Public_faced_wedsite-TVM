@@ -61,7 +61,7 @@ const trustPoints = [
 
 const TrustSection = () => {
   return (
-    <section id="trust" className="py-16 md:py-20 bg-gradient-to-b from-muted/30 to-background">
+    <section id="trust" className="py-12 md:py-16 bg-gradient-to-b from-muted/30 to-background">
       <div className="container px-4">
         {/* Section Header */}
         <AnimatedSection animation="fade-up" className="text-center mb-12 md:mb-16">

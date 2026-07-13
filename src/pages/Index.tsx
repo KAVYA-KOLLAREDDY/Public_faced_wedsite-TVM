@@ -231,7 +231,7 @@ const Index = () => {
       {/* Programs Section */}
       <section
         id={DISCOVER_PROGRAMS_HASH}
-        className="scroll-mt-[1.5rem] pt-10 pb-24 sm:pt-14 md:pt-20 lg:pt-24 bg-background relative overflow-hidden"
+        className="scroll-mt-[1.5rem] pt-6 pb-16 sm:pt-10 md:pt-14 lg:pt-16 bg-background relative overflow-hidden"
       >
         <MathBackground />
         <div className="absolute top-20 right-10 w-32 h-32 border border-gold/10 rounded-full animate-float-slow" />
@@ -313,7 +313,7 @@ const Index = () => {
       </section>
 
       {/* Mission Section - Fixed Image */}
-      <section className="py-24 bg-muted/30 relative overflow-hidden">
+      <section className="py-16 bg-muted/30 relative overflow-hidden">
         <div
           className="absolute top-10 left-10 w-40 h-40 bg-gold/5 rounded-full blur-3xl animate-float"
           style={{ animationDelay: "200ms" }}
@@ -355,7 +355,7 @@ const Index = () => {
       </section>
 
       {/* Why Choose Section - Clean Cards */}
-      <section className="py-24 bg-background relative overflow-hidden">
+      <section className="py-16 bg-background relative overflow-hidden">
         <MathBackground />
 
         <div className="container mx-auto relative z-10">
@@ -390,7 +390,7 @@ const Index = () => {
       </section>
 
       {/* Trust Section */}
-      <section className="py-24 bg-muted/30 relative overflow-hidden">
+      <section className="py-16 bg-muted/30 relative overflow-hidden">
         <div
           className="absolute top-40 right-10 w-20 h-20 bg-gold/5 rounded-full animate-float"
           style={{ animationDelay: "100ms" }}
@@ -474,7 +474,7 @@ const Index = () => {
       </section>
 
       {/* Testimonials Section */}
-      <section className="py-24 bg-background relative overflow-hidden">
+      <section className="py-16 bg-background relative overflow-hidden">
         <div className="absolute top-10 left-1/4 w-20 h-20 border border-gold/10 rounded-full animate-float" />
         <div
           className="absolute bottom-10 right-1/4 w-16 h-16 bg-teal/5 rotate-45 animate-float"
@@ -552,7 +552,7 @@ const Index = () => {
       </section> 
 
       {/* Learning Moments Section - Fixed Images */}
-      <section className="py-24 bg-muted/30 relative overflow-hidden">
+      <section className="py-16 bg-muted/30 relative overflow-hidden">
         <MathBackground />
         <div className="absolute top-20 left-20 w-24 h-24 border border-gold/10 rounded-full animate-float-slow" />
 
@@ -597,8 +597,8 @@ const Index = () => {
         </div>
       </section>
 
-      {/* FAQ Section */}
-     <section className="py-24 bg-background relative overflow-hidden">
+      {/* FAQ Section
+      <section className="py-16 bg-background relative overflow-hidden">
         <div
           className="absolute top-20 right-20 w-16 h-16 bg-gold/5 rotate-45 animate-float"
           style={{ animationDelay: "200ms" }}
@@ -651,9 +651,10 @@ const Index = () => {
           </div>
         </div>
       </section> 
+      */}
 
       {/* Contact CTA Section */}
-      <section className="py-24 bg-muted/30 relative overflow-hidden">
+      <section className="py-16 bg-muted/30 relative overflow-hidden">
         <MathBackground />
         <div
           className="absolute top-20 right-1/4 w-24 h-24 bg-teal/5 rounded-full animate-float"
@@ -682,7 +683,7 @@ const Index = () => {
       </section>
 
       {/* Final CTA Section */}
-      <section className="py-24 bg-gradient-to-br from-gold/10 via-background to-teal/10 relative overflow-hidden">
+      <section className="py-16 bg-gradient-to-br from-gold/10 via-background to-teal/10 relative overflow-hidden">
         <div className="absolute top-10 left-10 w-20 h-20 border-2 border-gold/20 rotate-45 animate-float" />
         <div className="absolute bottom-10 right-10 w-16 h-16 bg-teal/10 rounded-full animate-float-slow" />
         <div

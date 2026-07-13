@@ -105,7 +105,7 @@ const SpotlightCarousel = () => {
   };
 
   return (
-    <section id="courses" className="py-20 bg-muted/30 overflow-hidden">
+    <section id="courses" className="py-14 bg-muted/30 overflow-hidden">
       <div className="container px-4">
         {/* Section Header */}
         <AnimatedSection animation="fade-up" className="text-center mb-16">
@@ -119,12 +119,13 @@ const SpotlightCarousel = () => {
             </span>
           </h2>
           <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-            Specialized small group instruction in essential academic skills
+            Structured programs in the skills that support every subject—math, handwriting, and phonics.
           </p>
         </AnimatedSection>
 
-        {/* 3D Carousel Container */}
-        <div className="relative h-[500px] perspective-1000">
+        {/* 3D Carousel — mobile nav sits below fixed-height stage; side arrows from md+ */}
+        <div className="relative px-10 sm:px-12 md:px-0 perspective-1000">
+          <div className="relative h-[420px] sm:h-[480px] md:h-[500px]">
           <div 
             className="absolute inset-0 flex items-center justify-center"
             style={{ perspective: "1200px" }}
@@ -136,7 +137,7 @@ const SpotlightCarousel = () => {
               return (
                 <motion.div
                   key={course.id}
-                  className="absolute w-80 md:w-96 cursor-pointer"
+                  className="absolute w-[min(100%,18rem)] cursor-pointer max-w-[calc(100vw-5rem)] sm:w-80 md:w-96 sm:max-w-none"
                   animate={{
                     x: style.x,
                     scale: style.scale,
@@ -170,9 +171,9 @@ const SpotlightCarousel = () => {
                       <div className="absolute top-4 left-4 text-4xl">{course.icon}</div>
                     </div>
 
-                    {/* Content */}
-                    <div className="p-6 bg-card">
-                      <h3 className="text-xl font-bold text-foreground mb-2">{course.title}</h3>
+                    {/* Content — horizontal padding on mobile keeps title clear of arrow hit zones */}
+                    <div className="bg-card px-5 py-5 sm:p-6 md:px-6">
+                      <h3 className="text-lg font-bold text-foreground sm:text-xl mb-2 pr-1">{course.title}</h3>
                       <p className="text-muted-foreground text-sm mb-4 line-clamp-2">
                         {course.description}
                       </p>
@@ -197,7 +198,7 @@ const SpotlightCarousel = () => {
                           className="mt-4 pt-4 border-t border-border space-y-2"
                         >
                           <div className="flex items-center gap-2 text-sm text-muted-foreground">
-                            <span className="text-vedic-gold">✓</span> Small Group (3-5 Students)
+                            <span className="text-vedic-gold">✓</span> Live instruction with expert tutors
                           </div>
                           <div className="flex items-center gap-2 text-sm text-muted-foreground">
                             <span className="text-vedic-gold">✓</span> Flexible Scheduling
@@ -214,24 +215,25 @@ const SpotlightCarousel = () => {
             })}
           </div>
 
-          {/* Navigation */}
           <button
+            type="button"
             onClick={prevSlide}
-            className="absolute left-4 top-1/2 -translate-y-1/2 z-20 p-3 rounded-full bg-card/90 backdrop-blur-sm border border-vedic-gold/20 shadow-lg hover:bg-card hover:border-vedic-gold/40 transition-colors"
+            className="absolute left-1 top-1/2 z-20 hidden -translate-y-1/2 rounded-full border border-vedic-gold/20 bg-card/90 p-2.5 shadow-lg backdrop-blur-sm transition-colors hover:border-vedic-gold/40 hover:bg-card md:left-4 md:block md:p-3"
             aria-label="Previous course"
           >
-            <ChevronLeft className="w-6 h-6 text-foreground" />
+            <ChevronLeft className="h-5 w-5 text-foreground md:h-6 md:w-6" />
           </button>
           <button
+            type="button"
             onClick={nextSlide}
-            className="absolute right-4 top-1/2 -translate-y-1/2 z-20 p-3 rounded-full bg-card/90 backdrop-blur-sm border border-vedic-gold/20 shadow-lg hover:bg-card hover:border-vedic-gold/40 transition-colors"
+            className="absolute right-1 top-1/2 z-20 hidden -translate-y-1/2 rounded-full border border-vedic-gold/20 bg-card/90 p-2.5 shadow-lg backdrop-blur-sm transition-colors hover:border-vedic-gold/40 hover:bg-card md:right-4 md:block md:p-3"
             aria-label="Next course"
           >
-            <ChevronRight className="w-6 h-6 text-foreground" />
+            <ChevronRight className="h-5 w-5 text-foreground md:h-6 md:w-6" />
           </button>
 
           {/* Indicators & Auto-play Toggle */}
-          <div className="absolute bottom-4 left-1/2 -translate-x-1/2 flex items-center gap-4 z-20">
+          <div className="absolute bottom-4 left-1/2 z-20 flex -translate-x-1/2 items-center gap-4">
             <div className="flex gap-2">
               {courses.map((_, index) => (
                 <button
@@ -254,6 +256,26 @@ const SpotlightCarousel = () => {
               ) : (
                 <Play className="w-4 h-4 text-foreground" />
               )}
+            </button>
+          </div>
+          </div>
+
+          <div className="mt-4 flex justify-center gap-10 pb-1 md:hidden">
+            <button
+              type="button"
+              onClick={prevSlide}
+              className="rounded-full border border-vedic-gold/20 bg-card/95 p-3 shadow-md backdrop-blur-sm transition-colors hover:border-vedic-gold/40"
+              aria-label="Previous course"
+            >
+              <ChevronLeft className="h-6 w-6 text-foreground" />
+            </button>
+            <button
+              type="button"
+              onClick={nextSlide}
+              className="rounded-full border border-vedic-gold/20 bg-card/95 p-3 shadow-md backdrop-blur-sm transition-colors hover:border-vedic-gold/40"
+              aria-label="Next course"
+            >
+              <ChevronRight className="h-6 w-6 text-foreground" />
             </button>
           </div>
         </div>

@@ -5,7 +5,7 @@ import {
   ChevronDown,
   Loader2,
   Instagram,
-  Facebook,
+  MessageCircle,
   Youtube,
   Mail,
   Star,
@@ -23,6 +23,8 @@ import { SocialSidebar } from "@/components/SocialSidebar";
 // New components
 import GlobalHero from "@/components/contact/GlobalHero";
 import GlobalWorldMap from "@/components/contact/GlobalWorldMap";
+import { AnimatedSection } from "@/components/AnimatedSection";
+import { ParallaxWatermark } from "@/components/ParallaxWatermark";
 import FloatingLabelInput from "@/components/contact/FloatingLabelInput";
 import FloatingLabelSelect from "@/components/contact/FloatingLabelSelect";
 import FloatingLabelTextarea from "@/components/contact/FloatingLabelTextarea";
@@ -40,6 +42,11 @@ import {
   type ContactFieldErrorKey,
   type ContactFieldErrors,
 } from "@/lib/contactFormValidation";
+import { HIGHLIGHTED_COUNTRY_COUNT } from "@/config/globalNetworkCountries";
+
+const whatsAppUrl = import.meta.env.VITE_WHATSAPP_NUMBER
+  ? `https://wa.me/${import.meta.env.VITE_WHATSAPP_NUMBER}`
+  : "#";
 
 // Smooth scroll handler
 const smoothScroll = (targetId: string) => {
@@ -222,29 +229,26 @@ const Contact = () => {
       {/* Trust Section - Why Parents Trust Us */}
       {/* <TrustSection /> */}
 
-      {/* World Map Section - The Centerpiece */}
-      <section className="py-24 bg-background">
-        <div className="container mx-auto">
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            className="text-center max-w-3xl mx-auto mb-12"
-          >
-            <span className="text-primary font-semibold tracking-wider uppercase text-sm">
+      {/* World Map Section - Bento-style shell (matches Vedic About Program) */}
+      <section className="py-16 bg-muted/30 relative overflow-hidden">
+        <div className="absolute top-10 left-10 w-40 h-40 bg-gold/5 rounded-full blur-3xl animate-zoom" />
+        <div className="absolute bottom-10 right-20 w-32 h-32 bg-teal/5 rounded-full blur-2xl animate-float-slow" />
+
+        <ParallaxWatermark text="GLOBAL" className="-right-20 top-1/4" speed={0.12} />
+
+        <div className="container mx-auto px-6 relative z-10">
+          <AnimatedSection className="text-center max-w-3xl mx-auto mb-16">
+            <span className="inline-block px-4 py-2 bg-teal/10 text-teal font-semibold tracking-wider uppercase text-sm rounded-full mb-4">
               Global Network
             </span>
-            <h2 className="font-display text-4xl md:text-5xl font-bold mt-4 mb-6">
-              Learning{" "}
-              <span className="bg-gradient-to-r from-primary to-gold bg-clip-text text-transparent">
-                Without Borders
-              </span>
+            <h2 className="font-display text-4xl md:text-5xl font-bold text-foreground mb-6">
+              Learning <span className="text-gold">Without Borders</span>
             </h2>
             <p className="text-muted-foreground text-lg">
-              Connecting students across 6 countries with world-class mathematics education.
+              Connecting students across {HIGHLIGHTED_COUNTRY_COUNT} countries with world-class mathematics education.
               Watch our learning network expand from India to the world.
             </p>
-          </motion.div>
+          </AnimatedSection>
 
           <GlobalWorldMap />
         </div>
@@ -253,7 +257,7 @@ const Contact = () => {
       {/* Forms Section with Diagonal Stripes */}
       <section
         id="contact-form"
-        className="py-24 relative overflow-hidden"
+        className="py-16 relative overflow-hidden"
         style={{
           background: `
             repeating-linear-gradient(
@@ -679,7 +683,7 @@ const Contact = () => {
       </section>
 
       {/* Testimonials - Wall of Love */}
-      <section className="py-24 bg-gradient-to-b from-background to-muted/30">
+      <section className="py-16 bg-gradient-to-b from-background to-muted/30">
         <div className="container mx-auto">
           <motion.div
             initial={{ opacity: 0, y: 30 }}
@@ -716,7 +720,7 @@ const Contact = () => {
       </section>
 
       {/* Social Media Section */}
-      <section className="py-24 bg-background">
+      <section className="py-16 bg-background">
         <div className="container mx-auto">
           <motion.div
             initial={{ opacity: 0, y: 30 }}
@@ -734,14 +738,33 @@ const Contact = () => {
 
           <div className="grid md:grid-cols-3 gap-6 max-w-4xl mx-auto">
             {[
-              { icon: Instagram, name: "Instagram", color: "#E4405F", desc: "Daily tips & stories" },
-              { icon: Facebook, name: "Facebook", color: "#1877F2", desc: "Community updates" },
-              { icon: Youtube, name: "YouTube", color: "#FF0000", desc: "Tutorial videos" },
+              {
+                icon: Instagram,
+                name: "Instagram",
+                color: "#E4405F",
+                desc: "Daily tips & stories",
+                href: "https://www.instagram.com/tiny_vivid_minds",
+              },
+              {
+                icon: MessageCircle,
+                name: "WhatsApp",
+                color: "#25D366",
+                desc: "Chat with us",
+                href: whatsAppUrl,
+              },
+              {
+                icon: Youtube,
+                name: "YouTube",
+                color: "#FF0000",
+                desc: "Tutorial videos",
+                href: "https://youtube.com/@tinyvividminds",
+              },
             ].map((social, i) => (
               <motion.a
                 key={social.name}
-                href="#"
+                href={social.href}
                 target="_blank"
+                rel="noopener noreferrer"
                 initial={{ opacity: 0, y: 30 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
@@ -769,7 +792,7 @@ const Contact = () => {
       </section>
 
       {/* FAQ Section */}
-      <section className="py-24 bg-muted/20">
+      <section className="py-16 bg-muted/20">
         <div className="container mx-auto">
           <div className="grid lg:grid-cols-2 gap-12 items-start">
             <motion.div
@@ -801,7 +824,9 @@ const Contact = () => {
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true }}
                   transition={{ delay: index * 0.1 }}
-                  className="rounded-2xl overflow-hidden"
+                  className={`rounded-2xl overflow-hidden transition-all duration-500 ${
+                    activeFaq === index ? "shadow-lg ring-1 ring-gold/20 scale-[1.02]" : "shadow-md hover:shadow-lg"
+                  }`}
                   style={{
                     background: "hsl(var(--card))",
                     border: "1px solid hsl(var(--border))",
@@ -809,24 +834,24 @@ const Contact = () => {
                 >
                   <button
                     onClick={() => setActiveFaq(activeFaq === index ? null : index)}
-                    className="w-full p-5 flex items-center justify-between text-left"
+                    className="w-full p-5 flex items-center justify-between text-left hover:bg-muted/50 transition-all duration-300 group"
                   >
-                    <span className="font-medium text-foreground">{faq.question}</span>
+                    <span className="font-medium text-foreground pr-4 group-hover:text-gold transition-colors">{faq.question}</span>
                     <ChevronDown
-                      className={`w-5 h-5 text-muted-foreground transition-transform ${
-                        activeFaq === index ? "rotate-180" : ""
+                      className={`w-5 h-5 text-gold flex-shrink-0 transition-all duration-500 ${
+                        activeFaq === index ? "rotate-180 scale-110" : "group-hover:scale-110"
                       }`}
                     />
                   </button>
-                  {activeFaq === index && (
-                    <motion.div
-                      initial={{ height: 0, opacity: 0 }}
-                      animate={{ height: "auto", opacity: 1 }}
-                      className="px-5 pb-5"
-                    >
+                  <div
+                    className={`overflow-hidden transition-all duration-500 ${
+                      activeFaq === index ? "max-h-96 opacity-100" : "max-h-0 opacity-0"
+                    }`}
+                  >
+                    <div className="px-5 pb-5">
                       <p className="text-muted-foreground">{faq.answer}</p>
-                    </motion.div>
-                  )}
+                    </div>
+                  </div>
                 </motion.div>
               ))}
             </div>
@@ -835,7 +860,7 @@ const Contact = () => {
       </section>
 
       {/* Final CTA */}
-      <section className="py-24 bg-gradient-to-r from-primary via-primary to-navy-dark text-white">
+      <section className="py-16 bg-gradient-to-r from-primary via-primary to-navy-dark text-white">
         <div className="container mx-auto text-center">
           <motion.div
             initial={{ opacity: 0, y: 30 }}

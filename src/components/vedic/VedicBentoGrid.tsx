@@ -49,7 +49,7 @@ const features = [
 
 export const VedicBentoGrid = () => {
   return (
-    <div className="mx-auto grid max-w-6xl grid-cols-1 gap-4 sm:gap-5 md:grid-cols-4 md:auto-rows-[minmax(17rem,auto)]">
+    <div className="mx-auto grid max-w-6xl grid-cols-1 gap-2 sm:gap-3 md:grid-cols-4 md:auto-rows-[minmax(0,auto)]">
       {features.map((feature, index) => {
         const sizeClasses = {
           large: "h-full md:col-span-2 md:row-span-2",
@@ -66,9 +66,9 @@ export const VedicBentoGrid = () => {
           >
             <div
               className={`
-                group relative flex h-full min-h-[17.5rem] flex-col overflow-hidden rounded-2xl
-                border border-transparent bg-card/50 p-6 backdrop-blur-sm transition-all duration-500
-                hover:-translate-y-1 hover:border-gold/30 hover:shadow-xl md:min-h-0
+                group relative flex h-full min-h-0 flex-col overflow-hidden rounded-2xl
+                border border-transparent bg-card/50 p-5 backdrop-blur-sm transition-all duration-500
+                hover:-translate-y-1 hover:border-gold/30 hover:shadow-xl
               `}
               style={{
                 background: `linear-gradient(135deg, hsl(var(--card)) 0%, hsl(var(--card))/0.8 100%)`,
@@ -89,23 +89,23 @@ export const VedicBentoGrid = () => {
               <div className="relative z-10 flex min-h-0 flex-1 flex-col">
                 <div
                   className={`
-                    mb-4 flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-gradient-to-br ${feature.gradient}
+                    mb-3 flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-gradient-to-br ${feature.gradient}
                     shadow-lg transition-transform duration-300 group-hover:scale-110 group-hover:rotate-3
                   `}
                 >
-                  <feature.icon className="h-6 w-6 text-white" />
+                  <feature.icon className="h-5 w-5 text-white" />
                 </div>
 
-                <h3 className="mb-2 shrink-0 font-display text-lg font-bold text-foreground transition-colors group-hover:text-gold sm:text-xl">
+                <h3 className="mb-1.5 shrink-0 font-display text-lg font-bold text-foreground transition-colors group-hover:text-gold sm:text-xl">
                   {feature.title}
                 </h3>
 
-                <p className="min-h-[3.25rem] flex-1 text-sm leading-relaxed text-muted-foreground">
+                <p className="text-sm leading-snug text-muted-foreground">
                   {feature.description}
                 </p>
 
                 {feature.size === "large" && (
-                  <div className="mt-auto flex shrink-0 flex-wrap items-center gap-x-4 gap-y-2 pt-4">
+                  <div className="mt-4 flex shrink-0 flex-wrap items-center gap-x-3 gap-y-1.5 pt-1">
                     <div className="flex items-center gap-1 text-gold">
                       <Star className="h-4 w-4 fill-current" />
                       <span className="text-sm font-medium">4.9 Rating</span>

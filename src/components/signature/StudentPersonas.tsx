@@ -40,7 +40,7 @@ const personas = [
 
 const StudentPersonas = () => {
   return (
-    <section id="students" className="py-20 bg-gradient-to-b from-muted/30 to-background">
+    <section id="students" className="py-14 bg-gradient-to-b from-muted/30 to-background">
       <div className="container px-4">
         {/* Section Header */}
         <AnimatedSection animation="fade-up" className="text-center mb-16">

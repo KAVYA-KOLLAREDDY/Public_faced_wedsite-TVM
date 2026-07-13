@@ -60,7 +60,7 @@ export const TextReveal = ({
   return (
     <div ref={ref} className={cn("relative overflow-hidden", className)}>
       <div
-        className="transition-all duration-100 pt-[0.15em]"
+        className="transition-all duration-100 pt-[0.15em] pb-[0.35em]"
         style={{
           clipPath: `inset(0 ${100 - progress * 100}% 0 0)`,
         }}

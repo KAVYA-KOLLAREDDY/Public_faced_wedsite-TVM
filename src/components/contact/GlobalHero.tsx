@@ -1,5 +1,6 @@
 import { motion } from "framer-motion";
 import { Clock, Mail, Sparkles, GraduationCap, Star } from "lucide-react";
+import { HIGHLIGHTED_COUNTRY_COUNT } from "@/config/globalNetworkCountries";
 
 interface GlobalHeroProps {
   onBookDemo: () => void;
@@ -8,7 +9,7 @@ interface GlobalHeroProps {
 
 const GlobalHero = ({ onBookDemo, onContact }: GlobalHeroProps) => {
   return (
-    <section className="relative min-h-[85vh] sm:min-h-[88vh] lg:min-h-[90vh] flex items-center pt-24 lg:pt-28 pb-32 sm:pb-36 overflow-hidden bg-gradient-to-br from-navy via-navy-light to-teal-dark">
+    <section className="relative min-h-[85vh] sm:min-h-[88vh] lg:min-h-[90vh] flex items-center pt-20 lg:pt-24 pb-24 sm:pb-28 overflow-hidden bg-gradient-to-br from-navy via-navy-light to-teal-dark">
       {/* Subtle pattern overlay */}
       <div className="absolute inset-0 math-pattern opacity-10" />
       
@@ -57,8 +58,8 @@ const GlobalHero = ({ onBookDemo, onContact }: GlobalHeroProps) => {
             </h1>
 
             <p className="text-lg md:text-xl text-white/70 max-w-lg mb-10 leading-relaxed">
-              Join our global family of learners across 5 countries. From India to Australia, 
-              we empower children to discover the joy of mathematics.
+              Join our global family of learners across {HIGHLIGHTED_COUNTRY_COUNT} countries. From India across the
+              globe, we empower children to discover the joy of mathematics.
             </p>
 
             <div className="flex flex-wrap gap-4">
@@ -109,7 +110,7 @@ const GlobalHero = ({ onBookDemo, onContact }: GlobalHeroProps) => {
           >
             {[
               { icon: GraduationCap, label: "Expert Teachers", sublabel: "Certified instructors" },
-              { icon: Star, label: "5 Countries", sublabel: "Global presence" },
+              { icon: Star, label: `${HIGHLIGHTED_COUNTRY_COUNT} Countries`, sublabel: "Global presence" },
               { icon: Sparkles, label: "Live Classes", sublabel: "Interactive sessions" },
               { icon: Clock, label: "24/7 Support", sublabel: "We're here when you need us" },
             ].map((item, index) => (

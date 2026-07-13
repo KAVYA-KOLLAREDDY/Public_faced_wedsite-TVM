@@ -7,8 +7,9 @@ import childrenLearningImg from "@/assets/children-learning.jpg";
 const benefits = [
   {
     icon: Target,
-    title: "Focused Small Groups",
-    description: "Intimate classes of 3-5 students ensure every child gets attention while learning collaboratively",
+    title: "Expert-led foundations",
+    description:
+      "Clear sequences, practice routines, and feedback that help learners move from basics to fluency.",
     gradient: "from-vedic-teal to-vedic-teal-light"
   },
   {
@@ -19,8 +20,9 @@ const benefits = [
   },
   {
     icon: Users,
-    title: "Peer Learning Benefits",
-    description: "Children learn from each other, building social skills and healthy academic motivation",
+    title: "Practice that sticks",
+    description:
+      "Real examples, short challenges, and routines that connect skills to homework, reading, and everyday work.",
     gradient: "from-vedic-gold to-vedic-gold-light"
   },
   {
@@ -35,12 +37,12 @@ const BenefitsSection = () => {
   const [hoveredIcon, setHoveredIcon] = useState<number | null>(null);
 
   return (
-    <section id="benefits" className="py-20 bg-gradient-to-b from-background to-muted/30">
+    <section id="benefits" className="py-14 bg-gradient-to-b from-background to-muted/30">
       <div className="container px-4">
         {/* Section Header */}
         <AnimatedSection animation="fade-up" className="text-center mb-16">
           <span className="inline-block px-4 py-1.5 mb-4 text-sm font-medium rounded-full bg-vedic-gold/10 text-vedic-gold">
-            The Small Group Advantage
+            Built for steady progress
           </span>
           <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-foreground mb-4">
             Personalized learning for{" "}
@@ -112,7 +114,7 @@ const BenefitsSection = () => {
             <div className="relative rounded-3xl overflow-hidden shadow-2xl">
               <img 
                 src={childrenLearningImg} 
-                alt="Children engaged in small group learning" 
+                alt="Children engaged in live learning" 
                 className="w-full h-[500px] object-cover"
               />
               {/* Gradient overlay */}
@@ -120,21 +122,13 @@ const BenefitsSection = () => {
               
               {/* Content overlay */}
               <div className="absolute bottom-0 left-0 right-0 p-8">
-                <div className="flex items-center gap-4 mb-4">
-                  <div className="flex -space-x-3">
-                    {[1, 2, 3, 4].map((i) => (
-                      <div 
-                        key={i} 
-                        className="w-10 h-10 rounded-full bg-gradient-to-br from-vedic-gold to-vedic-gold-light border-2 border-white flex items-center justify-center text-vedic-navy font-bold text-sm"
-                      >
-                        {i}
-                      </div>
-                    ))}
-                  </div>
-                  <span className="text-white font-medium">Small Groups of 3-5</span>
-                </div>
-                <h3 className="text-2xl font-bold text-white mb-2">Interactive Learning</h3>
-                <p className="text-white/80">Every child gets personalized attention in our engaging sessions</p>
+                <p className="mb-3 text-xs font-semibold uppercase tracking-widest text-vedic-gold">
+                  Beyond the core curriculum
+                </p>
+                <p className="max-w-md text-base leading-relaxed text-white/90 sm:text-lg">
+                  Structured live instruction across math, handwriting, and phonics—so skills stick beyond
+                  the worksheet.
+                </p>
               </div>
 
               {/* Floating stats */}

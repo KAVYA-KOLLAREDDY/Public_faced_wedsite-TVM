@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { cn } from "@/lib/utils";
-import { Plus, Minus } from "lucide-react";
+import { ChevronDown } from "lucide-react";
 import { AnimatedSection } from "@/components/AnimatedSection";
 
 interface FAQ {
@@ -51,14 +51,15 @@ export const PremiumAccordion = ({ faqs }: PremiumAccordionProps) => {
                 <div className={cn(
                   "flex-shrink-0 w-8 h-8 rounded-full flex items-center justify-center transition-all duration-300",
                   isOpen 
-                    ? "bg-gold text-navy-dark rotate-180" 
-                    : "bg-muted text-muted-foreground rotate-0"
+                    ? "bg-gold text-navy-dark" 
+                    : "bg-muted text-muted-foreground"
                 )}>
-                  {isOpen ? (
-                    <Minus className="w-4 h-4" />
-                  ) : (
-                    <Plus className="w-4 h-4" />
-                  )}
+                  <ChevronDown
+                    className={cn(
+                      "w-4 h-4 transition-all duration-500",
+                      isOpen ? "rotate-180 scale-110" : "rotate-0"
+                    )}
+                  />
                 </div>
               </button>
 
