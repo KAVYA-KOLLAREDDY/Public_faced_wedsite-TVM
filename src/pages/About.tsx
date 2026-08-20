@@ -20,13 +20,13 @@ import { SocialSidebar } from "@/components/SocialSidebar";
 import { HIGHLIGHTED_COUNTRY_COUNT } from "@/config/globalNetworkCountries";
 
 // Images
-import abacusCourseImg from "@/assets/abacus-course.jpg";
-import vedicMathImg from "@/assets/vedic-math-course.jpg";
+import abacusCourseImg from "@/assets/TVM_tools/abacus.png";
+import vedicMathImg from "@/assets/students-learning/vedic_math_learning.png";
 import tutoringImg from "@/assets/tutoring-course.jpg";
-import founderImg from "@/assets/founder_pic1.png";
-import curiousChildImg from "@/assets/curious-child.jpg";
+import founderImg from "@/assets/founder/founder_pic1.png";
+import curiousChildImg from "@/assets/students-learning/curious-child.jpg";
 import worldNetworkImg from "@/assets/world-network.jpg";
-import childrenLearningImg from "@/assets/children-learning.jpg";
+import childrenLearningImg from "@/assets/students-learning/student1.png";
 
 const values = [
   { icon: Target, title: "Excellence", description: "We strive for the highest standards in education and student outcomes." },

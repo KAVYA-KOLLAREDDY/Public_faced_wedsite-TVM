@@ -25,28 +25,35 @@ import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { SocialSidebar } from "@/components/SocialSidebar";
 import { HIGHLIGHTED_COUNTRY_COUNT } from "@/config/globalNetworkCountries";
+import { SITE_LINKS } from "@/config/siteLinks";
 
 // Import images
-import childrenLearningImg from "@/assets/children-learning.jpg";
-import confidentChildrenImg from "@/assets/confident-children.jpg";
-import curiousChildImg from "@/assets/curious-child.jpg";
-import digitalClassroomImg from "@/assets/digital-classroom.jpg";
-import teamFounderImg from "@/assets/team-founder.jpg";
-import teamTeacher1Img from "@/assets/team-teacher1.jpg";
-import teamTeacher2Img from "@/assets/team-teacher2.jpg";
-import acheivement1Img from "@/assets/Acheivement11.png";
-import acheivement2Img from "@/assets/Acheivement12.png";
-import acheivement3Img from "@/assets/Acheivement13.png";
-import acheivement4Img from "@/assets/Acheivement14.png";
+import childrenLearningImg from "@/assets/student-prizes/student_moment1.jpg";
+import confidentChildrenImg from "@/assets/student-prizes/student_moment2.jpg";
+import curiousChildImg from "@/assets/student-prizes/student_moment3.jpg";
+import digitalClassroomImg from "@/assets/student-prizes/student_moment4.jpg";
+import studentsLearningImg from "@/assets/students-learning/online_class.png";
+import teamFounderImg from "@/assets/students-learning/teacher_teaching.png";
+import teamTeacher2Img from "@/assets/students-learning/competitions.png";
+import prize1Img from "@/assets/student-prizes/Acheivement1.png";
+import prize2Img from "@/assets/student-prizes/Acheivement2.png";
+import prize3Img from "@/assets/student-prizes/Acheivement3.png";
+import prize4Img from "@/assets/student-prizes/Acheivement4.png";
+import prize5Img from "@/assets/student-prizes/Acheivement5.png";
+import prize6Img from "@/assets/student-prizes/Acheivement6.png";
+import prize11Img from "@/assets/student-prizes/Acheivement11.png";
+import prize12Img from "@/assets/student-prizes/Acheivement12.png";
+import prize13Img from "@/assets/student-prizes/Acheivement13.png";
+import prize14Img from "@/assets/student-prizes/Acheivement14.png";
 import abacus3dImg from "@/assets/abacus-3d.jpg";
-import abacusCourseImg from "@/assets/abacus-course.jpg";
-import abacusHandsImg from "@/assets/abacus-hands.jpg";
+import abacusCourseImg from "@/assets/TVM_tools/abacus-course.jpg";
+import abacusHandsImg from "@/assets/students-learning/abacus-hands.jpg";
 import abacusHeroImg from "@/assets/abacus-hero.jpg";
 import aboutHeroImg from "@/assets/about-hero.jpg";
 import brainDevelopmentImg from "@/assets/brain-development.jpg";
 import heroStudentsImg from "@/assets/hero-students.jpg";
 import tutoringCourseImg from "@/assets/tutoring-course.jpg";
-import vedicMathCourseImg from "@/assets/vedic-math-course.jpg";
+import vedicMathCourseImg from "@/assets/TVM_tools/vedic-math-course.jpg";
 import worldNetworkImg from "@/assets/world-network.jpg";
 import founderPicImg from "@/assets/founder_pic.jpeg";
 
@@ -67,11 +74,11 @@ const instagramReels = [
     caption: "Our Abacus Level 1 stars at work 🌟",
   },
   {
-    embedUrl: "https://www.instagram.com/reel/DKizx6xttOw/?igsh=dXdna2pwMWtxaHVz",
+    embedUrl: "https://www.instagram.com/reel/DcMzCwEhZcd/?igsh=ZDBsdmJlcWJyaXFs&igsi=ZDBsdmJlcWJyaXFs",
     caption: "Quick mental math challenge 🧠💡",
   },
   {
-    embedUrl: "https://www.instagram.com/reel/DJs6tbztAeC/?igsh=MW5rbGJnc2p3aW5jeQ==",
+    embedUrl: "https://www.instagram.com/reel/DKgK9d3tAmc/?igsh=MzVreTd0b2Vyemlx&igsi=MzVreTd0b2Vyemlx",
     caption: "Kids across the world solving together 🌎",
   },
 ];
@@ -88,16 +95,16 @@ const videoTitles = [
 ];
 
 const galleryPhotos: GalleryPhoto[] = [
-  { url: acheivement1Img, caption: "Our Little Achievers", height: "tall" },
-  { url: acheivement2Img, caption: "Celebrating Success", height: "tall" },
-  { url: acheivement3Img, caption: "Proud Moments", height: "normal" },
-  { url: acheivement4Img, caption: "Certificates & Achievements", height: "short" },
-  { url: confidentChildrenImg, caption: "Happy Learning Moments", height: "normal" },
-  { url: curiousChildImg, caption: "Curious Minds at Work", height: "short" },
-  { url: childrenLearningImg, caption: "Learning Together", height: "tall" },
-  { url: digitalClassroomImg, caption: "Live Online Sessions", height: "normal" },
-  { url: teamFounderImg, caption: "Meet Our Founder", height: "short" },
-  { url: teamTeacher1Img, caption: "Dedicated Teachers", height: "normal" },
+  { url: prize11Img, caption: "Our Little Achievers", height: "tall" },
+  { url: prize12Img, caption: "Celebrating Success", height: "tall" },
+  { url: prize13Img, caption: "Proud Moments", height: "normal" },
+  { url: prize14Img, caption: "Certificates & Achievements", height: "short" },
+  { url: prize1Img, caption: "Happy Learning Moments", height: "normal" },
+  { url: prize2Img, caption: "Curious Minds at Work", height: "short" },
+  { url: prize3Img, caption: "Learning Together", height: "tall" },
+  { url: prize4Img, caption: "Live Online Sessions", height: "normal" },
+  { url: prize5Img, caption: "Award Ceremony", height: "short" },
+  { url: prize6Img, caption: "Student Spotlight", height: "normal" },
   { url: teamTeacher2Img, caption: "Interactive Workshops", height: "tall" },
   { url: abacusHandsImg, caption: "Hands-On Abacus Practice", height: "normal" },
   { url: abacusHeroImg, caption: "Abacus Mastery", height: "short" },
@@ -120,7 +127,7 @@ const achievementsStats = [
 
 const behindScenes = [
   { img: teamFounderImg, label: "Passionate Teachers" },
-  { img: digitalClassroomImg, label: "Live Online Sessions" },
+  { img: studentsLearningImg, label: "Live Online Sessions" },
   { img: teamTeacher2Img, label: "Interactive Workshops" },
 ];
 
@@ -199,9 +206,9 @@ const MeshGradientBackground = () => (
 const FloatingImageCluster = () => {
   const images = [
     { src: childrenLearningImg, alt: "Students smiling" },
-    { src: confidentChildrenImg, alt: "Abacus work" },
     { src: curiousChildImg, alt: "Certificate" },
     { src: digitalClassroomImg, alt: "Learning" },
+    { src: confidentChildrenImg, alt: "Abacus work" }
   ];
 
   return (
@@ -613,7 +620,7 @@ const Gallery = () => {
                   size="lg"
                   variant="outline"
                   className="border-2 border-gold text-gold hover:bg-gold hover:text-navy-dark font-display px-8 py-6 text-lg rounded-2xl group transition-all duration-300 hover:scale-105"
-                  onClick={() => window.open("https://www.instagram.com/tinyvividminds", "_blank")}
+                  onClick={() => window.open(SITE_LINKS.instagram, "_blank")}
                 >
                   <Instagram className="w-5 h-5 mr-2 group-hover:text-vedic-gold transition-colors" />
                   Follow on Instagram
@@ -769,7 +776,7 @@ const Gallery = () => {
             <Button
               variant="outline"
               className="border-2 border-pink-500/50 text-pink-500 hover:bg-pink-500 hover:text-white font-display group transition-all duration-300"
-              onClick={() => window.open("https://www.instagram.com/tinyvividminds", "_blank")}
+              onClick={() => window.open(SITE_LINKS.instagram, "_blank")}
             >
               <Instagram className="w-5 h-5 mr-2 group-hover:animate-pulse" />
               Follow @tinyvividminds
@@ -838,26 +845,54 @@ const Gallery = () => {
           </div>
 
           {totalGalleryPages > 1 && (
-            <div className="mt-10 flex items-center justify-center gap-1.5" role="tablist" aria-label="Gallery pages">
-              {Array.from({ length: totalGalleryPages }, (_, i) => (
-                <button
-                  key={i}
-                  type="button"
-                  role="tab"
-                  aria-selected={i === safeGalleryPage}
-                  aria-label={`Gallery page ${i + 1}`}
-                  onClick={() => {
-                    pauseGalleryAutoplay();
-                    setGalleryPage(i);
-                  }}
-                  className={cn(
-                    "h-2 rounded-full transition-all duration-300",
-                    i === safeGalleryPage
-                      ? "w-7 bg-vedic-gold"
-                      : "w-2 bg-muted-foreground/30 hover:bg-muted-foreground/50"
-                  )}
-                />
-              ))}
+            <div className="mt-10 flex flex-wrap items-center justify-center gap-3 sm:gap-4">
+              <button
+                type="button"
+                onClick={() => {
+                  pauseGalleryAutoplay();
+                  setGalleryPage((page) =>
+                    page <= 0 ? totalGalleryPages - 1 : page - 1
+                  );
+                }}
+                className="flex h-10 w-10 items-center justify-center rounded-full border border-border bg-card text-foreground transition-all duration-300 hover:scale-105 hover:bg-muted sm:h-11 sm:w-11"
+                aria-label="Previous gallery page"
+              >
+                <ChevronLeft className="h-5 w-5" />
+              </button>
+
+              <div className="flex items-center gap-1.5" role="tablist" aria-label="Gallery pages">
+                {Array.from({ length: totalGalleryPages }, (_, i) => (
+                  <button
+                    key={i}
+                    type="button"
+                    role="tab"
+                    aria-selected={i === safeGalleryPage}
+                    aria-label={`Gallery page ${i + 1}`}
+                    onClick={() => {
+                      pauseGalleryAutoplay();
+                      setGalleryPage(i);
+                    }}
+                    className={cn(
+                      "h-2 rounded-full transition-all duration-300",
+                      i === safeGalleryPage
+                        ? "w-7 bg-vedic-gold"
+                        : "w-2 bg-muted-foreground/30 hover:bg-muted-foreground/50"
+                    )}
+                  />
+                ))}
+              </div>
+
+              <button
+                type="button"
+                onClick={() => {
+                  pauseGalleryAutoplay();
+                  setGalleryPage((page) => (page + 1) % totalGalleryPages);
+                }}
+                className="flex h-10 w-10 items-center justify-center rounded-full border border-border bg-card text-foreground transition-all duration-300 hover:scale-105 hover:bg-muted sm:h-11 sm:w-11"
+                aria-label="Next gallery page"
+              >
+                <ChevronRight className="h-5 w-5" />
+              </button>
             </div>
           )}
         </div>
@@ -925,7 +960,7 @@ const Gallery = () => {
                 size="lg"
                 variant="outline"
                 className="border-2 border-vedic-gold text-vedic-gold hover:bg-vedic-gold hover:text-vedic-navy font-display group transition-all duration-300"
-                onClick={() => window.open("https://www.youtube.com/@tinyvividminds", "_blank")}
+                onClick={() => window.open(SITE_LINKS.youtube, "_blank")}
               >
                 <ExternalLink className="w-5 h-5 mr-2 group-hover:rotate-12 transition-transform duration-300" />
                 Visit Our YouTube Channel

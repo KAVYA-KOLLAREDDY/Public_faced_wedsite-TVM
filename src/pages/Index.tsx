@@ -28,10 +28,10 @@ import { SocialSidebar } from "@/components/SocialSidebar";
 import { FuturisticHero } from "@/components/home/FuturisticHero";
 import { DiscoverProgramsLink } from "@/components/DiscoverProgramsLink";
 import { DISCOVER_PROGRAMS_HASH } from "@/lib/homeAnchors";
-import childrenLearning from "@/assets/children-learning.jpg";
-import teamTeacher from "@/assets/team-teacher1.jpg";
-import abacusHands from "@/assets/abacus-hands.jpg";
-import vedicCourse from "@/assets/vedic-math-course.jpg";
+import childrenLearning from "@/assets/students-learning/children-learning.jpg";
+import teamTeacher from "@/assets/students-learning/certified.png";
+import abacusHands from "@/assets/students-learning/abacus.png";
+import vedicCourse from "@/assets/students-learning/vedic-math.png";
 
 const programs = [
   {
@@ -77,34 +77,54 @@ const whyChooseFeatures = [
 
 const testimonials = [
   {
-    name: "Sunita Krishnan",
+    name: "Rama Devi",
     role: "Parent",
-    childName: "Arjun",
+    childName: "her child",
     childAge: 8,
     rating: 5,
     message:
-      "My son went from struggling with basic math to doing 3-digit multiplications in his head. The Vedic methods are truly magical!",
+      "We are very happy with the classes. Thank you for conducting such wonderful classes. My child is enjoying the sessions and is excited to attend them every time. The teaching is interactive, and the concepts are explained in a simple way that is easy for children to understand. I can see a positive change in my child's interest and confidence. We truly appreciate your hard work and care. Thank you!",
     date: "2024-01-15",
   },
   {
-    name: "Rajesh Patel",
+    name: "Bharathi",
     role: "Parent",
-    childName: "Priya",
-    childAge: 6,
+    childName: "her child",
+    childAge: 8,
     rating: 5,
     message:
-      "The abacus training has transformed my daughter's confidence in math. She now loves solving problems and even teaches her friends!",
+      "We can clearly see a positive change in our child's concentration and confidence. Thank you for your wonderful guidance and care.",
     date: "2024-02-20",
   },
   {
-    name: "Anita Sharma",
+    name: "Bhavani Ashok",
     role: "Parent",
-    childName: "Rahul",
+    childName: "her son",
     childAge: 10,
     rating: 5,
     message:
-      "Tiny Vivid Minds' personalized approach helped my child overcome math anxiety. The teachers are patient and incredibly skilled.",
+      "Previously my son used to take class with one of the teachers and then it did not work out properly. But he is doing good with the concept so I approached TVM team they allotted us a new teacher. Surprisingly from day 1 she is teaching beautifully in the class. Now my son is in level 7 and he is doing a great job. Thank you mam.",
     date: "2024-03-10",
+  },
+  {
+    name: "Hiryanya",
+    role: "Parent",
+    childName: "her child",
+    childAge: 8,
+    rating: 5,
+    message:
+      "Very clear explanation and impressed with the way Sai Tejasvi mam is teaching my child.",
+    date: "2024-04-05",
+  },
+  {
+    name: "Shalini",
+    role: "Parent",
+    childName: "her son",
+    childAge: 9,
+    rating: 5,
+    message:
+      "My son is doing good with calculations after joining in Tiny Vivid Minds. But the teacher is little strict.",
+    date: "2024-05-12",
   },
 ];
 

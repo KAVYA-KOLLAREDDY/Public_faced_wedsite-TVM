@@ -3,6 +3,8 @@ import { motion } from "framer-motion";
 import {
   Send,
   ChevronDown,
+  ChevronLeft,
+  ChevronRight,
   Loader2,
   Instagram,
   MessageCircle,
@@ -16,7 +18,7 @@ import { Label } from "@/components/ui/label";
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
 import { toast } from "sonner";
-import { Link, useLocation } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 import { DiscoverProgramsLink } from "@/components/DiscoverProgramsLink";
 import { SocialSidebar } from "@/components/SocialSidebar";
 
@@ -28,9 +30,12 @@ import { ParallaxWatermark } from "@/components/ParallaxWatermark";
 import FloatingLabelInput from "@/components/contact/FloatingLabelInput";
 import FloatingLabelSelect from "@/components/contact/FloatingLabelSelect";
 import FloatingLabelTextarea from "@/components/contact/FloatingLabelTextarea";
+import PhoneWithCountryInput from "@/components/contact/PhoneWithCountryInput";
 import TestimonialBubble from "@/components/contact/TestimonialBubble";
 import ToggleSwitch from "@/components/contact/ToggleSwitch";
-import TrustSection from "@/components/signature/TrustSection";
+import FormStatusModal, {
+  type FormStatusState,
+} from "@/components/contact/FormStatusModal";
 import {
   insertContactRequest,
   insertDemoRequest,
@@ -43,10 +48,13 @@ import {
   type ContactFieldErrors,
 } from "@/lib/contactFormValidation";
 import { HIGHLIGHTED_COUNTRY_COUNT } from "@/config/globalNetworkCountries";
+import { DEFAULT_PHONE_COUNTRY_ID, formatPhoneWithCountry } from "@/config/phoneCountries";
+import { SITE_LINKS, getWhatsAppUrl } from "@/config/siteLinks";
 
-const whatsAppUrl = import.meta.env.VITE_WHATSAPP_NUMBER
-  ? `https://wa.me/${import.meta.env.VITE_WHATSAPP_NUMBER}`
-  : "#";
+const SUBMIT_ERROR_MESSAGE =
+  "We couldn't send your message right now. Please try again later.";
+
+const whatsAppUrl = getWhatsAppUrl();
 
 // Smooth scroll handler
 const smoothScroll = (targetId: string) => {
@@ -58,36 +66,63 @@ const smoothScroll = (targetId: string) => {
 
 const testimonials = [
   {
-    text: "Since joining Tiny Vivid Minds, my daughter's speed and confidence in maths have doubled! The teachers are amazing.",
-    author: "Mrs. Patel",
-    role: "Mother of Aarav (8)",
+    text: "My daughter is very much interested for class and doing home works easily. As of now, I saw a great improvement in solving sums using board. Madhuri mam is teaching that clearly.",
+    author: "Parent of Sahasra",
+    role: "Abacus learner",
     rating: 5,
   },
   {
-    text: "The teachers are patient and engaging. My son actually looks forward to math class now!",
-    author: "Mr. Reddy",
-    role: "Father of Vihaan (10)",
+    text: "I am pretty much happy with Madhuri mam teaching. After joining her in this abacus class her calculation skills was so good. Thank you for your guidance mam.",
+    author: "Gowthami",
+    role: "Abacus parent",
     rating: 5,
   },
   {
-    text: "Best decision we made! My daughter went from struggling to loving math.",
-    author: "Mrs. Kumar",
-    role: "Mother of Anaya (9)",
+    text: "We are extremely grateful for the abacus training provided by Sai Tejasvi mam in Tiny Vivid Minds. The step by step guidance and encouragement helped build strong foundational arithmetic skills, speed, and concentration. Highly recommend for any parent looking to strengthen their children's math skills. Thank you for teaching my child.",
+    author: "Jyothi",
+    role: "Abacus parent",
     rating: 5,
   },
   {
-    text: "Excellent program! The personalized attention each child receives is remarkable.",
-    author: "Mr. Sharma",
-    role: "Father of Riya (7)",
+    text: "The Abacus online classes are well organized and engaging. My child enjoys attending the sessions, and I can already see improvements in concentration, calculation speed, and confidence. The teacher explains the concepts clearly and is patient with the students. Thank you for your efforts and support. We look forward to continued progress.",
+    author: "Eligeti Meghana",
+    role: "Abacus parent",
     rating: 5,
   },
   {
-    text: "The Vedic math techniques have helped my son solve problems much faster. Amazing results!",
-    author: "Mrs. Gupta",
-    role: "Mother of Arjun (11)",
+    text: "Teacher is patiently guiding students to improve their speed and concentration, to become confident in solving numbers. She is good and very supportive to the students and giving very good guidance.",
+    author: "Rithika",
+    role: "Parent",
+    rating: 5,
+  },
+  {
+    text: "Very clear explanation and impressed with the way Sai Tejasvi mam is teaching my child.",
+    author: "Hiryanya",
+    role: "Abacus parent",
+    rating: 5,
+  },
+  {
+    text: "My son is doing good with calculations after joining in Tiny Vivid Minds. But the teacher is little strict.",
+    author: "Shalini",
+    role: "Parent",
+    rating: 5,
+  },
+  {
+    text: "Yugan has had difficulty in mathematics, however after starting with abacus he has shown an improvement. Since he is still learning the concepts and yet to use them in reality I'm unable to provide with complete feedback at the moment but once he retrieves his classes in September I should be able to notice and give you the feedback. For now I am happy with the classes and seeing an improvement in his understanding numbers and calculations.",
+    author: "Nityapriya Chandrashekhar",
+    role: "Parent of Yugan",
     rating: 5,
   },
 ];
+
+/** Short vs long groups — dots switch between these rows (full text, no ellipsis) */
+const CONTACT_SHORT_MAX_CHARS = 220;
+const shortTestimonials = testimonials.filter((t) => t.text.length <= CONTACT_SHORT_MAX_CHARS);
+const longTestimonials = testimonials.filter((t) => t.text.length > CONTACT_SHORT_MAX_CHARS);
+const testimonialPages = [
+  { label: "Short notes", items: shortTestimonials, cols: "md:grid-cols-2 lg:grid-cols-3" },
+  { label: "Detailed stories", items: longTestimonials, cols: "md:grid-cols-1 lg:grid-cols-2" },
+].filter((page) => page.items.length > 0);
 
 const faqs = [
   {
@@ -130,6 +165,7 @@ const initialContactForm = {
   name: "",
   email: "",
   phone: "",
+  phoneCountryId: DEFAULT_PHONE_COUNTRY_ID as string,
   subject: "",
   message: "",
 };
@@ -148,6 +184,16 @@ const Contact = () => {
   const [newsletter, setNewsletter] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [fieldErrors, setFieldErrors] = useState<ContactFieldErrors>({});
+  const [formStatus, setFormStatus] = useState<FormStatusState>(null);
+  const [testimonialPage, setTestimonialPage] = useState(0);
+
+  const totalTestimonialPages = Math.max(1, testimonialPages.length);
+  const safeTestimonialPage = Math.min(
+    Math.max(0, testimonialPage),
+    totalTestimonialPages - 1
+  );
+  const activeTestimonialPage = testimonialPages[safeTestimonialPage] ?? testimonialPages[0];
+  const visibleTestimonials = activeTestimonialPage?.items ?? [];
 
   const dismissErrors = (...keys: ContactFieldErrorKey[]) => {
     setFieldErrors((prev) => {
@@ -188,17 +234,36 @@ const Contact = () => {
     }
     setFieldErrors({});
     setIsSubmitting(true);
+    const payload = {
+      ...contactForm,
+      phone: formatPhoneWithCountry(contactForm.phoneCountryId, contactForm.phone),
+    };
     try {
       const { subject } = contactForm;
       if (subject === "feedback") {
-        await insertFeedback(contactForm, feedbackForm, newsletter);
-        toast.success("Feedback submitted successfully. Thank you!");
+        await insertFeedback(payload, feedbackForm, newsletter);
+        setFormStatus({
+          variant: "success",
+          title: "Thank you!",
+          message:
+            "We've received your feedback. We truly appreciate you taking the time to share your experience with us.",
+        });
       } else if (subject === "demo" || subject === "courses") {
-        await insertDemoRequest(contactForm, demoForm, newsletter);
-        toast.success("Demo request submitted successfully. We'll be in touch soon.");
+        await insertDemoRequest(payload, demoForm, newsletter);
+        setFormStatus({
+          variant: "success",
+          title: "You're all set!",
+          message:
+            "We've received your request. Our team will contact you shortly to help with the next steps.",
+        });
       } else {
-        await insertContactRequest(contactForm, newsletter);
-        toast.success("Message sent successfully. We'll get back to you soon.");
+        await insertContactRequest(payload, newsletter);
+        setFormStatus({
+          variant: "success",
+          title: "Thank you!",
+          message:
+            "We've received your message and will get back to you within 24 hours.",
+        });
       }
       setContactForm({ ...initialContactForm });
       setDemoForm({ ...initialDemoForm });
@@ -207,9 +272,11 @@ const Contact = () => {
       setFieldErrors({});
     } catch (err) {
       console.error(err);
-      const message =
-        err instanceof Error ? err.message : "Something went wrong. Please try again.";
-      toast.error(message);
+      setFormStatus({
+        variant: "error",
+        title: "We couldn't send your message",
+        message: SUBMIT_ERROR_MESSAGE,
+      });
     } finally {
       setIsSubmitting(false);
     }
@@ -220,14 +287,13 @@ const Contact = () => {
       <Navbar />
       <SocialSidebar />
 
+      <FormStatusModal status={formStatus} onClose={() => setFormStatus(null)} />
+
       {/* Global Impact Hero */}
       <GlobalHero
         onBookDemo={() => smoothScroll("contact-form")}
         onContact={() => smoothScroll("contact-form")}
       />
-
-      {/* Trust Section - Why Parents Trust Us */}
-      {/* <TrustSection /> */}
 
       {/* World Map Section - Bento-style shell (matches Vedic About Program) */}
       <section className="py-16 bg-muted/30 relative overflow-hidden">
@@ -352,21 +418,28 @@ const Contact = () => {
                 )}
               </div>
               <div className="grid md:grid-cols-2 gap-6 mb-6">
-                <FloatingLabelInput
+                <PhoneWithCountryInput
                   id="contactPhone"
                   label={
                     contactForm.subject === "demo" || contactForm.subject === "courses"
                       ? "Contact number (WhatsApp preferred)"
                       : "Phone Number"
                   }
-                  type="tel"
-                  inputMode={
-                    contactForm.subject === "demo" || contactForm.subject === "courses" ? "numeric" : undefined
-                  }
-                  value={contactForm.phone}
-                  onChange={(v) => {
-                    setContactForm({ ...contactForm, phone: v });
+                  countryId={contactForm.phoneCountryId}
+                  nationalNumber={contactForm.phone}
+                  onCountryIdChange={(countryId) => {
+                    setContactForm((prev) => ({ ...prev, phoneCountryId: countryId }));
                     dismissErrors("phone");
+                  }}
+                  onNationalNumberChange={(v) => {
+                    setContactForm((prev) => ({ ...prev, phone: v }));
+                    dismissErrors("phone");
+                  }}
+                  onNonDigitAttempt={() => {
+                    setFieldErrors((prev) => ({
+                      ...prev,
+                      phone: "Please enter numbers only.",
+                    }));
                   }}
                   required
                   error={fieldErrors.phone}
@@ -705,17 +778,68 @@ const Contact = () => {
             </p>
           </motion.div>
 
-          {/* Organic Cluster Layout */}
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
-            {testimonials.map((testimonial, index) => (
+          {/* Short notes / detailed stories — dots switch groups; full text always shown */}
+          <p className="text-center text-sm text-muted-foreground mb-6">
+            {activeTestimonialPage?.label}
+          </p>
+          <div
+            className={`grid gap-6 lg:gap-8 ${activeTestimonialPage?.cols ?? "md:grid-cols-2 lg:grid-cols-3"}`}
+          >
+            {visibleTestimonials.map((testimonial, index) => (
               <TestimonialBubble
-                key={testimonial.author}
+                key={`${safeTestimonialPage}-${testimonial.author}`}
                 {...testimonial}
                 index={index}
                 variant={index === 0 ? "featured" : "normal"}
               />
             ))}
           </div>
+
+          {totalTestimonialPages > 1 && (
+            <div className="mt-10 flex flex-wrap items-center justify-center gap-3 sm:gap-4">
+              <button
+                type="button"
+                onClick={() =>
+                  setTestimonialPage((page) =>
+                    page <= 0 ? totalTestimonialPages - 1 : page - 1
+                  )
+                }
+                className="flex h-10 w-10 items-center justify-center rounded-full border border-border bg-card text-foreground transition-all duration-300 hover:scale-105 hover:bg-muted sm:h-11 sm:w-11"
+                aria-label="Previous testimonials page"
+              >
+                <ChevronLeft className="h-5 w-5" />
+              </button>
+
+              <div className="flex items-center gap-1.5" role="tablist" aria-label="Testimonial pages">
+                {testimonialPages.map((page, i) => (
+                  <button
+                    key={page.label}
+                    type="button"
+                    role="tab"
+                    aria-selected={i === safeTestimonialPage}
+                    aria-label={page.label}
+                    onClick={() => setTestimonialPage(i)}
+                    className={`h-2 rounded-full transition-all duration-300 ${
+                      i === safeTestimonialPage
+                        ? "w-7 bg-gold"
+                        : "w-2 bg-muted-foreground/30 hover:bg-muted-foreground/50"
+                    }`}
+                  />
+                ))}
+              </div>
+
+              <button
+                type="button"
+                onClick={() =>
+                  setTestimonialPage((page) => (page + 1) % totalTestimonialPages)
+                }
+                className="flex h-10 w-10 items-center justify-center rounded-full border border-border bg-card text-foreground transition-all duration-300 hover:scale-105 hover:bg-muted sm:h-11 sm:w-11"
+                aria-label="Next testimonials page"
+              >
+                <ChevronRight className="h-5 w-5" />
+              </button>
+            </div>
+          )}
         </div>
       </section>
 
@@ -743,7 +867,7 @@ const Contact = () => {
                 name: "Instagram",
                 color: "#E4405F",
                 desc: "Daily tips & stories",
-                href: "https://www.instagram.com/tiny_vivid_minds",
+                href: SITE_LINKS.instagram,
               },
               {
                 icon: MessageCircle,
@@ -757,7 +881,7 @@ const Contact = () => {
                 name: "YouTube",
                 color: "#FF0000",
                 desc: "Tutorial videos",
-                href: "https://youtube.com/@tinyvividminds",
+                href: SITE_LINKS.youtube,
               },
             ].map((social, i) => (
               <motion.a

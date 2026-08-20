@@ -1,3 +1,5 @@
+import { isValidContactPhone, digitsOnlyPhone } from "@/config/phoneCountries";
+
 export type ContactFieldErrorKey =
   | "name"
   | "parentName"
@@ -19,10 +21,90 @@ export type ContactFieldErrorKey =
 
 export type ContactFieldErrors = Partial<Record<ContactFieldErrorKey, string>>;
 
-const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+/** Stricter than a naive "@" check — TLD must be letters, domain must be structured. */
+const EMAIL_RE =
+  /^[a-zA-Z0-9](?:[a-zA-Z0-9._%+-]{0,62}[a-zA-Z0-9])?@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z]{2,24})+$/;
+
+/** Common typos parents make — reject with a helpful hint. */
+const EMAIL_DOMAIN_TYPOS: Record<string, string> = {
+  "gma.com": "gmail.com",
+  "gmal.com": "gmail.com",
+  "gmial.com": "gmail.com",
+  "gamil.com": "gmail.com",
+  "gnail.com": "gmail.com",
+  "gmai.com": "gmail.com",
+  "gmail.co": "gmail.com",
+  "gmail.con": "gmail.com",
+  "gmail.cm": "gmail.com",
+  "gmail.cmo": "gmail.com",
+  "yaho.com": "yahoo.com",
+  "yahooo.com": "yahoo.com",
+  "yhoo.com": "yahoo.com",
+  "hotmial.com": "hotmail.com",
+  "hotmal.com": "hotmail.com",
+  "hotmail.co": "hotmail.com",
+  "outlok.com": "outlook.com",
+  "outllok.com": "outlook.com",
+  "outlook.co": "outlook.com",
+};
 
 function isBlank(s: string) {
   return !s.trim();
+}
+
+/** Keep digits only; optional max length (national number). */
+export function sanitizePhoneInput(value: string, maxDigits = 15): string {
+  return digitsOnlyPhone(value, maxDigits);
+}
+
+export function emailError(email: string): string | undefined {
+  if (isBlank(email)) {
+    return "Please enter your email address.";
+  }
+
+  const trimmed = email.trim();
+  if (/\s/.test(trimmed)) {
+    return "Please enter a valid email address (no spaces).";
+  }
+  if (!EMAIL_RE.test(trimmed)) {
+    return "Please enter a valid email address (example: name@gmail.com).";
+  }
+
+  const domain = trimmed.split("@")[1]?.toLowerCase() ?? "";
+  if (domain.includes("..")) {
+    return "Please enter a valid email address.";
+  }
+
+  const suggestion = EMAIL_DOMAIN_TYPOS[domain];
+  if (suggestion) {
+    return `Please check your email — did you mean @${suggestion}?`;
+  }
+
+  return undefined;
+}
+
+function phoneError(nationalNumber: string, countryId: string): string | undefined {
+  if (isBlank(countryId)) {
+    return "Please select a country code.";
+  }
+  if (isBlank(nationalNumber)) {
+    return "Please enter your phone number.";
+  }
+  if (/\D/.test(nationalNumber)) {
+    return "Please enter numbers only.";
+  }
+  if (!isValidContactPhone(countryId, nationalNumber)) {
+    return "Please enter a valid phone number for the selected country.";
+  }
+  return undefined;
+}
+
+function nameTooShort(name: string): boolean {
+  return name.trim().length > 0 && name.trim().length < 2;
+}
+
+function messageTooShort(message: string, min = 10): boolean {
+  return message.trim().length > 0 && message.trim().length < min;
 }
 
 export const CONTACT_FIRST_ERROR_ORDER: ContactFieldErrorKey[] = [
@@ -69,6 +151,7 @@ export type ContactShape = {
   name: string;
   email: string;
   phone: string;
+  phoneCountryId: string;
   subject: string;
   message: string;
 };
@@ -108,17 +191,18 @@ export function validateContactPageForm(
       sub === "feedback" || sub === "demo" || sub === "courses"
         ? "Please enter the student's full name."
         : "Please enter your full name.";
+  } else if (nameTooShort(contact.name)) {
+    e.name = "Please enter a valid name (at least 2 characters).";
   }
 
   if (sub === "feedback") {
     if (isBlank(feedback.parentName)) {
       e.parentName = "Please enter the parent's name.";
+    } else if (nameTooShort(feedback.parentName)) {
+      e.parentName = "Please enter a valid name (at least 2 characters).";
     }
-    if (isBlank(feedback.email)) {
-      e.feedbackEmail = "Please enter your email address.";
-    } else if (!EMAIL_RE.test(feedback.email.trim())) {
-      e.feedbackEmail = "Please enter a valid email address.";
-    }
+    const fbEmail = emailError(feedback.email);
+    if (fbEmail) e.feedbackEmail = fbEmail;
     if (isBlank(feedback.course)) {
       e.course = "Please select a program.";
     }
@@ -127,39 +211,35 @@ export function validateContactPageForm(
     }
     if (isBlank(feedback.message)) {
       e.feedbackMessage = "Please tell us about your experience.";
+    } else if (messageTooShort(feedback.message)) {
+      e.feedbackMessage = "Please share a bit more detail (at least 10 characters).";
     }
   } else {
-    if (isBlank(contact.email)) {
-      e.email = "Please enter your email address.";
-    } else if (!EMAIL_RE.test(contact.email.trim())) {
-      e.email = "Please enter a valid email address.";
-    }
+    const mailErr = emailError(contact.email);
+    if (mailErr) e.email = mailErr;
   }
 
-  if (isBlank(contact.phone)) {
-    e.phone =
-      sub === "demo" || sub === "courses"
-        ? "Please enter a 10-digit contact number (WhatsApp)."
-        : "Please enter your phone number.";
-  } else if (sub === "demo" || sub === "courses") {
-    const digits = contact.phone.replace(/\D/g, "");
-    if (digits.length !== 10) {
-      e.phone = "Please enter exactly 10 digits for your contact number.";
-    }
-  }
+  const phoneMsg = phoneError(contact.phone, contact.phoneCountryId);
+  if (phoneMsg) e.phone = phoneMsg;
 
   if (sub === "demo" || sub === "courses") {
     if (isBlank(demo.fatherName)) e.fatherName = "Please enter the father's name.";
+    else if (nameTooShort(demo.fatherName)) e.fatherName = "Please enter a valid name (at least 2 characters).";
     if (isBlank(demo.fatherOccupation)) e.fatherOccupation = "Please enter the father's occupation.";
     if (isBlank(demo.motherName)) e.motherName = "Please enter the mother's full name.";
+    else if (nameTooShort(demo.motherName)) e.motherName = "Please enter a valid name (at least 2 characters).";
     if (isBlank(demo.motherOccupation)) e.motherOccupation = "Please enter the mother's occupation.";
     if (isBlank(demo.gradeOrClass)) e.gradeOrClass = "Please enter the current grade or class.";
     if (isBlank(demo.cityAndState)) e.cityAndState = "Please enter city and state of residence.";
     if (isBlank(demo.motherTongue)) e.motherTongue = "Please enter mother tongue.";
   }
 
-  if (sub !== "feedback" && isBlank(contact.message)) {
-    e.message = "Please enter a message.";
+  if (sub !== "feedback") {
+    if (isBlank(contact.message)) {
+      e.message = "Please enter a message.";
+    } else if (messageTooShort(contact.message)) {
+      e.message = "Please enter a bit more detail (at least 10 characters).";
+    }
   }
 
   return e;

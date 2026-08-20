@@ -147,6 +147,14 @@ function AbacusCtrl() {
     }
   };
 
+  this.reset = function () {
+    for (let i = 0; i < this.nodes.length; i++) {
+      const b = this.nodes[i];
+      b.active = false;
+      b.targetY = b.inactiveY;
+    }
+  };
+
   this.tickAnimation = function (factor) {
     const f = factor == null ? 0.32 : factor;
     let moving = false;
@@ -423,6 +431,7 @@ function Abacus(parentDivId) {
       if (onClick) canvas.removeEventListener("click", onClick);
       if (onMove) canvas.removeEventListener("mousemove", onMove);
       if (onLeave) canvas.removeEventListener("mouseleave", onLeave);
+      canvas.remove();
     }
     onClick = null;
     onMove = null;
@@ -438,11 +447,25 @@ function Abacus(parentDivId) {
     drawFrame();
   };
 
+  this.reset = function () {
+    abacusCtrl.reset();
+    stopRaf();
+    rafId = requestAnimationFrame(loop);
+  };
+
   this.init = function () {
     const parent = document.getElementById(parentDivId);
     if (!parent) return;
 
+    // Clear this container and any orphaned canvases left as siblings
+    // (can happen after HMR / DOM structure changes around the mount point).
     parent.innerHTML = "";
+    const wrapper = parent.parentElement;
+    if (wrapper) {
+      wrapper.querySelectorAll("canvas.abacus-canvas").forEach((node) => {
+        if (node.parentElement !== parent) node.remove();
+      });
+    }
 
     const { logicalW, logicalH } = measureLogicalSize();
     abacusCtrl.init(logicalW, logicalH);

@@ -2,13 +2,14 @@ import { Link, useLocation } from "react-router-dom";
 import { Mail, Phone, MapPin, Instagram, Youtube, ArrowRight, MessageCircle, Send } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { CONTACT_DETAILS, SITE_LINKS, getMailtoHref, getPhoneHref, getWhatsAppUrl } from "@/config/siteLinks";
 
-const whatsAppUrl = import.meta.env.VITE_WHATSAPP_NUMBER ? `https://wa.me/${import.meta.env.VITE_WHATSAPP_NUMBER}` : "#";
+const whatsAppUrl = getWhatsAppUrl();
 
 const footerSocialLinks = [
   { Icon: MessageCircle, href: whatsAppUrl, label: "WhatsApp" },
-  { Icon: Instagram, href: "https://www.instagram.com/tiny_vivid_minds", label: "Instagram" },
-  { Icon: Youtube, href: "https://youtube.com/@tinyvividminds", label: "YouTube" },
+  { Icon: Instagram, href: SITE_LINKS.instagram, label: "Instagram" },
+  { Icon: Youtube, href: SITE_LINKS.youtube, label: "YouTube" },
 ] as const;
 
 export const Footer = () => {
@@ -100,19 +101,19 @@ export const Footer = () => {
               </li>
               <li className="flex items-center gap-3 group">
                 <Phone className="w-5 h-5 text-vedic-gold flex-shrink-0 group-hover:scale-110 transition-transform" />
-                <a href={`tel:${(import.meta.env.VITE_CONTACT_PHONE ?? "+1234567890").replace(/\s/g, "")}`} className="text-white/70 hover:text-vedic-gold transition-colors text-sm">
-                  {import.meta.env.VITE_CONTACT_PHONE ?? "+1 (234) 567-890"}
+                <a href={getPhoneHref()} className="text-white/70 hover:text-vedic-gold transition-colors text-sm">
+                  {CONTACT_DETAILS.phone}
                 </a>
               </li>
               <li className="flex items-center gap-3 group">
                 <Mail className="w-5 h-5 text-vedic-gold flex-shrink-0 group-hover:scale-110 transition-transform" />
-                <a href={`mailto:${import.meta.env.VITE_CONTACT_EMAIL ?? "info@example.com"}`} className="text-white/70 hover:text-vedic-gold transition-colors text-sm">
-                  {import.meta.env.VITE_CONTACT_EMAIL ?? "info@example.com"}
+                <a href={getMailtoHref()} className="text-white/70 hover:text-vedic-gold transition-colors text-sm">
+                  {CONTACT_DETAILS.email}
                 </a>
               </li>
               <li className="flex items-center gap-3 group">
                 <MessageCircle className="w-5 h-5 text-vedic-gold flex-shrink-0 group-hover:scale-110 transition-transform" />
-                <a href={import.meta.env.VITE_WHATSAPP_NUMBER ? `https://wa.me/${import.meta.env.VITE_WHATSAPP_NUMBER}` : "#"} className="text-white/70 hover:text-vedic-gold transition-colors text-sm">
+                <a href={whatsAppUrl} className="text-white/70 hover:text-vedic-gold transition-colors text-sm">
                   WhatsApp Us
                 </a>
               </li>
@@ -153,7 +154,7 @@ export const Footer = () => {
         <div className="container mx-auto py-3">
           <div className="flex flex-col md:flex-row items-center justify-between gap-4 text-white/50 text-sm">
             <p>© {currentYear} Tiny Vivid Minds. All rights reserved.</p>
-            <Link to="/contact" className="hover:text-vedic-gold transition-colors">
+            <Link to="/privacy-policy" className="hover:text-vedic-gold transition-colors">
               Privacy Policy
             </Link>
           </div>

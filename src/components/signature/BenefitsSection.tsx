@@ -2,7 +2,7 @@ import { useState } from "react";
 import { motion } from "framer-motion";
 import AnimatedSection from "@/components/AnimatedSection";
 import { Target, Brain, Users, TrendingUp } from "lucide-react";
-import childrenLearningImg from "@/assets/children-learning.jpg";
+import childrenLearningImg from "@/assets/students-learning/essential_learnings.png";
 
 const benefits = [
   {

@@ -1,4 +1,4 @@
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import { DiscoverProgramsLink } from "@/components/DiscoverProgramsLink";
 import { motion } from "framer-motion";
@@ -11,7 +11,8 @@ import {
   CheckCircle,
   Sparkles,
   Globe,
-  Mail
+  Mail,
+  RotateCcw
 } from "lucide-react";
 import FloatingMathSymbols from "@/components/FloatingMathSymbols";
 import HeroMathSymbols from "@/components/HeroMathSymbols";
@@ -50,17 +51,35 @@ const faqs = [
 
 const AbacusCourse = () => {
   const levelsRef = useRef<HTMLElement>(null);
+  const abacusRef = useRef<InstanceType<typeof Abacus> | null>(null);
+  const [isResetting, setIsResetting] = useState(false);
 
   const scrollToLevels = () => {
     levelsRef.current?.scrollIntoView({ behavior: "smooth" });
   };
 
+  const resetAbacus = () => {
+    if (isResetting) return;
+    setIsResetting(true);
+    abacusRef.current?.reset();
+    window.setTimeout(() => setIsResetting(false), 600);
+  };
+
   useEffect(() => {
     const el = document.getElementById("abacus-container");
     if (!el) return undefined;
+
+    // Remove any leftover boards from prior mounts / HMR before creating a new one.
+    el.innerHTML = "";
+    el.parentElement
+      ?.querySelectorAll("canvas.abacus-canvas")
+      .forEach((node) => node.remove());
+
     const abacus = new Abacus("abacus-container");
     abacus.init();
+    abacusRef.current = abacus;
     return () => {
+      abacusRef.current = null;
       abacus.destroy();
     };
   }, []);
@@ -263,10 +282,27 @@ const AbacusCourse = () => {
             </p>
           </AnimatedSection>
           <AnimatedSection animation="zoom" delay={100} className="mx-auto w-full max-w-6xl">
-            <div
-              id="abacus-container"
-              className="mx-auto mt-8 flex min-h-[220px] w-full justify-center overflow-x-auto rounded-2xl bg-white p-4 md:p-6 shadow-inner ring-1 ring-black/10"
-            />
+            <div className="relative mx-auto mt-8 rounded-2xl bg-white p-4 pb-10 shadow-inner ring-1 ring-black/10 md:p-6 md:pb-11">
+              <div
+                id="abacus-container"
+                className="mx-auto flex min-h-[220px] w-full justify-center overflow-x-auto"
+              />
+              <button
+                type="button"
+                onClick={resetAbacus}
+                className="group absolute bottom-2.5 left-1/2 z-10 inline-flex -translate-x-1/2 items-center gap-1.5 rounded-sm text-sm text-muted-foreground underline-offset-2 transition-colors hover:text-gold hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold/40 md:bottom-3"
+                aria-label="Reset abacus"
+              >
+                <RotateCcw
+                  className={
+                    isResetting
+                      ? "h-3.5 w-3.5 animate-[spin_0.55s_ease-out]"
+                      : "h-3.5 w-3.5 transition-transform duration-300 group-hover:-rotate-45"
+                  }
+                />
+                Reset
+              </button>
+            </div>
           </AnimatedSection>
         </div>
       </section>
