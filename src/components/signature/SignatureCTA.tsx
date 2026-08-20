@@ -16,7 +16,7 @@ const courseSymbols = [
 
 const SignatureCTA = () => {
   return (
-    <section className="relative py-24 overflow-hidden">
+    <section className="relative py-16 overflow-hidden">
       {/* Gradient Background */}
       <div className="absolute inset-0 bg-gradient-to-br from-vedic-navy via-vedic-navy-light to-vedic-teal-dark" />
       
@@ -85,7 +85,7 @@ const SignatureCTA = () => {
           >
             <span className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-vedic-gold/20 backdrop-blur-sm text-vedic-gold text-sm font-medium">
               <span className="w-2 h-2 rounded-full bg-vedic-gold animate-pulse" />
-              Limited Spots Available
+              Enrolling now
             </span>
           </motion.div>
 
@@ -96,7 +96,7 @@ const SignatureCTA = () => {
 
           <p className="text-lg md:text-xl text-white/80 mb-10 leading-relaxed">
             Help your child build essential skills in Math, HandWriting, and Phonetics — 
-            with engaging small group classes designed for maximum learning!
+            with structured, interactive live lessons designed to build strong fundamentals.
           </p>
 
           {/* CTA Buttons */}

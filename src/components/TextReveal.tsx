@@ -37,15 +37,16 @@ export const TextReveal = ({
   useEffect(() => {
     if (isVisible) {
       const timer = setTimeout(() => {
-        const duration = 800;
+        const duration = 1400;
         const start = Date.now();
 
         const animate = () => {
           const elapsed = Date.now() - start;
-          const newProgress = Math.min(elapsed / duration, 1);
-          setProgress(newProgress);
+          const t = Math.min(elapsed / duration, 1);
+          const eased = 1 - (1 - t) ** 3;
+          setProgress(eased);
 
-          if (newProgress < 1) {
+          if (t < 1) {
             requestAnimationFrame(animate);
           }
         };
@@ -60,16 +61,16 @@ export const TextReveal = ({
   return (
     <div ref={ref} className={cn("relative overflow-hidden", className)}>
       <div
-        className="transition-all duration-100 pt-[0.15em]"
+        className="pt-[0.15em] pb-[0.35em]"
         style={{
           clipPath: `inset(0 ${100 - progress * 100}% 0 0)`,
         }}
       >
         {children}
       </div>
-      {/* Reveal line effect */}
+      {/* Same `progress` as clip-path — no CSS transition on `left` (that lagged the wipe) */}
       <div
-        className="absolute top-0 bottom-0 w-0.5 bg-gradient-to-b from-vedic-gold via-vedic-gold to-transparent transition-all duration-100"
+        className="pointer-events-none absolute top-0 bottom-0 w-0.5 bg-gradient-to-b from-vedic-gold via-vedic-gold to-transparent"
         style={{
           left: `${progress * 100}%`,
           opacity: progress > 0 && progress < 1 ? 1 : 0,

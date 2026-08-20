@@ -6,8 +6,8 @@ import { Menu, X, ChevronDown, LogIn, Calculator, Brain, GraduationCap } from "l
 // import { useTheme } from "next-themes";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
-import logoDarkTheme from "../assets/logo_dark_theme.png";
-import logoLightNavbar from "../assets/logo_white_theme.png";
+import logoDarkTheme from "../assets/TVM_logo/tiny_vivid_minds_logo_dark_theme_high_res.png";
+import logoLightNavbar from "../assets/TVM_logo/tiny_vivid_minds_logo_high_res.png";
 import {
   DropdownMenu,
   DropdownMenuContent,

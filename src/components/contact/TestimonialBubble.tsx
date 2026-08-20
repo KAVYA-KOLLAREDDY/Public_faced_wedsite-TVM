@@ -59,8 +59,8 @@ const TestimonialBubble = ({
           ))}
         </div>
 
-        {/* Text */}
-        <p className="text-foreground/90 leading-relaxed mb-4 text-sm md:text-base">
+        {/* Full text — no truncation; long/short grouped by Contact page layout */}
+        <p className="flex-1 text-foreground/90 leading-relaxed mb-4 text-sm md:text-base">
           "{text}"
         </p>
 

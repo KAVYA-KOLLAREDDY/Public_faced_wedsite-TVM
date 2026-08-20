@@ -28,10 +28,10 @@ import { SocialSidebar } from "@/components/SocialSidebar";
 import { FuturisticHero } from "@/components/home/FuturisticHero";
 import { DiscoverProgramsLink } from "@/components/DiscoverProgramsLink";
 import { DISCOVER_PROGRAMS_HASH } from "@/lib/homeAnchors";
-import childrenLearning from "@/assets/children-learning.jpg";
-import teamTeacher from "@/assets/team-teacher1.jpg";
-import abacusHands from "@/assets/abacus-hands.jpg";
-import vedicCourse from "@/assets/vedic-math-course.jpg";
+import childrenLearning from "@/assets/students-learning/children-learning.jpg";
+import teamTeacher from "@/assets/students-learning/certified.png";
+import abacusHands from "@/assets/students-learning/abacus.png";
+import vedicCourse from "@/assets/students-learning/vedic-math.png";
 
 const programs = [
   {
@@ -77,34 +77,54 @@ const whyChooseFeatures = [
 
 const testimonials = [
   {
-    name: "Sunita Krishnan",
+    name: "Rama Devi",
     role: "Parent",
-    childName: "Arjun",
+    childName: "her child",
     childAge: 8,
     rating: 5,
     message:
-      "My son went from struggling with basic math to doing 3-digit multiplications in his head. The Vedic methods are truly magical!",
+      "We are very happy with the classes. Thank you for conducting such wonderful classes. My child is enjoying the sessions and is excited to attend them every time. The teaching is interactive, and the concepts are explained in a simple way that is easy for children to understand. I can see a positive change in my child's interest and confidence. We truly appreciate your hard work and care. Thank you!",
     date: "2024-01-15",
   },
   {
-    name: "Rajesh Patel",
+    name: "Bharathi",
     role: "Parent",
-    childName: "Priya",
-    childAge: 6,
+    childName: "her child",
+    childAge: 8,
     rating: 5,
     message:
-      "The abacus training has transformed my daughter's confidence in math. She now loves solving problems and even teaches her friends!",
+      "We can clearly see a positive change in our child's concentration and confidence. Thank you for your wonderful guidance and care.",
     date: "2024-02-20",
   },
   {
-    name: "Anita Sharma",
+    name: "Bhavani Ashok",
     role: "Parent",
-    childName: "Rahul",
+    childName: "her son",
     childAge: 10,
     rating: 5,
     message:
-      "Tiny Vivid Minds' personalized approach helped my child overcome math anxiety. The teachers are patient and incredibly skilled.",
+      "Previously my son used to take class with one of the teachers and then it did not work out properly. But he is doing good with the concept so I approached TVM team they allotted us a new teacher. Surprisingly from day 1 she is teaching beautifully in the class. Now my son is in level 7 and he is doing a great job. Thank you mam.",
     date: "2024-03-10",
+  },
+  {
+    name: "Hiryanya",
+    role: "Parent",
+    childName: "her child",
+    childAge: 8,
+    rating: 5,
+    message:
+      "Very clear explanation and impressed with the way Sai Tejasvi mam is teaching my child.",
+    date: "2024-04-05",
+  },
+  {
+    name: "Shalini",
+    role: "Parent",
+    childName: "her son",
+    childAge: 9,
+    rating: 5,
+    message:
+      "My son is doing good with calculations after joining in Tiny Vivid Minds. But the teacher is little strict.",
+    date: "2024-05-12",
   },
 ];
 
@@ -231,7 +251,7 @@ const Index = () => {
       {/* Programs Section */}
       <section
         id={DISCOVER_PROGRAMS_HASH}
-        className="scroll-mt-[1.5rem] pt-10 pb-24 sm:pt-14 md:pt-20 lg:pt-24 bg-background relative overflow-hidden"
+        className="scroll-mt-[1.5rem] pt-6 pb-16 sm:pt-10 md:pt-14 lg:pt-16 bg-background relative overflow-hidden"
       >
         <MathBackground />
         <div className="absolute top-20 right-10 w-32 h-32 border border-gold/10 rounded-full animate-float-slow" />
@@ -313,7 +333,7 @@ const Index = () => {
       </section>
 
       {/* Mission Section - Fixed Image */}
-      <section className="py-24 bg-muted/30 relative overflow-hidden">
+      <section className="py-16 bg-muted/30 relative overflow-hidden">
         <div
           className="absolute top-10 left-10 w-40 h-40 bg-gold/5 rounded-full blur-3xl animate-float"
           style={{ animationDelay: "200ms" }}
@@ -355,7 +375,7 @@ const Index = () => {
       </section>
 
       {/* Why Choose Section - Clean Cards */}
-      <section className="py-24 bg-background relative overflow-hidden">
+      <section className="py-16 bg-background relative overflow-hidden">
         <MathBackground />
 
         <div className="container mx-auto relative z-10">
@@ -390,7 +410,7 @@ const Index = () => {
       </section>
 
       {/* Trust Section */}
-      <section className="py-24 bg-muted/30 relative overflow-hidden">
+      <section className="py-16 bg-muted/30 relative overflow-hidden">
         <div
           className="absolute top-40 right-10 w-20 h-20 bg-gold/5 rounded-full animate-float"
           style={{ animationDelay: "100ms" }}
@@ -474,7 +494,7 @@ const Index = () => {
       </section>
 
       {/* Testimonials Section */}
-      <section className="py-24 bg-background relative overflow-hidden">
+      <section className="py-16 bg-background relative overflow-hidden">
         <div className="absolute top-10 left-1/4 w-20 h-20 border border-gold/10 rounded-full animate-float" />
         <div
           className="absolute bottom-10 right-1/4 w-16 h-16 bg-teal/5 rotate-45 animate-float"
@@ -552,7 +572,7 @@ const Index = () => {
       </section> 
 
       {/* Learning Moments Section - Fixed Images */}
-      <section className="py-24 bg-muted/30 relative overflow-hidden">
+      <section className="py-16 bg-muted/30 relative overflow-hidden">
         <MathBackground />
         <div className="absolute top-20 left-20 w-24 h-24 border border-gold/10 rounded-full animate-float-slow" />
 
@@ -597,8 +617,8 @@ const Index = () => {
         </div>
       </section>
 
-      {/* FAQ Section */}
-     <section className="py-24 bg-background relative overflow-hidden">
+      {/* FAQ Section
+      <section className="py-16 bg-background relative overflow-hidden">
         <div
           className="absolute top-20 right-20 w-16 h-16 bg-gold/5 rotate-45 animate-float"
           style={{ animationDelay: "200ms" }}
@@ -651,9 +671,10 @@ const Index = () => {
           </div>
         </div>
       </section> 
+      */}
 
       {/* Contact CTA Section */}
-      <section className="py-24 bg-muted/30 relative overflow-hidden">
+      <section className="py-16 bg-muted/30 relative overflow-hidden">
         <MathBackground />
         <div
           className="absolute top-20 right-1/4 w-24 h-24 bg-teal/5 rounded-full animate-float"
@@ -682,7 +703,7 @@ const Index = () => {
       </section>
 
       {/* Final CTA Section */}
-      <section className="py-24 bg-gradient-to-br from-gold/10 via-background to-teal/10 relative overflow-hidden">
+      <section className="py-16 bg-gradient-to-br from-gold/10 via-background to-teal/10 relative overflow-hidden">
         <div className="absolute top-10 left-10 w-20 h-20 border-2 border-gold/20 rotate-45 animate-float" />
         <div className="absolute bottom-10 right-10 w-16 h-16 bg-teal/10 rounded-full animate-float-slow" />
         <div

@@ -3,10 +3,10 @@ import { Star, CheckCircle } from 'lucide-react';
 
 const testimonials = [
   {
-    name: "Priya Sharma",
-    childName: "Aarav",
-    childAge: 10,
-    content: "My son now solves multiplication problems faster than I can reach for a calculator! The Vedic methods have truly transformed his confidence.",
+    name: "Amaya",
+    childName: "Amaya",
+    childAge: 14,
+    content: "Vedic maths concepts were useful and I can use it in high school grades. Teacher is explaining very clearly and she is noting that every student understood the concept with more examples and home work. I love the way she carries in class.",
     rating: 5
   },
   {

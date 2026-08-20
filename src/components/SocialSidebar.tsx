@@ -12,6 +12,7 @@ import {
   // Twitter,
   // Send,
 } from "lucide-react";
+import { SITE_LINKS, getWhatsAppUrl } from "@/config/siteLinks";
 
 interface SocialLink {
   name: string;
@@ -21,8 +22,7 @@ interface SocialLink {
   hoverColor: string;
 }
 
-const whatsAppUrl = import.meta.env.VITE_WHATSAPP_NUMBER ? `https://wa.me/${import.meta.env.VITE_WHATSAPP_NUMBER}` : "#";
-// const contactEmail = import.meta.env.VITE_CONTACT_EMAIL ?? "info@example.com";
+const whatsAppUrl = getWhatsAppUrl();
 
 /**
  * Sidebar + “Follow us” modal: YouTube, WhatsApp, Instagram only (for now).
@@ -40,14 +40,14 @@ const socialLinks: SocialLink[] = [
   {
     name: "YouTube",
     icon: Youtube,
-    url: "https://youtube.com/@tinyvividminds",
+    url: SITE_LINKS.youtube,
     color: "#ff0000",
     hoverColor: "#cc0000",
   },
   {
     name: "Instagram",
     icon: Instagram,
-    url: "https://www.instagram.com/tiny_vivid_minds",
+    url: SITE_LINKS.instagram,
     color: "#e4405f",
     hoverColor: "#c13584",
   },

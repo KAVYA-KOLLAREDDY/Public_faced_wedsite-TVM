@@ -80,7 +80,7 @@ const VedicMathCourse = () => {
       <SocialSidebar />
 
       {/* Hero Section - Matching Home Page Style */}
-      <section className="relative min-h-screen flex items-center pt-20 overflow-hidden">
+      <section className="relative min-h-screen flex items-center pt-16 overflow-hidden">
         <div 
           className="absolute inset-0"
           style={{ background: 'linear-gradient(135deg, hsl(var(--navy)) 0%, hsl(var(--navy-light)) 50%, hsl(var(--teal-dark)) 100%)' }}
@@ -168,7 +168,7 @@ const VedicMathCourse = () => {
       <StatsBar />
 
       {/* Why Choose Vedic Maths - Matching Programs Section Style */}
-      <section className="py-24 bg-background relative overflow-hidden">
+      <section className="py-16 bg-background relative overflow-hidden">
         {/* Decorative elements */}
         <div className="absolute top-20 right-10 w-32 h-32 border border-gold/10 rounded-full animate-float-slow" />
         <div className="absolute bottom-20 left-10 w-20 h-20 bg-teal/5 rotate-45 animate-bounce-gentle" />
@@ -231,15 +231,15 @@ const VedicMathCourse = () => {
       </section>
 
       {/* About Program - Bento Grid */}
-      <section className="py-24 bg-muted/30 relative overflow-hidden">
+      <section className="py-16 bg-muted/30 relative overflow-hidden">
         <div className="absolute top-10 left-10 w-40 h-40 bg-gold/5 rounded-full blur-3xl animate-zoom" />
         <div className="absolute bottom-10 right-20 w-32 h-32 bg-teal/5 rounded-full blur-2xl animate-float-slow" />
         
         <ParallaxWatermark text="LEARN" className="-right-20 top-1/4" speed={0.12} />
         
-        <div className="container mx-auto relative z-10">
-          <AnimatedSection className="text-center max-w-3xl mx-auto mb-16">
-            <span className="inline-block px-4 py-2 bg-teal/10 text-teal font-semibold tracking-wider uppercase text-sm rounded-full mb-4">
+        <div className="container mx-auto px-6 relative z-10">
+          <AnimatedSection className="text-center max-w-3xl mx-auto mb-10">
+            <span className="inline-block px-4 py-2 bg-teal/10 text-teal font-semibold tracking-wider uppercase text-sm rounded-full mb-3">
               About the Program
             </span>
             <h2 className="font-display text-4xl md:text-5xl font-bold text-foreground mb-6">
@@ -255,7 +255,7 @@ const VedicMathCourse = () => {
       </section>
 
       {/* Auto-Glide Levels */}
-      <section ref={levelsRef} id="levels" className="relative overflow-x-clip overflow-y-visible pt-16 pb-28 sm:pt-20 sm:pb-24 md:py-24">
+      <section ref={levelsRef} id="levels" className="relative overflow-x-clip overflow-y-visible pt-12 pb-16 sm:pt-14 sm:pb-20 md:py-16">
         <div 
           className="absolute inset-0"
           style={{ 
@@ -288,7 +288,7 @@ const VedicMathCourse = () => {
       </section>
 
       {/* Benefits Section */}
-      <section className="py-24 bg-background relative overflow-hidden">
+      <section className="py-16 bg-background relative overflow-hidden">
         <div className="container mx-auto">
           <AnimatedSection className="text-center max-w-3xl mx-auto mb-16">
             <span className="inline-block px-4 py-2 bg-teal/10 text-teal font-semibold tracking-wider uppercase text-sm rounded-full mb-4">
@@ -323,8 +323,9 @@ const VedicMathCourse = () => {
         </div>
       </section>
 
-      {/* Global Access - World Map Background Style */}
-      <section className="py-[120px] relative overflow-hidden group/section">
+      {/* Global Access - World Map Background Style (commented out as requested) */}
+      {false && (
+      <section className="py-16 md:py-20 relative overflow-hidden group/section">
         {/* World Map Background with subtle animation */}
         <div className="absolute inset-0 transition-transform duration-1000 group-hover/section:scale-105">
           <img 
@@ -405,9 +406,10 @@ const VedicMathCourse = () => {
           </div>
         </div>
       </section>
+      )}
 
       {/* Testimonials - Infinite Slider */}
-      <section className="py-24 bg-muted/30 overflow-hidden">
+      <section className="py-16 bg-muted/30 overflow-hidden">
         <div className="container mx-auto">
           <AnimatedSection className="text-center mb-12">
             <span className="inline-block px-4 py-2 bg-gold/10 text-gold font-semibold tracking-wider uppercase text-sm rounded-full mb-4">
@@ -426,7 +428,7 @@ const VedicMathCourse = () => {
       </section>
 
       {/* FAQ Section */}
-      <section className="py-24 bg-background relative overflow-hidden">
+      <section className="py-16 bg-background relative overflow-hidden">
         <div className="container mx-auto">
           <div className="grid lg:grid-cols-2 gap-12 items-start max-w-5xl mx-auto">
             <AnimatedSection animation="fade-right">
@@ -457,7 +459,7 @@ const VedicMathCourse = () => {
       </section>
 
       {/* Final CTA - Matching Home Hero Style */}
-      <section className="py-24 relative overflow-hidden">
+      <section className="py-16 relative overflow-hidden">
         <div 
           className="absolute inset-0"
           style={{ background: 'linear-gradient(135deg, hsl(var(--navy)) 0%, hsl(var(--navy-light)) 50%, hsl(var(--teal-dark)) 100%)' }}

@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Plus, Minus } from 'lucide-react';
+import { ChevronDown } from 'lucide-react';
 import { AnimatedSection } from '@/components/AnimatedSection';
 
 interface FAQ {
@@ -64,12 +64,14 @@ export const VedicFAQ = () => {
                     flex-shrink-0 w-8 h-8 rounded-lg flex items-center justify-center
                     transition-all duration-300
                     ${isOpen 
-                      ? 'bg-primary text-primary-foreground rotate-0' 
+                      ? 'bg-primary text-primary-foreground' 
                       : 'bg-muted text-muted-foreground hover:bg-primary/20 hover:text-primary'
                     }
                   `}
                 >
-                  {isOpen ? <Minus className="w-4 h-4" /> : <Plus className="w-4 h-4" />}
+                  <ChevronDown
+                    className={`w-4 h-4 transition-all duration-500 ${isOpen ? 'rotate-180 scale-110' : 'rotate-0'}`}
+                  />
                 </div>
               </button>
 

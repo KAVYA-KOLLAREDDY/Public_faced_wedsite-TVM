@@ -1,11 +1,19 @@
-import { Link, useLocation, useNavigate } from "react-router-dom";
-import { Mail, Phone, MapPin, Facebook, Twitter, Instagram, Youtube, ArrowRight, MessageCircle, Send } from "lucide-react";
+import { Link, useLocation } from "react-router-dom";
+import { Mail, Phone, MapPin, Instagram, Youtube, ArrowRight, MessageCircle, Send } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { CONTACT_DETAILS, SITE_LINKS, getMailtoHref, getPhoneHref, getWhatsAppUrl } from "@/config/siteLinks";
+
+const whatsAppUrl = getWhatsAppUrl();
+
+const footerSocialLinks = [
+  { Icon: MessageCircle, href: whatsAppUrl, label: "WhatsApp" },
+  { Icon: Instagram, href: SITE_LINKS.instagram, label: "Instagram" },
+  { Icon: Youtube, href: SITE_LINKS.youtube, label: "YouTube" },
+] as const;
 
 export const Footer = () => {
   const location = useLocation();
-  const navigate = useNavigate();
   const currentYear = new Date().getFullYear();
 
   const scrollToContactForm = (e: React.MouseEvent) => {
@@ -13,17 +21,6 @@ export const Footer = () => {
       e.preventDefault();
       document.getElementById("contact-form")?.scrollIntoView({ behavior: "smooth", block: "start" });
       window.history.replaceState(null, "", "/contact#contact-form");
-    }
-  };
-
-  const goToContactUsTab = (e: React.MouseEvent) => {
-    if (location.pathname === "/contact") {
-      e.preventDefault();
-      navigate("/contact?tab=contact#contact-form");
-      // Always scroll to form (when URL is already the same, navigate is a no-op so we scroll here)
-      setTimeout(() => {
-        document.getElementById("contact-form")?.scrollIntoView({ behavior: "smooth", block: "start" });
-      }, 0);
     }
   };
 
@@ -44,7 +41,7 @@ export const Footer = () => {
       <div className="absolute bottom-0 right-0 w-96 h-96 bg-vedic-teal/5 rounded-full blur-3xl" />
 
       {/* Main Footer */}
-      <div className="container mx-auto py-12 sm:py-16 relative z-10">
+      <div className="container mx-auto py-6 sm:py-8 relative z-10">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10">
           
           {/* Brand Section */}
@@ -61,15 +58,12 @@ export const Footer = () => {
               We are dedicated to making mathematics fun, engaging, and accessible through innovative teaching methods including Abacus (ages 3-8), Vedic Maths (ages above 12), and personalized coaching (any age).
             </p>
             <div className="flex gap-3">
-              {[
-                { Icon: Facebook, href: "#", label: "Facebook" },
-                { Icon: Instagram, href: "#", label: "Instagram" },
-                { Icon: Youtube, href: "#", label: "YouTube" },
-                { Icon: Twitter, href: "#", label: "Twitter" },
-              ].map(({ Icon, href, label }) => (
+              {footerSocialLinks.map(({ Icon, href, label }) => (
                 <a
                   key={label}
                   href={href}
+                  target="_blank"
+                  rel="noopener noreferrer"
                   aria-label={label}
                   className="w-10 h-10 bg-white/10 rounded-full flex items-center justify-center hover:bg-vedic-gold hover:text-vedic-navy transition-all duration-300 transform hover:-translate-y-1 hover:shadow-lg hover:shadow-vedic-gold/30"
                 >
@@ -107,19 +101,19 @@ export const Footer = () => {
               </li>
               <li className="flex items-center gap-3 group">
                 <Phone className="w-5 h-5 text-vedic-gold flex-shrink-0 group-hover:scale-110 transition-transform" />
-                <a href={`tel:${(import.meta.env.VITE_CONTACT_PHONE ?? "+1234567890").replace(/\s/g, "")}`} className="text-white/70 hover:text-vedic-gold transition-colors text-sm">
-                  {import.meta.env.VITE_CONTACT_PHONE ?? "+1 (234) 567-890"}
+                <a href={getPhoneHref()} className="text-white/70 hover:text-vedic-gold transition-colors text-sm">
+                  {CONTACT_DETAILS.phone}
                 </a>
               </li>
               <li className="flex items-center gap-3 group">
                 <Mail className="w-5 h-5 text-vedic-gold flex-shrink-0 group-hover:scale-110 transition-transform" />
-                <a href={`mailto:${import.meta.env.VITE_CONTACT_EMAIL ?? "info@example.com"}`} className="text-white/70 hover:text-vedic-gold transition-colors text-sm">
-                  {import.meta.env.VITE_CONTACT_EMAIL ?? "info@example.com"}
+                <a href={getMailtoHref()} className="text-white/70 hover:text-vedic-gold transition-colors text-sm">
+                  {CONTACT_DETAILS.email}
                 </a>
               </li>
               <li className="flex items-center gap-3 group">
                 <MessageCircle className="w-5 h-5 text-vedic-gold flex-shrink-0 group-hover:scale-110 transition-transform" />
-                <a href={import.meta.env.VITE_WHATSAPP_NUMBER ? `https://wa.me/${import.meta.env.VITE_WHATSAPP_NUMBER}` : "#"} className="text-white/70 hover:text-vedic-gold transition-colors text-sm">
+                <a href={whatsAppUrl} className="text-white/70 hover:text-vedic-gold transition-colors text-sm">
                   WhatsApp Us
                 </a>
               </li>
@@ -145,33 +139,24 @@ export const Footer = () => {
                 <Send className="w-4 h-4" />
               </Button>
             </div>
-            <div className="space-y-2">
-              <Button asChild className="w-full bg-gradient-to-r from-vedic-gold to-vedic-gold-light text-vedic-navy font-semibold hover:shadow-lg hover:shadow-vedic-gold/30 transition-all">
-                <Link to="/contact#contact-form" onClick={scrollToContactForm}>
-                  <Mail className="w-4 h-4 mr-2" />
-                  Contact Us
-                </Link>
-              </Button>
-              <Button asChild variant="outline" className="w-full border-vedic-gold/50 text-vedic-gold hover:bg-vedic-gold hover:text-vedic-navy transition-all">
-                <Link to="/contact?tab=contact#contact-form" onClick={goToContactUsTab}>
-                  Join Our Team
-                </Link>
-              </Button>
-            </div>
+            <Button asChild className="w-full bg-gradient-to-r from-vedic-gold to-vedic-gold-light text-vedic-navy font-semibold hover:shadow-lg hover:shadow-vedic-gold/30 transition-all">
+              <Link to="/contact#contact-form" onClick={scrollToContactForm}>
+                <Mail className="w-4 h-4 mr-2" />
+                Contact Us
+              </Link>
+            </Button>
           </div>
         </div>
       </div>
 
       {/* Bottom Bar */}
       <div className="border-t border-white/10 relative z-10">
-        <div className="container mx-auto py-6">
+        <div className="container mx-auto py-3">
           <div className="flex flex-col md:flex-row items-center justify-between gap-4 text-white/50 text-sm">
             <p>© {currentYear} Tiny Vivid Minds. All rights reserved.</p>
-            <div className="flex gap-6">
-              <Link to="/contact" className="hover:text-vedic-gold transition-colors">Privacy Policy</Link>
-              <Link to="/contact" className="hover:text-vedic-gold transition-colors">Terms of Service</Link>
-              <Link to="/contact" className="hover:text-vedic-gold transition-colors">Refund Policy</Link>
-            </div>
+            <Link to="/privacy-policy" className="hover:text-vedic-gold transition-colors">
+              Privacy Policy
+            </Link>
           </div>
         </div>
       </div>

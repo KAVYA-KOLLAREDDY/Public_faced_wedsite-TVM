@@ -1,4 +1,4 @@
-import { useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import { DiscoverProgramsLink } from "@/components/DiscoverProgramsLink";
 import { motion } from "framer-motion";
@@ -9,12 +9,10 @@ import {
   Zap, 
   Eye, 
   CheckCircle,
-  Users,
-  Trophy,
-  Headphones,
   Sparkles,
   Globe,
-  Mail
+  Mail,
+  RotateCcw
 } from "lucide-react";
 import FloatingMathSymbols from "@/components/FloatingMathSymbols";
 import HeroMathSymbols from "@/components/HeroMathSymbols";
@@ -34,17 +32,13 @@ import StackedLevelCards from "@/components/levels/StackedLevelCards";
 import BentoFeatures from "@/components/abacus/BentoFeatures";
 import TestimonialsWithPagination from "@/components/abacus/TestimonialsWithPagination";
 import PremiumAccordion from "@/components/abacus/PremiumAccordion";
+import StatsBar from "@/components/vedic/StatsBar";
+import Abacus from "@/utils/abacus";
 
 const benefits = [
   { icon: Brain, title: "Brain Development", description: "Stimulates both hemispheres, enhancing cognitive abilities." },
   { icon: Zap, title: "Speed & Accuracy", description: "Perform complex calculations faster than a calculator." },
   { icon: Eye, title: "Visual Learning", description: "Makes abstract concepts concrete and understandable." },
-];
-
-const stats = [
-  { icon: Trophy, value: "Level 12", label: "Mastery" },
-  { icon: Headphones, value: "Live 1-on-1", label: "Support" },
-  { icon: Users, value: "Group Sessions", label: "Students" },
 ];
 
 const faqs = [
@@ -57,10 +51,38 @@ const faqs = [
 
 const AbacusCourse = () => {
   const levelsRef = useRef<HTMLElement>(null);
+  const abacusRef = useRef<InstanceType<typeof Abacus> | null>(null);
+  const [isResetting, setIsResetting] = useState(false);
 
   const scrollToLevels = () => {
     levelsRef.current?.scrollIntoView({ behavior: "smooth" });
   };
+
+  const resetAbacus = () => {
+    if (isResetting) return;
+    setIsResetting(true);
+    abacusRef.current?.reset();
+    window.setTimeout(() => setIsResetting(false), 600);
+  };
+
+  useEffect(() => {
+    const el = document.getElementById("abacus-container");
+    if (!el) return undefined;
+
+    // Remove any leftover boards from prior mounts / HMR before creating a new one.
+    el.innerHTML = "";
+    el.parentElement
+      ?.querySelectorAll("canvas.abacus-canvas")
+      .forEach((node) => node.remove());
+
+    const abacus = new Abacus("abacus-container");
+    abacus.init();
+    abacusRef.current = abacus;
+    return () => {
+      abacusRef.current = null;
+      abacus.destroy();
+    };
+  }, []);
 
   return (
     <div className="min-h-screen min-w-0 bg-background overflow-x-clip">
@@ -68,7 +90,7 @@ const AbacusCourse = () => {
       <SocialSidebar />
 
       {/* Hero Section - Matching Home Page Style */}
-      <section className="relative min-h-screen flex items-center pt-20 overflow-hidden">
+      <section className="relative min-h-screen flex items-center pt-16 overflow-hidden">
         <div 
           className="absolute inset-0"
           style={{ background: 'linear-gradient(135deg, hsl(var(--navy)) 0%, hsl(var(--navy-light)) 50%, hsl(var(--teal-dark)) 100%)' }}
@@ -152,33 +174,10 @@ const AbacusCourse = () => {
       </section>
 
       {/* Stats Bar - Below Hero */}
-      <div className="relative border-y border-border bg-gradient-to-r from-gold/5 via-transparent to-teal/5 py-6">
-        <div className="container mx-auto px-2 sm:px-4">
-          <div className="mx-auto grid max-w-4xl grid-cols-3 gap-2 sm:gap-8 md:gap-16">
-            {stats.map((stat) => (
-              <div
-                key={stat.label}
-                className="stat-card-warm group flex cursor-default flex-col items-center rounded-xl px-1 py-2 text-center sm:px-3 sm:py-3"
-              >
-                <div className="stat-icon mb-2 flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-gradient-to-br from-gold/20 to-teal/20 transition-all duration-300 sm:h-11 sm:w-11">
-                  <stat.icon className="h-5 w-5 text-gold" />
-                </div>
-                <div className="flex min-h-[2.5rem] w-full items-center justify-center px-0.5">
-                  <span className="text-balance text-base font-bold tabular-nums text-foreground group-hover:text-gold transition-colors duration-300 sm:text-lg md:text-xl">
-                    {stat.value}
-                  </span>
-                </div>
-                <span className="mt-1 line-clamp-2 min-h-[2.5rem] max-w-[10rem] text-[11px] leading-tight text-muted-foreground sm:max-w-none sm:text-xs md:text-sm">
-                  {stat.label}
-                </span>
-              </div>
-            ))}
-          </div>
-        </div>
-      </div>
+      <StatsBar stackedMobileThree />
 
       {/* Benefits Section - Matching Programs Section Style */}
-      <section className="py-24 bg-background relative overflow-hidden">
+      <section className="py-16 bg-background relative overflow-hidden">
         {/* Decorative elements */}
         <div className="absolute top-20 right-10 w-32 h-32 border border-gold/10 rounded-full animate-float-slow" />
         <div className="absolute bottom-20 left-10 w-20 h-20 bg-teal/5 rotate-45 animate-bounce-gentle" />
@@ -229,7 +228,7 @@ const AbacusCourse = () => {
       </section>
 
       {/* Progressive Levels Section */}
-      <section ref={levelsRef} className="relative overflow-x-clip overflow-y-visible pt-16 pb-28 sm:pt-20 sm:pb-24 md:py-24">
+      <section ref={levelsRef} className="relative overflow-x-clip overflow-y-visible pt-12 pb-16 sm:pt-14 sm:pb-20 md:py-16">
         <div 
           className="absolute inset-0"
           style={{ 
@@ -261,8 +260,55 @@ const AbacusCourse = () => {
         </div>
       </section>
 
+       {/* Online Abacus Simulator — below Virtual Tools (bento) / global block, above testimonials */}
+       <section
+        className="abacus-simulator-section py-12 md:py-16 px-5 text-center bg-muted/40 border-y border-border/60"
+        aria-labelledby="abacus-simulator-heading"
+      >
+        <div className="container mx-auto">
+          <AnimatedSection animation="fade-up" className="mb-4 text-center max-w-3xl mx-auto">
+            <span className="inline-block px-4 py-2 bg-gold/10 text-gold font-semibold tracking-wider uppercase text-sm rounded-full mb-4">
+              Interactive
+            </span>
+            <h2
+              id="abacus-simulator-heading"
+              className="font-display text-3xl md:text-4xl lg:text-5xl font-bold text-foreground mb-4"
+            >
+              Try Our Online Abacus Simulator
+            </h2>
+            <p className="text-muted-foreground text-base md:text-lg max-w-2xl mx-auto leading-relaxed">
+              Experience how abacus learning works in real time. Click on beads and explore numbers
+              interactively.
+            </p>
+          </AnimatedSection>
+          <AnimatedSection animation="zoom" delay={100} className="mx-auto w-full max-w-6xl">
+            <div className="relative mx-auto mt-8 rounded-2xl bg-white p-4 pb-10 shadow-inner ring-1 ring-black/10 md:p-6 md:pb-11">
+              <div
+                id="abacus-container"
+                className="mx-auto flex min-h-[220px] w-full justify-center overflow-x-auto"
+              />
+              <button
+                type="button"
+                onClick={resetAbacus}
+                className="group absolute bottom-2.5 left-1/2 z-10 inline-flex -translate-x-1/2 items-center gap-1.5 rounded-sm text-sm text-muted-foreground underline-offset-2 transition-colors hover:text-gold hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold/40 md:bottom-3"
+                aria-label="Reset abacus"
+              >
+                <RotateCcw
+                  className={
+                    isResetting
+                      ? "h-3.5 w-3.5 animate-[spin_0.55s_ease-out]"
+                      : "h-3.5 w-3.5 transition-transform duration-300 group-hover:-rotate-45"
+                  }
+                />
+                Reset
+              </button>
+            </div>
+          </AnimatedSection>
+        </div>
+      </section>
+
       {/* Features - Bento Grid */}
-      <section className="py-24 bg-background relative overflow-hidden">
+      <section className="py-16 bg-background relative overflow-hidden">
         <div className="absolute top-10 left-10 w-40 h-40 bg-gold/5 rounded-full blur-3xl animate-zoom" />
         <div className="absolute bottom-10 right-20 w-32 h-32 bg-teal/5 rounded-full blur-2xl animate-float-slow" />
         
@@ -283,8 +329,9 @@ const AbacusCourse = () => {
         </div>
       </section>
 
-      {/* Global Access - World Map Background Style */}
-      <section className="py-[120px] relative overflow-hidden group/section">
+      {/* Global Access - World Map Background Style (commented out as requested) */}
+      {false && (
+      <section className="py-16 md:py-20 relative overflow-hidden group/section">
         {/* World Map Background with subtle animation */}
         <div className="absolute inset-0 transition-transform duration-1000 group-hover/section:scale-105">
           <img 
@@ -365,9 +412,12 @@ const AbacusCourse = () => {
           </div>
         </div>
       </section>
+      )}
+
+     
 
       {/* Testimonials Section */}
-      <section className="py-24 bg-background relative overflow-hidden">
+      <section className="py-16 bg-background relative overflow-hidden">
         <div className="container mx-auto">
           <AnimatedSection className="text-center mb-16">
             <span className="inline-block px-4 py-2 bg-gold/10 text-gold font-semibold tracking-wider uppercase text-sm rounded-full mb-4">
@@ -388,7 +438,7 @@ const AbacusCourse = () => {
       </section>
 
       {/* FAQ Section */}
-      <section className="py-24 bg-muted/30 relative overflow-hidden">
+      <section className="py-16 bg-muted/30 relative overflow-hidden">
         <div className="container mx-auto">
           <div className="grid lg:grid-cols-2 gap-12 items-start max-w-5xl mx-auto">
             <AnimatedSection animation="fade-right">
@@ -419,7 +469,7 @@ const AbacusCourse = () => {
       </section>
 
       {/* Final CTA - Matching Home Hero Style */}
-      <section className="py-24 relative overflow-hidden">
+      <section className="py-16 relative overflow-hidden">
         <div 
           className="absolute inset-0"
           style={{ background: 'linear-gradient(135deg, hsl(var(--navy)) 0%, hsl(var(--navy-light)) 50%, hsl(var(--teal-dark)) 100%)' }}
