@@ -18,7 +18,7 @@ export const HIGHLIGHTED_COUNTRIES: HighlightedCountry[] = [
   { name: "United States of America", coordinates: [-95.7129, 37.0902], label: "USA" },
   { name: "Finland", coordinates: [25.7482, 61.9241], label: "Finland" },
   { name: "South Africa", coordinates: [22.9375, -30.5595], label: "South Africa" },
-  // { name: "Australia", coordinates: [133.7751, -25.2744] as [number, number], label: "Australia" },
+  { name: "Australia", coordinates: [133.7751, -25.2744], label: "Australia" },
 ];
 
 /** Number of highlighted countries (keeps UI in sync with the array). */

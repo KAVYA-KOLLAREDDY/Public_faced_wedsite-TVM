@@ -6,6 +6,7 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { ScrollToTop } from "@/components/ScrollToTop";
+import { AnalyticsPageViews } from "@/components/AnalyticsPageViews";
 
 // Eager imports = normal SPA navigation (no per-route chunk wait / Suspense flash)
 import Index from "./pages/Index";
@@ -44,6 +45,7 @@ const App = () => (
         <BrowserRouter>
           <div className="flex min-h-[100dvh] w-full min-w-0 max-w-[100vw] flex-col overflow-x-clip">
             <ScrollToTop />
+            <AnalyticsPageViews />
             <Routes>
               <Route
                 path="/"
