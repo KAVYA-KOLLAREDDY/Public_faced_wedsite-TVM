@@ -26,15 +26,19 @@ import { cn } from "@/lib/utils";
 import { SocialSidebar } from "@/components/SocialSidebar";
 import { HIGHLIGHTED_COUNTRY_COUNT } from "@/config/globalNetworkCountries";
 import { SITE_LINKS } from "@/config/siteLinks";
+import { trackSocialClick } from "@/lib/analytics";
 
-// Import images
+// every-
+import studentsLearningImg from "@/assets/students-learning/online_class.png";
+import teamFounderImg from "@/assets/students-learning/teacher_teaching.png";
+import studentsLearningImg2Img from "@/assets/students-learning/competitions.png";
+//tiny-moments-big-achievements
+import teamTeacher2Img from "@/assets/student-prizes/Acheivement16.jpeg";
 import childrenLearningImg from "@/assets/student-prizes/student_moment1.jpg";
 import confidentChildrenImg from "@/assets/student-prizes/student_moment2.jpg";
 import curiousChildImg from "@/assets/student-prizes/student_moment3.jpg";
 import digitalClassroomImg from "@/assets/student-prizes/student_moment4.jpg";
-import studentsLearningImg from "@/assets/students-learning/online_class.png";
-import teamFounderImg from "@/assets/students-learning/teacher_teaching.png";
-import teamTeacher2Img from "@/assets/students-learning/competitions.png";
+
 import prize1Img from "@/assets/student-prizes/Acheivement1.png";
 import prize2Img from "@/assets/student-prizes/Acheivement2.png";
 import prize3Img from "@/assets/student-prizes/Acheivement3.png";
@@ -45,27 +49,62 @@ import prize11Img from "@/assets/student-prizes/Acheivement11.png";
 import prize12Img from "@/assets/student-prizes/Acheivement12.png";
 import prize13Img from "@/assets/student-prizes/Acheivement13.png";
 import prize14Img from "@/assets/student-prizes/Acheivement14.png";
-import abacus3dImg from "@/assets/abacus-3d.jpg";
-import abacusCourseImg from "@/assets/TVM_tools/abacus-course.jpg";
-import abacusHandsImg from "@/assets/students-learning/abacus-hands.jpg";
-import abacusHeroImg from "@/assets/abacus-hero.jpg";
-import aboutHeroImg from "@/assets/about-hero.jpg";
-import brainDevelopmentImg from "@/assets/brain-development.jpg";
-import heroStudentsImg from "@/assets/hero-students.jpg";
-import tutoringCourseImg from "@/assets/tutoring-course.jpg";
-import vedicMathCourseImg from "@/assets/TVM_tools/vedic-math-course.jpg";
-import worldNetworkImg from "@/assets/world-network.jpg";
-import founderPicImg from "@/assets/founder_pic.jpeg";
+import abacus3dImg from "@/assets/student-prizes/Acheivement7.jpeg";
+import acheivement18Img from "@/assets/student-prizes/Achievement18.jpeg";
+import acheivement17Img from "@/assets/student-prizes/Acheivement17.jpeg";
+import acheivement19Img from "@/assets/student-prizes/Acheivement15.jpeg";
+import abacusCourseImg from "@/assets/student-prizes/Acheivement8.jpeg";
+import abacusHandsImg from "@/assets/student-prizes/Acheivement9.jpeg";
+import abacusHeroImg from "@/assets/student-prizes/Acheivement10.jpeg";
+import aboutHeroImg from "@/assets/student-prizes/student_moment6.jpeg";
+import brainDevelopmentImg from "@/assets/student-prizes/student_moment7.jpeg";
+import heroStudentsImg from "@/assets/student-prizes/student_moment8.jpeg";
+import tutoringCourseImg from "@/assets/student-prizes/student_moment5.jpeg";
+import vedicMathCourseImg from "@/assets/student-prizes/student_moments9.jpeg";
+import worldNetworkImg from "@/assets/student-prizes/student_moment10.jpeg";
+import founderPicImg from "@/assets/student-prizes/student_moment11.jpeg";
+import studentMoment3 from "@/assets/student-prizes/student_moment12.jpeg";
 
 const GALLERY_PAGE_SIZE = 6;
 
 type GalleryPhotoHeight = "tall" | "normal" | "short";
 
+/** Per-slide slot pattern (6 photos): tall → normal → short → normal → tall → normal */
+const GALLERY_PAGE_HEIGHTS: GalleryPhotoHeight[] = [
+  "tall",
+  "normal",
+  "short",
+  "normal",
+  "tall",
+  "normal",
+];
+
 type GalleryPhoto = {
   url: string;
   caption: string;
-  height: GalleryPhotoHeight;
 };
+
+/** Split galleryPhotos into slides of up to 6 — no duplicates; last slide may be shorter. */
+function buildGallerySlides(
+  photos: GalleryPhoto[],
+  size = GALLERY_PAGE_SIZE
+): { photo: GalleryPhoto; sourceIndex: number }[][] {
+  if (photos.length === 0) return [];
+
+  const slides: { photo: GalleryPhoto; sourceIndex: number }[][] = [];
+  for (let i = 0; i < photos.length; i += size) {
+    const slide = photos.slice(i, i + size).map((photo, offset) => ({
+      photo,
+      sourceIndex: i + offset,
+    }));
+    slides.push(slide);
+  }
+  return slides;
+}
+
+function heightForSlot(slotIndex: number): GalleryPhotoHeight {
+  return GALLERY_PAGE_HEIGHTS[slotIndex % GALLERY_PAGE_HEIGHTS.length] ?? "normal";
+}
 
 // Data
 const instagramReels = [
@@ -95,28 +134,32 @@ const videoTitles = [
 ];
 
 const galleryPhotos: GalleryPhoto[] = [
-  { url: prize11Img, caption: "Our Little Achievers", height: "tall" },
-  { url: prize12Img, caption: "Celebrating Success", height: "tall" },
-  { url: prize13Img, caption: "Proud Moments", height: "normal" },
-  { url: prize14Img, caption: "Certificates & Achievements", height: "short" },
-  { url: prize1Img, caption: "Happy Learning Moments", height: "normal" },
-  { url: prize2Img, caption: "Curious Minds at Work", height: "short" },
-  { url: prize3Img, caption: "Learning Together", height: "tall" },
-  { url: prize4Img, caption: "Live Online Sessions", height: "normal" },
-  { url: prize5Img, caption: "Award Ceremony", height: "short" },
-  { url: prize6Img, caption: "Student Spotlight", height: "normal" },
-  { url: teamTeacher2Img, caption: "Interactive Workshops", height: "tall" },
-  { url: abacusHandsImg, caption: "Hands-On Abacus Practice", height: "normal" },
-  { url: abacusHeroImg, caption: "Abacus Mastery", height: "short" },
-  { url: abacusCourseImg, caption: "Abacus in Action", height: "tall" },
-  { url: abacus3dImg, caption: "Visual Math Learning", height: "normal" },
-  { url: vedicMathCourseImg, caption: "Vedic Math Sessions", height: "short" },
-  { url: heroStudentsImg, caption: "Students in Focus", height: "normal" },
-  { url: brainDevelopmentImg, caption: "Building Young Minds", height: "tall" },
-  { url: tutoringCourseImg, caption: "Personalized Coaching", height: "normal" },
-  { url: aboutHeroImg, caption: "Our Learning Community", height: "short" },
-  { url: worldNetworkImg, caption: "Global Learning Network", height: "tall" },
-  { url: founderPicImg, caption: "Leadership & Vision", height: "normal" },
+  { url: prize11Img, caption: "Competition Winner" },
+  { url: prize4Img, caption: "Certificate of Achievement" },
+  { url: prize5Img, caption: "Medal of Excellence" },
+  { url: teamTeacher2Img, caption: "Competition Day Pride" },
+  { url: prize1Img, caption: "Trophy & Medal Winner" },
+  { url: prize2Img, caption: "Young Abacus Champions" },
+  { url: prize3Img, caption: "First Place Achiever" },
+  { url: acheivement17Img, caption: "Hard-Earned Trophy Moment" },
+  { url: acheivement18Img, caption: "Smiles After the Contest" },
+  { url: acheivement19Img, caption: "Champion in the Making" },
+  { url: prize6Img, caption: "Prize Winners Showcase" },
+  { url: abacus3dImg, caption: "Victory Celebration" },
+  { url: prize14Img, caption: "Proud Competition Winner" },
+  { url: prize12Img, caption: "Abacus Olympiad Champion" },
+  { url: abacusHandsImg, caption: "Award-Winning Moment" },
+  { url: abacusHeroImg, caption: "Olympiad Success Story" },
+  { url: abacusCourseImg, caption: "Bright Contest Performer" },
+  { url: prize13Img, caption: "Star of the Contest Stage" },
+  { url: heroStudentsImg, caption: "Rising Competition Stars" },
+  { url: vedicMathCourseImg, caption: "Math Competition Winner" },
+  { url: brainDevelopmentImg, caption: "Top Contest Performer" },
+  { url: tutoringCourseImg, caption: "Shine Bright Winner" },
+  { url: aboutHeroImg, caption: "Competition Glory" },
+  { url: worldNetworkImg, caption: "Cross-Border Contest Pride" },
+  { url: founderPicImg, caption: "Proud Prize Achiever" },
+  { url: studentMoment3, caption: "Winning With Confidence" },
 ];
 
 const achievementsStats = [
@@ -128,7 +171,7 @@ const achievementsStats = [
 const behindScenes = [
   { img: teamFounderImg, label: "Passionate Teachers" },
   { img: studentsLearningImg, label: "Live Online Sessions" },
-  { img: teamTeacher2Img, label: "Interactive Workshops" },
+  { img: studentsLearningImg2Img, label: "Interactive Workshops" },
 ];
 
 // Dynamic Mesh Gradient Background for Hero - Artistic "Aura" style
@@ -265,7 +308,10 @@ const PulsingPlayButton = () => (
     className="relative z-50 w-20 h-20 md:w-24 md:h-24 rounded-full bg-gradient-to-br from-vedic-gold via-vedic-gold-light to-vedic-gold flex items-center justify-center shadow-2xl cursor-pointer group"
     whileHover={{ scale: 1.1 }}
     whileTap={{ scale: 0.95 }}
-    onClick={() => window.open("https://www.youtube.com/@tinyvividminds", "_blank")}
+    onClick={() => {
+      trackSocialClick("youtube", "gallery_play_button");
+      window.open(SITE_LINKS.youtube, "_blank");
+    }}
   >
     {/* Pulse rings */}
     <motion.div
@@ -450,12 +496,10 @@ const Gallery = () => {
   const [galleryPage, setGalleryPage] = useState(0);
   const [galleryAutoplayPaused, setGalleryAutoplayPaused] = useState(false);
 
-  const totalGalleryPages = Math.max(1, Math.ceil(galleryPhotos.length / GALLERY_PAGE_SIZE));
+  const gallerySlides = buildGallerySlides(galleryPhotos);
+  const totalGalleryPages = Math.max(1, gallerySlides.length);
   const safeGalleryPage = Math.min(Math.max(0, galleryPage), totalGalleryPages - 1);
-  const visibleGalleryPhotos = galleryPhotos.slice(
-    safeGalleryPage * GALLERY_PAGE_SIZE,
-    safeGalleryPage * GALLERY_PAGE_SIZE + GALLERY_PAGE_SIZE
-  );
+  const visibleGalleryPhotos = gallerySlides[safeGalleryPage] ?? [];
 
   useEffect(() => {
     setGalleryPage((page) => Math.min(page, Math.max(0, totalGalleryPages - 1)));
@@ -473,9 +517,9 @@ const Gallery = () => {
 
   const pauseGalleryAutoplay = () => setGalleryAutoplayPaused(true);
 
-  const openLightbox = (pageLocalIndex: number) => {
+  const openLightbox = (sourceIndex: number) => {
     pauseGalleryAutoplay();
-    setLightboxIndex(safeGalleryPage * GALLERY_PAGE_SIZE + pageLocalIndex);
+    setLightboxIndex(sourceIndex);
   };
   const closeLightbox = () => setLightboxIndex(null);
   const prevPhoto = () => setLightboxIndex((prev) => prev !== null ? (prev - 1 + galleryPhotos.length) % galleryPhotos.length : null);
@@ -620,7 +664,10 @@ const Gallery = () => {
                   size="lg"
                   variant="outline"
                   className="border-2 border-gold text-gold hover:bg-gold hover:text-navy-dark font-display px-8 py-6 text-lg rounded-2xl group transition-all duration-300 hover:scale-105"
-                  onClick={() => window.open(SITE_LINKS.instagram, "_blank")}
+                  onClick={() => {
+                    trackSocialClick("instagram", "gallery_hero");
+                    window.open(SITE_LINKS.instagram, "_blank");
+                  }}
                 >
                   <Instagram className="w-5 h-5 mr-2 group-hover:text-vedic-gold transition-colors" />
                   Follow on Instagram
@@ -686,6 +733,11 @@ const Gallery = () => {
                     target="_blank"
                     rel="noopener noreferrer"
                     aria-label="Play featured video"
+                    onClick={() =>
+                      trackSocialClick("youtube", "gallery_featured_video", {
+                        video_id: "j4BNwKJLfb0",
+                      })
+                    }
                     className="absolute inset-0 z-10 block focus:outline-none focus-visible:ring-2 focus-visible:ring-vedic-gold focus-visible:ring-inset"
                   />
                 </div>
@@ -776,7 +828,10 @@ const Gallery = () => {
             <Button
               variant="outline"
               className="border-2 border-pink-500/50 text-pink-500 hover:bg-pink-500 hover:text-white font-display group transition-all duration-300"
-              onClick={() => window.open(SITE_LINKS.instagram, "_blank")}
+              onClick={() => {
+                trackSocialClick("instagram", "gallery_reels_cta");
+                window.open(SITE_LINKS.instagram, "_blank");
+              }}
             >
               <Instagram className="w-5 h-5 mr-2 group-hover:animate-pulse" />
               Follow @tinyvividminds
@@ -794,54 +849,48 @@ const Gallery = () => {
             </h2>
           </AnimatedSection>
 
-          {/* Masonry Grid */}
-          <div className="columns-1 sm:columns-2 lg:columns-3 gap-4 max-w-6xl mx-auto">
-            {visibleGalleryPhotos.map((photo, index) => (
-              <AnimatedSection 
-                key={`${safeGalleryPage}-${photo.caption}-${index}`}
-                animation="pop" 
-                delay={index * 100}
-                className="break-inside-avoid mb-4"
-              >
-                <motion.div 
-                  className="group relative rounded-2xl overflow-hidden cursor-pointer shadow-lg"
-                  onClick={() => openLightbox(index)}
-                  onPointerDown={pauseGalleryAutoplay}
-                  whileHover={{ 
-                    scale: 1.02,
-                    boxShadow: "0 20px 40px rgba(0,0,0,0.2)"
-                  }}
-                  transition={{ duration: 0.3 }}
+          {/* Masonry grid — 6 images/slide from galleryPhotos; last slide padded to 6 */}
+          <div className="mx-auto max-w-6xl columns-1 gap-1 sm:columns-2 lg:columns-3 [column-gap:0.35rem]">
+            {visibleGalleryPhotos.map(({ photo, sourceIndex }, index) => {
+              const height = heightForSlot(index);
+              return (
+                <div
+                  key={`${safeGalleryPage}-${sourceIndex}-${index}`}
+                  className="mb-3 break-inside-avoid"
                 >
-                  <img
-                    src={photo.url}
-                    alt={photo.caption}
-                    className={cn(
-                      "w-full object-cover transition-all duration-700 group-hover:scale-110 group-hover:brightness-110",
-                      photo.height === "tall" && "h-80",
-                      photo.height === "normal" && "h-64",
-                      photo.height === "short" && "h-48"
-                    )}
-                  />
-                  {/* Hover Overlay with sliding caption */}
-                  <div className="absolute inset-0 bg-gradient-to-t from-vedic-navy via-vedic-navy/30 to-transparent opacity-0 group-hover:opacity-100 transition-all duration-300">
-                    <motion.div 
-                      className="absolute bottom-0 left-0 right-0 p-4"
-                      initial={{ y: 20, opacity: 0 }}
-                      whileHover={{ y: 0, opacity: 1 }}
-                    >
-                      <p className="text-white font-display font-semibold">{photo.caption}</p>
-                      <p className="text-vedic-gold text-sm mt-1">Click to view</p>
-                    </motion.div>
-                  </div>
-                  
-                  {/* Corner badge */}
-                  <div className="absolute top-3 right-3 w-8 h-8 bg-vedic-gold/90 rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 transform group-hover:rotate-12">
-                    <Camera className="w-4 h-4 text-vedic-navy" />
-                  </div>
-                </motion.div>
-              </AnimatedSection>
-            ))}
+                  <motion.button
+                    type="button"
+                    className="group relative block w-full cursor-pointer border-0 bg-transparent p-0 text-left"
+                    onClick={() => openLightbox(sourceIndex)}
+                    onPointerDown={pauseGalleryAutoplay}
+                    whileHover={{ scale: 1.02 }}
+                    transition={{ duration: 0.3 }}
+                  >
+                    <img
+                      src={photo.url}
+                      alt={photo.caption}
+                      className={cn(
+                        "mx-auto block h-auto max-w-full object-contain shadow-[0_10px_28px_rgba(0,0,0,0.18)] transition-all duration-500 group-hover:brightness-110 group-hover:shadow-[0_14px_36px_rgba(0,0,0,0.28)]",
+                        height === "tall" && "max-h-80",
+                        height === "normal" && "max-h-64",
+                        height === "short" && "max-h-48"
+                      )}
+                    />
+                    {/* Hover overlay + sliding caption */}
+                    <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-vedic-navy via-vedic-navy/40 to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-100">
+                      <div className="absolute bottom-0 left-0 right-0 translate-y-3 p-4 opacity-0 transition-all duration-300 group-hover:translate-y-0 group-hover:opacity-100">
+                        <p className="font-display font-semibold text-white">{photo.caption}</p>
+                        <p className="mt-1 text-sm text-vedic-gold">Click to view</p>
+                      </div>
+                    </div>
+                    {/* Corner badge */}
+                    <div className="absolute top-3 right-3 flex h-8 w-8 items-center justify-center rounded-full bg-vedic-gold/90 opacity-0 transition-all duration-300 group-hover:rotate-12 group-hover:opacity-100">
+                      <Camera className="h-4 w-4 text-vedic-navy" />
+                    </div>
+                  </motion.button>
+                </div>
+              );
+            })}
           </div>
 
           {totalGalleryPages > 1 && (
@@ -947,6 +996,11 @@ const Gallery = () => {
                     target="_blank"
                     rel="noopener noreferrer"
                     aria-label={videoTitles[index]}
+                    onClick={() =>
+                      trackSocialClick("youtube", "gallery_playlist_video", {
+                        video_id: id,
+                      })
+                    }
                     className="absolute inset-0 z-10 block focus:outline-none focus-visible:ring-2 focus-visible:ring-vedic-gold focus-visible:ring-inset rounded-2xl"
                   />
                 </motion.div>
@@ -960,7 +1014,10 @@ const Gallery = () => {
                 size="lg"
                 variant="outline"
                 className="border-2 border-vedic-gold text-vedic-gold hover:bg-vedic-gold hover:text-vedic-navy font-display group transition-all duration-300"
-                onClick={() => window.open(SITE_LINKS.youtube, "_blank")}
+                onClick={() => {
+                  trackSocialClick("youtube", "gallery_channel_cta");
+                  window.open(SITE_LINKS.youtube, "_blank");
+                }}
               >
                 <ExternalLink className="w-5 h-5 mr-2 group-hover:rotate-12 transition-transform duration-300" />
                 Visit Our YouTube Channel

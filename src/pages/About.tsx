@@ -23,7 +23,7 @@ import { HIGHLIGHTED_COUNTRY_COUNT } from "@/config/globalNetworkCountries";
 import abacusCourseImg from "@/assets/TVM_tools/abacus.png";
 import vedicMathImg from "@/assets/students-learning/vedic_math_learning.png";
 import tutoringImg from "@/assets/tutoring-course.jpg";
-import founderImg from "@/assets/founder/founder_pic1.png";
+import founderImg from "@/assets/founder_pic2.jpeg";
 import curiousChildImg from "@/assets/students-learning/curious-child.jpg";
 import worldNetworkImg from "@/assets/world-network.jpg";
 import childrenLearningImg from "@/assets/students-learning/student1.png";

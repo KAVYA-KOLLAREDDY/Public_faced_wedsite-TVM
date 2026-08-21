@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { motion } from "framer-motion";
 import {
   Send,
@@ -50,6 +50,14 @@ import {
 import { HIGHLIGHTED_COUNTRY_COUNT } from "@/config/globalNetworkCountries";
 import { DEFAULT_PHONE_COUNTRY_ID, formatPhoneWithCountry } from "@/config/phoneCountries";
 import { SITE_LINKS, getWhatsAppUrl } from "@/config/siteLinks";
+import {
+  formKindFromSubject,
+  trackFormStart,
+  trackFormSubmitError,
+  trackFormSubmitSuccess,
+  trackFormValidationError,
+  trackSocialClick,
+} from "@/lib/analytics";
 
 const SUBMIT_ERROR_MESSAGE =
   "We couldn't send your message right now. Please try again later.";
@@ -218,6 +226,13 @@ const Contact = () => {
   const [contactForm, setContactForm] = useState(initialContactForm);
 
   const [feedbackForm, setFeedbackForm] = useState(initialFeedbackForm);
+  const formStartedRef = useRef(false);
+
+  const markFormStarted = () => {
+    if (formStartedRef.current) return;
+    formStartedRef.current = true;
+    trackFormStart(formKindFromSubject(contactForm.subject));
+  };
 
   useEffect(() => {
     setFieldErrors({});
@@ -225,9 +240,11 @@ const Contact = () => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    const formKind = formKindFromSubject(contactForm.subject);
     const errors = validateContactPageForm(contactForm, demoForm, feedbackForm);
     if (Object.keys(errors).length > 0) {
       setFieldErrors(errors);
+      trackFormValidationError(formKind);
       toast.error("Please fill in all required fields.");
       scrollToFirstContactError(errors);
       return;
@@ -265,6 +282,7 @@ const Contact = () => {
             "We've received your message and will get back to you within 24 hours.",
         });
       }
+      trackFormSubmitSuccess(formKind);
       setContactForm({ ...initialContactForm });
       setDemoForm({ ...initialDemoForm });
       setFeedbackForm({ ...initialFeedbackForm });
@@ -272,6 +290,7 @@ const Contact = () => {
       setFieldErrors({});
     } catch (err) {
       console.error(err);
+      trackFormSubmitError(formKind);
       setFormStatus({
         variant: "error",
         title: "We couldn't send your message",
@@ -371,7 +390,7 @@ const Contact = () => {
             }}
           >
             {/* Unified Contact Form */}
-            <form onSubmit={handleSubmit} noValidate>
+            <form onSubmit={handleSubmit} noValidate onFocusCapture={markFormStarted}>
               <div className="grid md:grid-cols-2 gap-6 mb-6">
                 <FloatingLabelInput
                   id="contactName"
@@ -889,6 +908,7 @@ const Contact = () => {
                 href={social.href}
                 target="_blank"
                 rel="noopener noreferrer"
+                onClick={() => trackSocialClick(social.name, "contact_stay_connected")}
                 initial={{ opacity: 0, y: 30 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}

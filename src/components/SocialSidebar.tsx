@@ -13,6 +13,7 @@ import {
   // Send,
 } from "lucide-react";
 import { SITE_LINKS, getWhatsAppUrl } from "@/config/siteLinks";
+import { trackSocialClick } from "@/lib/analytics";
 
 interface SocialLink {
   name: string;
@@ -63,7 +64,8 @@ export const SocialSidebar = () => {
   const [isPlusHovered, setIsPlusHovered] = useState(false);
   const [mobileExpanded, setMobileExpanded] = useState(false);
 
-  const openSocialLink = (url: string) => {
+  const openSocialLink = (name: string, url: string, location: string) => {
+    trackSocialClick(name, location);
     window.open(url, "_blank", "noopener,noreferrer");
   };
 
@@ -75,8 +77,8 @@ export const SocialSidebar = () => {
     setShowModal(false);
   };
 
-  const openAdditionalSocialLink = (url: string) => {
-    openSocialLink(url);
+  const openAdditionalSocialLink = (name: string, url: string) => {
+    openSocialLink(name, url, "social_sidebar_modal");
     closeModal();
   };
 
@@ -102,7 +104,7 @@ export const SocialSidebar = () => {
                 initial={{ opacity: 0, x: -20 }}
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ delay: index * 0.1, duration: 0.3 }}
-                onClick={() => openSocialLink(link.url)}
+                onClick={() => openSocialLink(link.name, link.url, "social_sidebar")}
                 className="w-9 h-9 rounded-full flex items-center justify-center text-white transition-all duration-300 shadow-md hover:shadow-lg transform hover:-translate-y-1 hover:scale-110"
                 style={{ backgroundColor: link.color }}
                 whileHover={{ scale: 1.1, y: -4 }}
@@ -169,7 +171,7 @@ export const SocialSidebar = () => {
                   animate={{ opacity: 1, x: 0 }}
                   exit={{ opacity: 0, x: 20 }}
                   transition={{ delay: index * 0.05, duration: 0.2 }}
-                  onClick={() => openSocialLink(link.url)}
+                  onClick={() => openSocialLink(link.name, link.url, "social_sidebar")}
                   className="w-12 h-12 rounded-full flex items-center justify-center text-white shadow-lg"
                   style={{ backgroundColor: link.color }}
                   whileTap={{ scale: 0.95 }}
@@ -253,7 +255,7 @@ export const SocialSidebar = () => {
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ delay: index * 0.05, duration: 0.3 }}
-                    onClick={() => openAdditionalSocialLink(link.url)}
+                    onClick={() => openAdditionalSocialLink(link.name, link.url)}
                     className="flex flex-col items-center justify-center gap-2 p-4 rounded-2xl text-white transition-all duration-300 shadow-md hover:shadow-xl"
                     style={{ backgroundColor: link.color }}
                     whileHover={{ scale: 1.05, y: -4 }}

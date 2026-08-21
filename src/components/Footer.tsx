@@ -3,6 +3,7 @@ import { Mail, Phone, MapPin, Instagram, Youtube, ArrowRight, MessageCircle, Sen
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { CONTACT_DETAILS, SITE_LINKS, getMailtoHref, getPhoneHref, getWhatsAppUrl } from "@/config/siteLinks";
+import { trackSocialClick } from "@/lib/analytics";
 
 const whatsAppUrl = getWhatsAppUrl();
 
@@ -65,6 +66,7 @@ export const Footer = () => {
                   target="_blank"
                   rel="noopener noreferrer"
                   aria-label={label}
+                  onClick={() => trackSocialClick(label, "footer")}
                   className="w-10 h-10 bg-white/10 rounded-full flex items-center justify-center hover:bg-vedic-gold hover:text-vedic-navy transition-all duration-300 transform hover:-translate-y-1 hover:shadow-lg hover:shadow-vedic-gold/30"
                 >
                   <Icon size={18} />
@@ -113,7 +115,11 @@ export const Footer = () => {
               </li>
               <li className="flex items-center gap-3 group">
                 <MessageCircle className="w-5 h-5 text-vedic-gold flex-shrink-0 group-hover:scale-110 transition-transform" />
-                <a href={whatsAppUrl} className="text-white/70 hover:text-vedic-gold transition-colors text-sm">
+                <a
+                  href={whatsAppUrl}
+                  className="text-white/70 hover:text-vedic-gold transition-colors text-sm"
+                  onClick={() => trackSocialClick("whatsapp", "footer_contact")}
+                >
                   WhatsApp Us
                 </a>
               </li>
