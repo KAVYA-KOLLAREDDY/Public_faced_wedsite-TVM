@@ -219,12 +219,12 @@ export const FuturisticHero = () => {
         </motion.div>
       ))}
 
-      {/* Main Content - Softened Glass Container */}
+      {/* Main Content - Softened Glass Container (wider so headline fits 2 lines like before) */}
       <motion.div
         initial={{ opacity: 0, y: 30 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.8, ease: "easeOut" }}
-        className="relative z-10 mx-3 max-w-4xl w-full min-w-0 sm:mx-4 md:mx-6"
+        className="relative z-10 mx-3 max-w-5xl w-full min-w-0 sm:mx-4 md:mx-6 lg:max-w-6xl"
       >
         <div
           className="relative p-5 sm:p-8 md:p-12 lg:p-16 rounded-2xl sm:rounded-3xl"
@@ -236,50 +236,59 @@ export const FuturisticHero = () => {
         >
           {/* Content */}
           <div className="relative z-10 text-center">
-            {/* Main Headline - Larger */}
+            {/* Main Headline — line 1 white, line 2 gold (same rhythm as old hero) */}
             <motion.h1
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.2, duration: 0.6 }}
-              className="font-display text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-bold text-white mb-6 sm:mb-8 leading-tight"
+              className="font-display text-3xl sm:text-4xl md:text-[2.75rem] lg:text-5xl xl:text-[3.5rem] font-bold text-white mb-6 sm:mb-8 leading-tight"
             >
-              Unlock your child's{" "}
+              <span className="block">Unlock Your Child's Potential to</span>
               <span
-                className="bg-clip-text text-transparent inline-block"
+                className="mt-1 block bg-clip-text text-transparent sm:mt-2"
                 style={{
                   backgroundImage: "linear-gradient(135deg, hsl(45, 100%, 50%) 0%, hsl(50, 100%, 60%) 50%, hsl(40, 100%, 55%) 100%)",
                 }}
               >
-                math potential
+                Learn, Grow & Shine
               </span>
             </motion.h1>
 
-            {/* Sub-headline - Increased line height */}
+            {/* Sub-headline — wider so it wraps fewer times, closer to old layout */}
             <motion.p
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.4, duration: 0.6 }}
-              className="text-white/75 text-base sm:text-lg md:text-xl max-w-2xl mx-auto mb-8 sm:mb-12 leading-relaxed sm:leading-loose px-0"
+              className="text-white/75 text-base sm:text-lg md:text-xl max-w-3xl md:max-w-4xl mx-auto mb-8 sm:mb-12 leading-relaxed sm:leading-loose px-0"
             >
-              Transforming math learning into an exciting adventure for every age! Explore Abacus for ages 3–8, Vedic Math for ages 12+, and Personalized Math Coaching for learners of all ages.
+              Make learning an exciting journey with engaging programs in Mathematics, Abacus, Vedic Mathematics, Handwriting, and Phonics — thoughtfully designed to build strong foundations, confidence, and a love for learning.
             </motion.p>
 
-         
-
-            {/* Action Buttons */}
+            {/* Action Buttons — Explore Programs first, Contact Us second */}
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.6, duration: 0.6 }}
               className="flex flex-col sm:flex-row flex-wrap items-stretch sm:items-center justify-center gap-3 sm:gap-5 w-full"
             >
-              {/* Primary Button with Glow */}
               <Button
                 size="lg"
                 className="bg-gold hover:bg-gold-light text-navy-dark font-display font-semibold px-6 py-4 sm:px-8 sm:py-6 text-base sm:text-lg rounded-2xl group transform hover:-translate-y-1 transition-all duration-300 w-full sm:w-auto justify-center"
                 style={{
                   boxShadow: "0 0 30px rgba(234, 179, 8, 0.4), 0 0 60px rgba(234, 179, 8, 0.2), 0 4px 20px rgba(0,0,0,0.3)",
                 }}
+                asChild
+              >
+                <DiscoverProgramsLink className="flex items-center justify-center gap-2">
+                  <Play className="w-5 h-5 shrink-0 fill-white/20" />
+                  Explore Programs
+                </DiscoverProgramsLink>
+              </Button>
+
+              <Button
+                size="lg"
+                variant="outline"
+                className="bg-transparent border border-white/30 text-white hover:bg-white/10 hover:border-white/50 font-display font-medium px-6 py-4 sm:px-8 sm:py-6 text-base sm:text-lg rounded-2xl backdrop-blur-sm transition-all duration-300 w-full sm:w-auto justify-center"
                 asChild
               >
                 <Link to="/contact#contact-form" className="flex items-center justify-center gap-2">
@@ -292,19 +301,6 @@ export const FuturisticHero = () => {
                   </motion.span>
                   Contact Us
                 </Link>
-              </Button>
-
-              {/* Secondary Glass Button */}
-              <Button
-                size="lg"
-                variant="outline"
-                className="bg-transparent border border-white/30 text-white hover:bg-white/10 hover:border-white/50 font-display font-medium px-6 py-4 sm:px-8 sm:py-6 text-base sm:text-lg rounded-2xl backdrop-blur-sm transition-all duration-300 w-full sm:w-auto justify-center"
-                asChild
-              >
-                <DiscoverProgramsLink className="flex items-center justify-center gap-2">
-                  <Play className="w-5 h-5 shrink-0 fill-white/20" />
-                  Explore Courses
-                </DiscoverProgramsLink>
               </Button>
             </motion.div>
           </div>
