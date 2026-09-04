@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom";
+import { DiscoverProgramsLink } from "@/components/DiscoverProgramsLink";
 import { motion } from "framer-motion";
-import { Calendar, Play } from "lucide-react";
+import { Mail, Play } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
 // Sample student images for social proof
@@ -287,9 +288,9 @@ export const FuturisticHero = () => {
                     animate={{ translateY: [0, -3, 0] }}
                     transition={{ duration: 1.5, repeat: Infinity, ease: "easeInOut" }}
                   >
-                    <Calendar className="w-5 h-5" />
+                    <Mail className="w-5 h-5" />
                   </motion.span>
-                  Book a Free Demo
+                  Contact Us
                 </Link>
               </Button>
 
@@ -300,18 +301,21 @@ export const FuturisticHero = () => {
                 className="bg-transparent border border-white/30 text-white hover:bg-white/10 hover:border-white/50 font-display font-medium px-6 py-4 sm:px-8 sm:py-6 text-base sm:text-lg rounded-2xl backdrop-blur-sm transition-all duration-300 w-full sm:w-auto justify-center"
                 asChild
               >
-                <Link to="/courses/abacus" className="flex items-center justify-center gap-2">
+                <DiscoverProgramsLink className="flex items-center justify-center gap-2">
                   <Play className="w-5 h-5 shrink-0 fill-white/20" />
                   Explore Courses
-                </Link>
+                </DiscoverProgramsLink>
               </Button>
             </motion.div>
           </div>
         </div>
       </motion.div>
 
-      {/* Bottom gradient fade */}
-      <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-background to-transparent" />
+      {/* Soft blend into next section — use navy, not page background (avoids a white band on dark hero) */}
+      <div
+        className="pointer-events-none absolute bottom-0 left-0 right-0 h-16 bg-gradient-to-t from-navy-dark to-transparent sm:h-20"
+        aria-hidden
+      />
     </section>
   );
 };

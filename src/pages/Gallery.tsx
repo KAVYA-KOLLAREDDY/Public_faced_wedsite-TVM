@@ -1,21 +1,22 @@
 import { useState, useEffect, useRef } from "react";
 import { Link } from "react-router-dom";
+import { DiscoverProgramsLink } from "@/components/DiscoverProgramsLink";
 import { motion, AnimatePresence } from "framer-motion";
 import { 
   Play, 
-  Youtube, 
   Instagram, 
   X, 
   ChevronLeft, 
   ChevronRight,
   Users,
+  Award,
   Globe,
   Clock,
   ExternalLink,
   Camera,
   Heart,
   Sparkles,
-  Calendar
+  Mail
 } from "lucide-react";
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
@@ -23,15 +24,48 @@ import { AnimatedSection } from "@/components/AnimatedSection";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { SocialSidebar } from "@/components/SocialSidebar";
+import { HIGHLIGHTED_COUNTRY_COUNT } from "@/config/globalNetworkCountries";
+import { SITE_LINKS } from "@/config/siteLinks";
 
 // Import images
-import childrenLearningImg from "@/assets/children-learning.jpg";
-import confidentChildrenImg from "@/assets/confident-children.jpg";
-import curiousChildImg from "@/assets/curious-child.jpg";
-import digitalClassroomImg from "@/assets/digital-classroom.jpg";
-import teamFounderImg from "@/assets/team-founder.jpg";
-import teamTeacher1Img from "@/assets/team-teacher1.jpg";
-import teamTeacher2Img from "@/assets/team-teacher2.jpg";
+import childrenLearningImg from "@/assets/student-prizes/student_moment1.jpg";
+import confidentChildrenImg from "@/assets/student-prizes/student_moment2.jpg";
+import curiousChildImg from "@/assets/student-prizes/student_moment3.jpg";
+import digitalClassroomImg from "@/assets/student-prizes/student_moment4.jpg";
+import studentsLearningImg from "@/assets/students-learning/online_class.png";
+import teamFounderImg from "@/assets/students-learning/teacher_teaching.png";
+import teamTeacher2Img from "@/assets/students-learning/competitions.png";
+import prize1Img from "@/assets/student-prizes/Acheivement1.png";
+import prize2Img from "@/assets/student-prizes/Acheivement2.png";
+import prize3Img from "@/assets/student-prizes/Acheivement3.png";
+import prize4Img from "@/assets/student-prizes/Acheivement4.png";
+import prize5Img from "@/assets/student-prizes/Acheivement5.png";
+import prize6Img from "@/assets/student-prizes/Acheivement6.png";
+import prize11Img from "@/assets/student-prizes/Acheivement11.png";
+import prize12Img from "@/assets/student-prizes/Acheivement12.png";
+import prize13Img from "@/assets/student-prizes/Acheivement13.png";
+import prize14Img from "@/assets/student-prizes/Acheivement14.png";
+import abacus3dImg from "@/assets/abacus-3d.jpg";
+import abacusCourseImg from "@/assets/TVM_tools/abacus-course.jpg";
+import abacusHandsImg from "@/assets/students-learning/abacus-hands.jpg";
+import abacusHeroImg from "@/assets/abacus-hero.jpg";
+import aboutHeroImg from "@/assets/about-hero.jpg";
+import brainDevelopmentImg from "@/assets/brain-development.jpg";
+import heroStudentsImg from "@/assets/hero-students.jpg";
+import tutoringCourseImg from "@/assets/tutoring-course.jpg";
+import vedicMathCourseImg from "@/assets/TVM_tools/vedic-math-course.jpg";
+import worldNetworkImg from "@/assets/world-network.jpg";
+import founderPicImg from "@/assets/founder_pic.jpeg";
+
+const GALLERY_PAGE_SIZE = 6;
+
+type GalleryPhotoHeight = "tall" | "normal" | "short";
+
+type GalleryPhoto = {
+  url: string;
+  caption: string;
+  height: GalleryPhotoHeight;
+};
 
 // Data
 const instagramReels = [
@@ -40,40 +74,60 @@ const instagramReels = [
     caption: "Our Abacus Level 1 stars at work 🌟",
   },
   {
-    embedUrl: "https://www.instagram.com/reel/DKizx6xttOw/?igsh=dXdna2pwMWtxaHVz",
+    embedUrl: "https://www.instagram.com/reel/DcMzCwEhZcd/?igsh=ZDBsdmJlcWJyaXFs&igsi=ZDBsdmJlcWJyaXFs",
     caption: "Quick mental math challenge 🧠💡",
   },
   {
-    embedUrl: "https://www.instagram.com/reel/DJs6tbztAeC/?igsh=MW5rbGJnc2p3aW5jeQ==",
+    embedUrl: "https://www.instagram.com/reel/DKgK9d3tAmc/?igsh=MzVreTd0b2Vyemlx&igsi=MzVreTd0b2Vyemlx",
     caption: "Kids across the world solving together 🌎",
   },
 ];
 
 const playlistVideoIds = ["j4BNwKJLfb0", "W5atWB1FszM", "8w5eDclKS_w"];
+const youtubeWatchUrl = (videoId: string) =>
+  `https://www.youtube.com/watch?v=${videoId}`;
+const youtubeEmbedUrl = (videoId: string) =>
+  `https://www.youtube.com/embed/${videoId}`;
 const videoTitles = [
   "Tips, Tricks & Learning Activities",
   "Interactive Math Sessions",
   "Learning Activities & Training Tips",
 ];
 
-const galleryPhotos = [
-  { url: childrenLearningImg, caption: "Our Little Achievers 💫", height: "tall" },
-  { url: confidentChildrenImg, caption: "Happy Learning Moments", height: "normal" },
-  { url: curiousChildImg, caption: "Teachers Guiding Online", height: "short" },
-  { url: digitalClassroomImg, caption: "Certificates & Achievements", height: "normal" },
-  { url: teamFounderImg, caption: "Interactive Learning", height: "tall" },
-  { url: teamTeacher1Img, caption: "Confidence Building", height: "short" },
+const galleryPhotos: GalleryPhoto[] = [
+  { url: prize11Img, caption: "Our Little Achievers", height: "tall" },
+  { url: prize12Img, caption: "Celebrating Success", height: "tall" },
+  { url: prize13Img, caption: "Proud Moments", height: "normal" },
+  { url: prize14Img, caption: "Certificates & Achievements", height: "short" },
+  { url: prize1Img, caption: "Happy Learning Moments", height: "normal" },
+  { url: prize2Img, caption: "Curious Minds at Work", height: "short" },
+  { url: prize3Img, caption: "Learning Together", height: "tall" },
+  { url: prize4Img, caption: "Live Online Sessions", height: "normal" },
+  { url: prize5Img, caption: "Award Ceremony", height: "short" },
+  { url: prize6Img, caption: "Student Spotlight", height: "normal" },
+  { url: teamTeacher2Img, caption: "Interactive Workshops", height: "tall" },
+  { url: abacusHandsImg, caption: "Hands-On Abacus Practice", height: "normal" },
+  { url: abacusHeroImg, caption: "Abacus Mastery", height: "short" },
+  { url: abacusCourseImg, caption: "Abacus in Action", height: "tall" },
+  { url: abacus3dImg, caption: "Visual Math Learning", height: "normal" },
+  { url: vedicMathCourseImg, caption: "Vedic Math Sessions", height: "short" },
+  { url: heroStudentsImg, caption: "Students in Focus", height: "normal" },
+  { url: brainDevelopmentImg, caption: "Building Young Minds", height: "tall" },
+  { url: tutoringCourseImg, caption: "Personalized Coaching", height: "normal" },
+  { url: aboutHeroImg, caption: "Our Learning Community", height: "short" },
+  { url: worldNetworkImg, caption: "Global Learning Network", height: "tall" },
+  { url: founderPicImg, caption: "Leadership & Vision", height: "normal" },
 ];
 
 const achievementsStats = [
-  { value: 200, suffix: "+", label: "Happy Students", icon: Users },
-  { value: 5, suffix: "+", label: "Countries", icon: Globe },
+  { value: 20, suffix: "+", label: "Certificates Awarded", icon: Award },
+  { value: HIGHLIGHTED_COUNTRY_COUNT, suffix: "+", label: "Countries", icon: Globe },
   { value: 1000, suffix: "+", label: "Hours of Learning", icon: Clock },
 ];
 
 const behindScenes = [
   { img: teamFounderImg, label: "Passionate Teachers" },
-  { img: digitalClassroomImg, label: "Live Online Sessions" },
+  { img: studentsLearningImg, label: "Live Online Sessions" },
   { img: teamTeacher2Img, label: "Interactive Workshops" },
 ];
 
@@ -152,9 +206,9 @@ const MeshGradientBackground = () => (
 const FloatingImageCluster = () => {
   const images = [
     { src: childrenLearningImg, alt: "Students smiling" },
-    { src: confidentChildrenImg, alt: "Abacus work" },
     { src: curiousChildImg, alt: "Certificate" },
     { src: digitalClassroomImg, alt: "Learning" },
+    { src: confidentChildrenImg, alt: "Abacus work" }
   ];
 
   return (
@@ -336,7 +390,7 @@ const Lightbox = ({
   onPrev, 
   onNext 
 }: { 
-  photo: typeof galleryPhotos[0]; 
+  photo: GalleryPhoto;
   onClose: () => void;
   onPrev: () => void;
   onNext: () => void;
@@ -388,11 +442,41 @@ const Lightbox = ({
   </motion.div>
 );
 
+const GALLERY_AUTO_ADVANCE_MS = 5000;
+
 const Gallery = () => {
   const [lightboxIndex, setLightboxIndex] = useState<number | null>(null);
   const [hoveredVideo, setHoveredVideo] = useState<number | null>(null);
+  const [galleryPage, setGalleryPage] = useState(0);
+  const [galleryAutoplayPaused, setGalleryAutoplayPaused] = useState(false);
 
-  const openLightbox = (index: number) => setLightboxIndex(index);
+  const totalGalleryPages = Math.max(1, Math.ceil(galleryPhotos.length / GALLERY_PAGE_SIZE));
+  const safeGalleryPage = Math.min(Math.max(0, galleryPage), totalGalleryPages - 1);
+  const visibleGalleryPhotos = galleryPhotos.slice(
+    safeGalleryPage * GALLERY_PAGE_SIZE,
+    safeGalleryPage * GALLERY_PAGE_SIZE + GALLERY_PAGE_SIZE
+  );
+
+  useEffect(() => {
+    setGalleryPage((page) => Math.min(page, Math.max(0, totalGalleryPages - 1)));
+  }, [totalGalleryPages]);
+
+  useEffect(() => {
+    if (galleryAutoplayPaused || lightboxIndex !== null || totalGalleryPages <= 1) return;
+
+    const timer = window.setInterval(() => {
+      setGalleryPage((page) => (page + 1) % totalGalleryPages);
+    }, GALLERY_AUTO_ADVANCE_MS);
+
+    return () => window.clearInterval(timer);
+  }, [galleryAutoplayPaused, lightboxIndex, totalGalleryPages]);
+
+  const pauseGalleryAutoplay = () => setGalleryAutoplayPaused(true);
+
+  const openLightbox = (pageLocalIndex: number) => {
+    pauseGalleryAutoplay();
+    setLightboxIndex(safeGalleryPage * GALLERY_PAGE_SIZE + pageLocalIndex);
+  };
   const closeLightbox = () => setLightboxIndex(null);
   const prevPhoto = () => setLightboxIndex((prev) => prev !== null ? (prev - 1 + galleryPhotos.length) % galleryPhotos.length : null);
   const nextPhoto = () => setLightboxIndex((prev) => prev !== null ? (prev + 1) % galleryPhotos.length : null);
@@ -423,7 +507,7 @@ const Gallery = () => {
       <SocialSidebar />
 
       {/* Hero Section - Visual Storytelling / Art Gallery Style */}
-      <section className="relative min-h-[90vh] flex items-center pt-28 pb-32 overflow-hidden bg-gradient-to-br from-vedic-navy via-vedic-navy to-[#1a1a3e]">
+      <section className="relative min-h-[90vh] flex items-center pt-20 pb-24 overflow-hidden bg-gradient-to-br from-vedic-navy via-vedic-navy to-[#1a1a3e]">
         {/* Dynamic Mesh Gradient Background - "Aura" Effect */}
         <MeshGradientBackground />
         
@@ -438,7 +522,7 @@ const Gallery = () => {
             >
               {/* Decorative badge */}
               <motion.div 
-                className="inline-flex items-center gap-2 mb-8 px-4 py-2 rounded-full bg-white/10 backdrop-blur-sm border border-white/20"
+                className="inline-flex items-center gap-2 mb-8 px-4 py-2 mt-5 rounded-full bg-white/10 backdrop-blur-sm border border-white/20"
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.2, duration: 0.6 }}
@@ -536,7 +620,7 @@ const Gallery = () => {
                   size="lg"
                   variant="outline"
                   className="border-2 border-gold text-gold hover:bg-gold hover:text-navy-dark font-display px-8 py-6 text-lg rounded-2xl group transition-all duration-300 hover:scale-105"
-                  onClick={() => window.open("https://www.instagram.com/tinyvividminds", "_blank")}
+                  onClick={() => window.open(SITE_LINKS.instagram, "_blank")}
                 >
                   <Instagram className="w-5 h-5 mr-2 group-hover:text-vedic-gold transition-colors" />
                   Follow on Instagram
@@ -561,14 +645,14 @@ const Gallery = () => {
       </section>
 
       {/* Featured Video Section - The Cinematic Player */}
-      <section className="py-24 bg-background relative overflow-hidden">
+      <section className="py-16 bg-background relative overflow-hidden">
         <div className="container mx-auto">
           <AnimatedSection animation="slide-up" className="text-center mb-12">
             <h2 className="font-display text-3xl md:text-4xl font-bold text-foreground mb-4">
               Watch How Learning <span className="text-vedic-gold">Comes Alive!</span>
             </h2>
             <p className="text-muted-foreground text-lg max-w-2xl mx-auto">
-              Experience how our expert trainers connect with students across 5+ countries 
+              Experience how our expert trainers connect with students across {HIGHLIGHTED_COUNTRY_COUNT}+ countries
               through fun, engaging math activities.
             </p>
           </AnimatedSection>
@@ -588,14 +672,21 @@ const Gallery = () => {
                 {/* Camera dot */}
                 <div className="absolute top-2 left-1/2 -translate-x-1/2 w-2 h-2 bg-muted-foreground/50 rounded-full group-hover:bg-green-400 transition-colors duration-300" />
                 
-                {/* Screen */}
+                {/* Real YouTube embed UI; iframe ignores clicks — overlay sends users to YouTube to play */}
                 <div className="relative bg-background rounded-lg overflow-hidden aspect-video shadow-inner">
                   <iframe
-                    src="https://www.youtube.com/embed/j4BNwKJLfb0"
+                    src={youtubeEmbedUrl("j4BNwKJLfb0")}
                     title="Featured Video"
-                    className="w-full h-full"
+                    className="absolute inset-0 h-full w-full border-0 pointer-events-none"
                     allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                     allowFullScreen
+                  />
+                  <a
+                    href={youtubeWatchUrl("j4BNwKJLfb0")}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    aria-label="Play featured video"
+                    className="absolute inset-0 z-10 block focus:outline-none focus-visible:ring-2 focus-visible:ring-vedic-gold focus-visible:ring-inset"
                   />
                 </div>
               </div>
@@ -611,7 +702,7 @@ const Gallery = () => {
       </section>
 
       {/* Instagram Reels - TikTok-Style Feed */}
-      <section className="py-24 bg-muted/30 relative overflow-hidden">
+      <section className="py-16 bg-muted/30 relative overflow-hidden">
         {/* Decorative elements */}
         <div className="absolute top-20 left-10 w-32 h-32 bg-pink-500/10 rounded-full blur-3xl" />
         <div className="absolute bottom-20 right-10 w-40 h-40 bg-purple-500/10 rounded-full blur-3xl" />
@@ -685,7 +776,7 @@ const Gallery = () => {
             <Button
               variant="outline"
               className="border-2 border-pink-500/50 text-pink-500 hover:bg-pink-500 hover:text-white font-display group transition-all duration-300"
-              onClick={() => window.open("https://www.instagram.com/tinyvividminds", "_blank")}
+              onClick={() => window.open(SITE_LINKS.instagram, "_blank")}
             >
               <Instagram className="w-5 h-5 mr-2 group-hover:animate-pulse" />
               Follow @tinyvividminds
@@ -695,7 +786,7 @@ const Gallery = () => {
       </section>
 
       {/* Photo Gallery - Masonry Wall */}
-      <section className="py-24 bg-background relative overflow-hidden">
+      <section className="py-16 bg-background relative overflow-hidden">
         <div className="container mx-auto">
           <AnimatedSection animation="slide-up" className="text-center mb-12">
             <h2 className="font-display text-3xl md:text-4xl font-bold text-foreground mb-4">
@@ -705,9 +796,9 @@ const Gallery = () => {
 
           {/* Masonry Grid */}
           <div className="columns-1 sm:columns-2 lg:columns-3 gap-4 max-w-6xl mx-auto">
-            {galleryPhotos.map((photo, index) => (
+            {visibleGalleryPhotos.map((photo, index) => (
               <AnimatedSection 
-                key={index} 
+                key={`${safeGalleryPage}-${photo.caption}-${index}`}
                 animation="pop" 
                 delay={index * 100}
                 className="break-inside-avoid mb-4"
@@ -715,6 +806,7 @@ const Gallery = () => {
                 <motion.div 
                   className="group relative rounded-2xl overflow-hidden cursor-pointer shadow-lg"
                   onClick={() => openLightbox(index)}
+                  onPointerDown={pauseGalleryAutoplay}
                   whileHover={{ 
                     scale: 1.02,
                     boxShadow: "0 20px 40px rgba(0,0,0,0.2)"
@@ -751,11 +843,63 @@ const Gallery = () => {
               </AnimatedSection>
             ))}
           </div>
+
+          {totalGalleryPages > 1 && (
+            <div className="mt-10 flex flex-wrap items-center justify-center gap-3 sm:gap-4">
+              <button
+                type="button"
+                onClick={() => {
+                  pauseGalleryAutoplay();
+                  setGalleryPage((page) =>
+                    page <= 0 ? totalGalleryPages - 1 : page - 1
+                  );
+                }}
+                className="flex h-10 w-10 items-center justify-center rounded-full border border-border bg-card text-foreground transition-all duration-300 hover:scale-105 hover:bg-muted sm:h-11 sm:w-11"
+                aria-label="Previous gallery page"
+              >
+                <ChevronLeft className="h-5 w-5" />
+              </button>
+
+              <div className="flex items-center gap-1.5" role="tablist" aria-label="Gallery pages">
+                {Array.from({ length: totalGalleryPages }, (_, i) => (
+                  <button
+                    key={i}
+                    type="button"
+                    role="tab"
+                    aria-selected={i === safeGalleryPage}
+                    aria-label={`Gallery page ${i + 1}`}
+                    onClick={() => {
+                      pauseGalleryAutoplay();
+                      setGalleryPage(i);
+                    }}
+                    className={cn(
+                      "h-2 rounded-full transition-all duration-300",
+                      i === safeGalleryPage
+                        ? "w-7 bg-vedic-gold"
+                        : "w-2 bg-muted-foreground/30 hover:bg-muted-foreground/50"
+                    )}
+                  />
+                ))}
+              </div>
+
+              <button
+                type="button"
+                onClick={() => {
+                  pauseGalleryAutoplay();
+                  setGalleryPage((page) => (page + 1) % totalGalleryPages);
+                }}
+                className="flex h-10 w-10 items-center justify-center rounded-full border border-border bg-card text-foreground transition-all duration-300 hover:scale-105 hover:bg-muted sm:h-11 sm:w-11"
+                aria-label="Next gallery page"
+              >
+                <ChevronRight className="h-5 w-5" />
+              </button>
+            </div>
+          )}
         </div>
       </section>
 
       {/* More YouTube Videos */}
-      <section className="py-24 bg-muted/30 relative overflow-hidden">
+      <section className="py-16 bg-muted/30 relative overflow-hidden">
         <div className="container mx-auto">
           <AnimatedSection animation="slide-up" className="text-center mb-12">
             <h2 className="font-display text-3xl md:text-4xl font-bold text-foreground mb-4">
@@ -769,7 +913,7 @@ const Gallery = () => {
           <div className="grid md:grid-cols-3 gap-6 max-w-5xl mx-auto mb-8">
             {playlistVideoIds.map((id, index) => (
               <AnimatedSection key={id} animation="pop" delay={index * 150}>
-                <motion.div 
+                <motion.div
                   className="group relative rounded-2xl overflow-hidden shadow-lg bg-card"
                   whileHover={{ 
                     y: -10,
@@ -779,16 +923,16 @@ const Gallery = () => {
                 >
                   <div className="aspect-video bg-vedic-navy relative overflow-hidden">
                     <iframe
-                      src={`https://www.youtube.com/embed/${id}`}
+                      src={youtubeEmbedUrl(id)}
                       title={videoTitles[index]}
-                      className="w-full h-full"
+                      className="absolute inset-0 h-full w-full border-0 pointer-events-none"
                       allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                       allowFullScreen
+                      loading="lazy"
                     />
-                    {/* Hover overlay */}
-                    <div className="absolute inset-0 bg-vedic-gold/0 group-hover:bg-vedic-gold/10 transition-colors duration-300 pointer-events-none" />
+                    <div className="absolute inset-0 bg-vedic-gold/0 group-hover:bg-vedic-gold/10 transition-colors duration-300 pointer-events-none z-[1]" />
                   </div>
-                  <div className="p-4 group-hover:bg-vedic-gold/5 transition-colors duration-300">
+                  <div className="p-4 group-hover:bg-vedic-gold/5 transition-colors duration-300 relative z-0">
                     <div className="flex items-center gap-2">
                       <div className="w-8 h-8 rounded-full bg-red-500 flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
                         <Play className="w-4 h-4 text-white fill-white" />
@@ -798,6 +942,13 @@ const Gallery = () => {
                       </p>
                     </div>
                   </div>
+                  <a
+                    href={youtubeWatchUrl(id)}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    aria-label={videoTitles[index]}
+                    className="absolute inset-0 z-10 block focus:outline-none focus-visible:ring-2 focus-visible:ring-vedic-gold focus-visible:ring-inset rounded-2xl"
+                  />
                 </motion.div>
               </AnimatedSection>
             ))}
@@ -809,7 +960,7 @@ const Gallery = () => {
                 size="lg"
                 variant="outline"
                 className="border-2 border-vedic-gold text-vedic-gold hover:bg-vedic-gold hover:text-vedic-navy font-display group transition-all duration-300"
-                onClick={() => window.open("https://www.youtube.com/@tinyvividminds", "_blank")}
+                onClick={() => window.open(SITE_LINKS.youtube, "_blank")}
               >
                 <ExternalLink className="w-5 h-5 mr-2 group-hover:rotate-12 transition-transform duration-300" />
                 Visit Our YouTube Channel
@@ -820,7 +971,7 @@ const Gallery = () => {
       </section>
 
       {/* Achievement Stats - Glassmorphism Cards */}
-      <section className="py-24 relative overflow-hidden">
+      <section className="py-16 relative overflow-hidden">
         <div 
           className="absolute inset-0"
           style={{ background: 'linear-gradient(135deg, hsl(var(--navy)) 0%, hsl(var(--navy-light)) 50%, hsl(var(--teal-dark)) 100%)' }}
@@ -862,23 +1013,30 @@ const Gallery = () => {
             </p>
           </AnimatedSection>
 
-          <div className="grid md:grid-cols-3 gap-8 max-w-4xl mx-auto">
+          <div className="mx-auto grid max-w-4xl grid-cols-1 items-stretch gap-8 md:grid-cols-3">
             {achievementsStats.map((stat, index) => (
-              <AnimatedSection key={stat.label} animation="pop" delay={index * 200}>
-                <motion.div 
-                  className="bg-white/10 backdrop-blur-md rounded-3xl p-8 border border-white/20 transition-all duration-300 cursor-pointer"
-                  whileHover={{ 
+              <AnimatedSection
+                key={stat.label}
+                animation="pop"
+                delay={index * 200}
+                className="flex h-full min-h-0 w-full"
+              >
+                <motion.div
+                  className="flex h-full min-h-[220px] w-full flex-col rounded-3xl border border-white/20 bg-white/10 p-8 backdrop-blur-md transition-all duration-300 cursor-pointer md:min-h-[240px]"
+                  whileHover={{
                     scale: 1.05,
                     backgroundColor: "rgba(255,255,255,0.15)",
-                    borderColor: "rgba(212,175,55,0.5)"
+                    borderColor: "rgba(212,175,55,0.5)",
                   }}
                 >
-                  <StatsCounter
-                    end={stat.value}
-                    suffix={stat.suffix}
-                    label={stat.label}
-                    icon={stat.icon}
-                  />
+                  <div className="flex flex-1 flex-col items-center justify-center text-center">
+                    <StatsCounter
+                      end={stat.value}
+                      suffix={stat.suffix}
+                      label={stat.label}
+                      icon={stat.icon}
+                    />
+                  </div>
                 </motion.div>
               </AnimatedSection>
             ))}
@@ -887,7 +1045,7 @@ const Gallery = () => {
       </section>
 
       {/* Behind Every Smile */}
-      <section className="py-24 bg-background relative overflow-hidden">
+      <section className="py-16 bg-background relative overflow-hidden">
         <div className="container mx-auto">
           <AnimatedSection animation="slide-up" className="text-center mb-12">
             <h2 className="font-display text-3xl md:text-4xl font-bold text-foreground mb-4">
@@ -919,7 +1077,6 @@ const Gallery = () => {
                   <div className="absolute inset-0 bg-gradient-to-t from-vedic-navy/90 via-vedic-navy/30 to-transparent group-hover:from-vedic-navy/95 transition-all duration-300" />
                   <div className="absolute bottom-4 left-4 right-4 transform group-hover:-translate-y-2 transition-transform duration-300">
                     <p className="text-white font-display font-semibold text-lg">{item.label}</p>
-                    <p className="text-vedic-gold text-sm opacity-0 group-hover:opacity-100 transition-opacity duration-300 mt-1">Learn more →</p>
                   </div>
                   
                   {/* Shine effect on hover */}
@@ -934,7 +1091,7 @@ const Gallery = () => {
       </section>
 
       {/* CTA Section */}
-      <section className="py-24 relative overflow-hidden">
+      <section className="py-16 relative overflow-hidden">
         <div 
           className="absolute inset-0"
           style={{ background: 'linear-gradient(135deg, hsl(var(--navy)) 0%, hsl(var(--teal-dark)) 100%)' }}
@@ -992,9 +1149,9 @@ const Gallery = () => {
                         animate={{ translateY: [0, -3, 0] }}
                         transition={{ duration: 1.5, repeat: Infinity, ease: "easeInOut" }}
                       >
-                        <Calendar className="w-5 h-5" />
+                        <Mail className="w-5 h-5" />
                       </motion.span>
-                      Book a Free Demo Now
+                      Contact Us
                     </Link>
                   </Button>
                 </motion.div>
@@ -1005,7 +1162,7 @@ const Gallery = () => {
                     className="border-2 border-vedic-gold text-vedic-gold hover:bg-vedic-gold hover:text-vedic-navy font-display px-8 py-6 text-lg rounded-2xl"
                     asChild
                   >
-                    <Link to="/courses/abacus">Explore Programs</Link>
+                    <DiscoverProgramsLink>Explore Programs</DiscoverProgramsLink>
                   </Button>
                 </motion.div>
               </div>

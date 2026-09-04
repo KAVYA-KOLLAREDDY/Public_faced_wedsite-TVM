@@ -1,10 +1,11 @@
 import { Link } from "react-router-dom";
+import { DiscoverProgramsLink } from "@/components/DiscoverProgramsLink";
 import { motion } from "framer-motion";
 import { 
   ArrowRight, Target, Heart, Lightbulb, Users, Award, Calculator, Brain, 
   UserCheck, Laptop, ChartLine, Shield, Medal, Gamepad2, UsersRound, 
   BarChart3, Quote, Eye, Sparkles, GraduationCap, BookOpen, Star, Zap, Globe,
-  Smile, Activity, BrainCircuit, HeartHandshake, Calendar
+  Smile, Activity, BrainCircuit, HeartHandshake, Mail
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Navbar } from "@/components/Navbar";
@@ -16,15 +17,16 @@ import { TextReveal } from "@/components/TextReveal";
 import { GlowCard } from "@/components/GlowCard";
 import { BentoGrid, AnimatedBentoItem } from "@/components/BentoGrid";
 import { SocialSidebar } from "@/components/SocialSidebar";
+import { HIGHLIGHTED_COUNTRY_COUNT } from "@/config/globalNetworkCountries";
 
 // Images
-import abacusCourseImg from "@/assets/abacus-course.jpg";
-import vedicMathImg from "@/assets/vedic-math-course.jpg";
+import abacusCourseImg from "@/assets/TVM_tools/abacus.png";
+import vedicMathImg from "@/assets/students-learning/vedic_math_learning.png";
 import tutoringImg from "@/assets/tutoring-course.jpg";
-import founderImg from "@/assets/founder_pic.jpeg";
-import curiousChildImg from "@/assets/curious-child.jpg";
+import founderImg from "@/assets/founder/founder_pic1.png";
+import curiousChildImg from "@/assets/students-learning/curious-child.jpg";
 import worldNetworkImg from "@/assets/world-network.jpg";
-import childrenLearningImg from "@/assets/children-learning.jpg";
+import childrenLearningImg from "@/assets/students-learning/student1.png";
 
 const values = [
   { icon: Target, title: "Excellence", description: "We strive for the highest standards in education and student outcomes." },
@@ -69,7 +71,7 @@ const About = () => {
       {/* ============================================
           PART 1: THE VISIONARY HERO HEADER
           ============================================ */}
-      <section className="relative min-h-[70vh] flex items-center pt-32 pb-20">
+      <section className="relative min-h-[70vh] flex items-center pt-24 pb-14">
         <ParallaxWatermark text="VIVID" className="top-1/3 -left-20" speed={0.15} />
         
         {/* Subtle mesh background */}
@@ -131,7 +133,7 @@ const About = () => {
       {/* ============================================
           PART 2: THE 'CURIOUS SOULS' SPLIT SECTION
           ============================================ */}
-      <section className="py-[120px] relative overflow-hidden">
+      <section className="py-16 md:py-20 relative overflow-hidden">
         <ParallaxWatermark text="CURIOUS" className="-right-32 top-0" speed={0.2} />
         
         <div className="container mx-auto">
@@ -207,7 +209,7 @@ const About = () => {
       {/* ============================================
           PART 3: THE 'FOUR PILLARS' BENTO GRID
           ============================================ */}
-      <section className="py-[120px] bg-muted/30 relative overflow-hidden">
+      <section className="py-16 md:py-20 bg-muted/30 relative overflow-hidden">
         <ParallaxWatermark text="GROWTH" className="top-20 -left-20" speed={0.18} />
         
         <div className="container mx-auto">
@@ -219,7 +221,7 @@ const About = () => {
               </span>
             </AnimatedSection>
             <TextReveal delay={100}>
-              <h2 className="font-display text-4xl md:text-5xl lg:text-6xl font-bold text-foreground mt-4 pt-3 leading-tight">
+              <h2 className="font-display text-4xl md:text-5xl lg:text-6xl font-bold text-foreground mt-4 pt-3 leading-snug md:leading-[1.18]">
                 Growing as an
                 <span className="text-vedic-gold"> Individual</span>
               </h2>
@@ -281,7 +283,7 @@ const About = () => {
       {/* ============================================
           PART 4: THE 'ANYWHERE, EVERYWHERE' FEATURE
           ============================================ */}
-      <section className="py-[120px] relative overflow-hidden">
+      <section className="py-16 md:py-20 relative overflow-hidden">
         {/* World Map Background */}
         <div className="absolute inset-0">
           <img 
@@ -313,23 +315,22 @@ const About = () => {
 
                     <TextReveal delay={300}>
                       <h2 className="font-display text-4xl md:text-5xl lg:text-6xl font-bold text-foreground">
-                        Anywhere,
-                        <span className="text-vedic-gold"> Everywhere</span>
+                        Learn from
+                        <span className="text-vedic-gold"> Anywhere</span>
                       </h2>
                     </TextReveal>
 
                     <AnimatedSection animation="fade-up" delay={400}>
                       <p className="text-xl md:text-2xl text-muted-foreground leading-relaxed max-w-2xl mx-auto">
-                        Access is spread across the globe. You can get access to our services 
-                        online, with <span className="text-vedic-gold font-semibold">flexible timings</span> and 
+                        Access our online classes from anywhere in the world with
+                        <span className="text-vedic-gold font-semibold"> flexible timings</span> and
                         <span className="text-vedic-teal font-semibold"> personalized attention</span>.
                       </p>
                     </AnimatedSection>
 
                     <AnimatedSection animation="fade-up" delay={500}>
                       <p className="text-lg text-muted-foreground leading-relaxed">
-                        You get access to hassle-free online education, where your kids 
-                        learn from top-notch selected professionals.
+                        Learn from top-notch selected professionals with hassle-free online education.
                       </p>
                     </AnimatedSection>
 
@@ -357,7 +358,7 @@ const About = () => {
       {/* ============================================
           PART 5: THE EINSTEIN QUOTE FINALE
           ============================================ */}
-      <section className="py-[120px] relative overflow-hidden bg-vedic-navy">
+      <section className="py-16 md:py-20 relative overflow-hidden bg-vedic-navy">
         {/* Glow effects */}
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-vedic-gold/20 rounded-full blur-[150px]" />
         <div className="absolute top-0 right-0 w-[400px] h-[400px] bg-vedic-teal/15 rounded-full blur-[100px]" />
@@ -401,7 +402,7 @@ const About = () => {
       {/* ============================================
           PROGRAMS SECTION - Z-Pattern Layout
           ============================================ */}
-      <section className="py-[120px] relative overflow-hidden">
+      <section className="py-16 md:py-20 relative overflow-hidden">
         <ParallaxWatermark text="LEARN" className="top-1/4 -left-32" speed={0.2} />
         
         <div className="container mx-auto">
@@ -556,7 +557,7 @@ const About = () => {
       {/* ============================================
           WHY CHOOSE US - Bento Grid
           ============================================ */}
-      <section className="py-[120px] bg-muted/30 relative overflow-hidden">
+      <section className="py-16 md:py-20 bg-muted/30 relative overflow-hidden">
         <ParallaxWatermark text="WHY" className="top-10 -right-20" speed={0.15} />
         
         <div className="container mx-auto">
@@ -606,7 +607,7 @@ const About = () => {
       {/* ============================================
           CORE VALUES
           ============================================ */}
-      <section className="py-[120px] relative overflow-hidden">
+      <section className="py-16 md:py-20 relative overflow-hidden">
         <ParallaxWatermark text="VALUES" className="top-1/4 -left-20" speed={0.2} />
         
         <div className="container mx-auto">
@@ -640,7 +641,7 @@ const About = () => {
       {/* ============================================
           FOUNDER'S MESSAGE
           ============================================ */}
-      <section className="py-[120px] bg-muted/30 relative overflow-hidden">
+      <section className="py-16 md:py-20 bg-muted/30 relative overflow-hidden">
         <ParallaxWatermark text="TEAM" className="-right-32 top-20" speed={0.18} />
         
         <div className="container mx-auto">
@@ -703,13 +704,13 @@ const About = () => {
       {/* ============================================
           STATS SECTION
           ============================================ */}
-      <section className="py-20 bg-gradient-to-r from-vedic-navy via-vedic-navy-light to-vedic-navy relative overflow-hidden">
+      <section className="py-14 bg-gradient-to-r from-vedic-navy via-vedic-navy-light to-vedic-navy relative overflow-hidden">
         <div className="absolute inset-0 bg-[url('data:image/svg+xml,...')] opacity-5" />
         
         <div className="container mx-auto relative z-10">
           <AnimatedSection animation="fade-up">
           <div className="flex flex-wrap justify-center gap-12 max-w-4xl mx-auto text-center">
-            <StatsCounter end={5} suffix="+" label="Countries Reached" />
+            <StatsCounter end={HIGHLIGHTED_COUNTRY_COUNT} suffix="+" label="Countries Reached" />
             <StatsCounter end={4} suffix="+" label="Years Experience" />
             <StatsCounter end={95} suffix="%" label="Success Rate" />
           </div>
@@ -720,7 +721,7 @@ const About = () => {
       {/* ============================================
           CTA SECTION
           ============================================ */}
-      <section className="py-[120px] relative overflow-hidden">
+      <section className="py-16 md:py-20 relative overflow-hidden">
         <div className="absolute inset-0 bg-gradient-to-br from-vedic-gold/10 via-transparent to-vedic-teal/10" />
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-vedic-gold/10 rounded-full blur-[150px]" />
         
@@ -748,9 +749,9 @@ const About = () => {
                       animate={{ translateY: [0, -3, 0] }}
                       transition={{ duration: 1.5, repeat: Infinity, ease: "easeInOut" }}
                     >
-                      <Calendar className="h-5 w-5" />
+                      <Mail className="h-5 w-5" />
                     </motion.span>
-                    Book a Free Demo
+                    Contact Us
                   </Link>
                 </Button>
                 <Button
@@ -759,7 +760,7 @@ const About = () => {
                   variant="outline"
                   className="border-2 border-vedic-gold text-vedic-gold hover:bg-vedic-gold hover:text-vedic-navy px-10 py-6 text-lg transition-all"
                 >
-                  <Link to="/courses/abacus">Explore Programs</Link>
+                  <DiscoverProgramsLink>Explore Programs</DiscoverProgramsLink>
                 </Button>
               </div>
             </AnimatedSection>

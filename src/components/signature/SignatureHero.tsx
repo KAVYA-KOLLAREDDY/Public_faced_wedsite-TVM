@@ -1,14 +1,13 @@
 import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
-import { ArrowRight, ChevronDown, Sparkles } from "lucide-react";
-import { useNavigate } from "react-router-dom";
+import { ArrowRight, ChevronDown, Mail, Sparkles } from "lucide-react";
+import { Link } from "react-router-dom";
 import AnimatedSection from "@/components/AnimatedSection";
 import { TextReveal } from "@/components/TextReveal";
 import { ParallaxWatermark } from "@/components/ParallaxWatermark";
 import HeroMathSymbols from "@/components/HeroMathSymbols";
 import MagneticButton from "@/components/MagneticButton";
 import { Button } from "@/components/ui/button";
-import { useConfetti } from "@/hooks/useConfetti";
 
 const subjects = [
   { 
@@ -38,9 +37,6 @@ const SignatureHero = () => {
   const [currentSubject, setCurrentSubject] = useState(0);
   const [displayText, setDisplayText] = useState("");
   const [isTyping, setIsTyping] = useState(true);
-  const navigate = useNavigate();
-  const { triggerConfetti } = useConfetti();
-
   // Typing animation effect
   useEffect(() => {
     const subject = subjects[currentSubject].name;
@@ -66,15 +62,8 @@ const SignatureHero = () => {
     return () => clearInterval(typeInterval);
   }, [currentSubject]);
 
-  const handleBookDemo = () => {
-    triggerConfetti();
-    setTimeout(() => {
-      navigate('/contact#contact-form');
-    }, 400);
-  };
-
   return (
-    <section className="relative min-h-screen flex items-center py-32 overflow-hidden">
+    <section className="relative min-h-screen flex items-center py-24 overflow-hidden">
       {/* Background Gradient - Matching other pages */}
       <div 
         className="absolute inset-0"
@@ -119,17 +108,17 @@ const SignatureHero = () => {
           <AnimatedSection animation="pop-in">
             <span className="inline-flex items-center gap-2 text-gold font-semibold tracking-widest uppercase text-xs bg-gold/10 px-4 py-2 rounded-full mb-8 badge-warm">
               <Sparkles className="w-4 h-4 animate-wiggle" />
-              Signature Small Group Programs
+              Signature Academic Programs
             </span>
           </AnimatedSection>
 
           {/* Heading - Using TextReveal like other pages */}
           <TextReveal delay={100}>
-            <h1 className="font-display text-5xl md:text-6xl lg:text-7xl font-bold text-white mb-8 leading-[1.1]">
+            <h1 className="font-display text-5xl md:text-6xl lg:text-7xl font-bold text-white mb-8 leading-[1.2] md:leading-[1.18]">
               Learning made personal —
               <motion.span 
                 key={currentSubject}
-                className={`block bg-gradient-to-r ${subjects[currentSubject].color} bg-clip-text text-transparent mt-2`}
+                className={`block bg-gradient-to-r ${subjects[currentSubject].color} bg-clip-text pb-[0.12em] text-transparent mt-2 [box-decoration-break:clone]`}
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 transition={{ duration: 0.3 }}
@@ -145,8 +134,8 @@ const SignatureHero = () => {
 
           <AnimatedSection animation="fade-up" delay={300}>
             <p className="text-xl md:text-2xl text-white/80 mb-10 leading-relaxed max-w-2xl mx-auto">
-              Intimate small group sessions (3-5 students) that strengthen skills and build confidence 
-              through engaging, collaborative learning experiences.
+              Live, instructor-led programs in Mathematics, Handwriting, and Phonetics—structured paths
+              that build clarity, confidence, and lasting habits.
             </p>
           </AnimatedSection>
 
@@ -179,16 +168,19 @@ const SignatureHero = () => {
           </AnimatedSection>
 
           {/* CTA Buttons - Same style as other pages */}
-          <AnimatedSection animation="fade-up" delay={400}>
+          {/* <AnimatedSection animation="fade-up" delay={400}>
             <div className="flex flex-wrap justify-center gap-4 hero-content-warm">
               <MagneticButton strength={0.25}>
                 <Button 
                   size="lg" 
                   className="bg-gold hover:bg-gold-light text-navy-dark font-display font-semibold px-8 py-6 text-lg rounded-2xl hero-cta-warm ripple-effect group transform hover:-translate-y-2 hover:scale-105 transition-all duration-300"
-                  onClick={handleBookDemo}
+                  asChild
                 >
-                  Book Free Demo
-                  <ArrowRight className="w-5 h-5 ml-2 group-hover:translate-x-2 group-hover:scale-110 transition-all duration-300" />
+                  <Link to="/contact#contact-form" className="inline-flex items-center">
+                    <Mail className="mr-2 h-5 w-5" />
+                    Contact Us
+                    <ArrowRight className="ml-2 h-5 w-5 transition-all duration-300 group-hover:translate-x-2 group-hover:scale-110" />
+                  </Link>
                 </Button>
               </MagneticButton>
               <MagneticButton strength={0.25}>
@@ -202,7 +194,7 @@ const SignatureHero = () => {
                 </Button>
               </MagneticButton>
             </div>
-          </AnimatedSection>
+          </AnimatedSection> */}
 
           {/* Progress indicators */}
           <div className="flex justify-center gap-2 mt-8">

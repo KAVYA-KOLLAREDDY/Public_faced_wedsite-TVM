@@ -1,5 +1,6 @@
 import { useRef } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
+import { DiscoverProgramsLink } from "@/components/DiscoverProgramsLink";
 import { motion } from "framer-motion";
 import { 
   ArrowRight, 
@@ -11,18 +12,15 @@ import {
   Brain, 
   Smile, 
   Trophy,
-  Users,
-  Headphones,
   Sparkles,
   Globe,
   CheckCircle,
-  Calendar
+  Mail
 } from "lucide-react";
 import FloatingMathSymbols from "@/components/FloatingMathSymbols";
 import HeroMathSymbols from "@/components/HeroMathSymbols";
 import CTAMathSymbols from "@/components/CTAMathSymbols";
 import MagneticButton from "@/components/MagneticButton";
-import { useConfetti } from "@/hooks/useConfetti";
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
 import { AnimatedSection } from "@/components/AnimatedSection";
@@ -36,6 +34,7 @@ import StackedLevelCards from "@/components/levels/StackedLevelCards";
 import VedicBentoGrid from "@/components/vedic/VedicBentoGrid";
 import InfiniteTestimonials from "@/components/vedic/InfiniteTestimonials";
 import VedicFAQ from "@/components/vedic/VedicFAQ";
+import StatsBar from "@/components/vedic/StatsBar";
 
 // Images
 import worldNetworkImg from "@/assets/world-network.jpg";
@@ -61,12 +60,6 @@ const whyChoose = [
   },
 ];
 
-const stats = [
-  { icon: Trophy, value: "Level 4", label: "Mastery" },
-  { icon: Headphones, value: "Live 1-on-1", label: "Support" },
-  { icon: Users, value: "Group Sessions", label: "Students" },
-];
-
 const benefits = [
   { icon: Timer, title: "10x Faster Calculations", description: "Students perform operations 10-15 times faster than traditional methods." },
   { icon: Brain, title: "Enhanced Memory", description: "Pattern-based learning improves memory retention significantly." },
@@ -76,18 +69,9 @@ const benefits = [
 
 const VedicMathCourse = () => {
   const levelsRef = useRef<HTMLElement>(null);
-  const navigate = useNavigate();
-  const { triggerConfetti } = useConfetti();
 
   const scrollToLevels = () => {
     levelsRef.current?.scrollIntoView({ behavior: "smooth" });
-  };
-
-  const handleBookDemo = () => {
-    triggerConfetti();
-    setTimeout(() => {
-      navigate('/contact#contact-form');
-    }, 400);
   };
 
   return (
@@ -96,7 +80,7 @@ const VedicMathCourse = () => {
       <SocialSidebar />
 
       {/* Hero Section - Matching Home Page Style */}
-      <section className="relative min-h-screen flex items-center pt-20 overflow-hidden">
+      <section className="relative min-h-screen flex items-center pt-16 overflow-hidden">
         <div 
           className="absolute inset-0"
           style={{ background: 'linear-gradient(135deg, hsl(var(--navy)) 0%, hsl(var(--navy-light)) 50%, hsl(var(--teal-dark)) 100%)' }}
@@ -149,16 +133,18 @@ const VedicMathCourse = () => {
                   <Button 
                     size="lg" 
                     className="bg-gold hover:bg-gold-light text-navy-dark font-display font-semibold px-8 py-6 text-lg rounded-2xl hero-cta-warm ripple-effect group transform hover:-translate-y-2 hover:scale-105 transition-all duration-300"
-                    onClick={handleBookDemo}
+                    asChild
                   >
-                    <motion.span
-                      className="inline-flex mr-2"
-                      animate={{ translateY: [0, -3, 0] }}
-                      transition={{ duration: 1.5, repeat: Infinity, ease: "easeInOut" }}
-                    >
-                      <Calendar className="w-5 h-5" />
-                    </motion.span>
-                    Book Free Demo
+                    <Link to="/contact#contact-form" className="inline-flex items-center">
+                      <motion.span
+                        className="inline-flex mr-2"
+                        animate={{ translateY: [0, -3, 0] }}
+                        transition={{ duration: 1.5, repeat: Infinity, ease: "easeInOut" }}
+                      >
+                        <Mail className="w-5 h-5" />
+                      </motion.span>
+                      Contact Us
+                    </Link>
                   </Button>
                 </MagneticButton>
                 <MagneticButton strength={0.25}>
@@ -178,34 +164,11 @@ const VedicMathCourse = () => {
         </div>
       </section>
 
-      {/* Stats Bar - Below Hero */}
-      <div className="relative border-y border-border bg-gradient-to-r from-gold/5 via-transparent to-teal/5 py-6">
-        <div className="container mx-auto px-2 sm:px-4">
-          <div className="mx-auto grid max-w-4xl grid-cols-3 gap-2 sm:gap-8 md:gap-16">
-            {stats.map((stat) => (
-              <div
-                key={stat.label}
-                className="stat-card-warm group flex cursor-default flex-col items-center rounded-xl px-1 py-2 text-center sm:px-3 sm:py-3"
-              >
-                <div className="stat-icon mb-2 flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-gradient-to-br from-gold/20 to-teal/20 transition-all duration-300 sm:h-11 sm:w-11">
-                  <stat.icon className="h-5 w-5 text-gold" />
-                </div>
-                <div className="flex min-h-[2.5rem] w-full items-center justify-center px-0.5">
-                  <span className="text-balance text-base font-bold tabular-nums text-foreground group-hover:text-gold transition-colors duration-300 sm:text-lg md:text-xl">
-                    {stat.value}
-                  </span>
-                </div>
-                <span className="mt-1 line-clamp-2 min-h-[2.5rem] max-w-[10rem] text-[11px] leading-tight text-muted-foreground sm:max-w-none sm:text-xs md:text-sm">
-                  {stat.label}
-                </span>
-              </div>
-            ))}
-          </div>
-        </div>
-      </div>
+      {/* Stats Bar - Below Hero (icon left, copy right — matches Abacus-style strip) */}
+      <StatsBar />
 
       {/* Why Choose Vedic Maths - Matching Programs Section Style */}
-      <section className="py-24 bg-background relative overflow-hidden">
+      <section className="py-16 bg-background relative overflow-hidden">
         {/* Decorative elements */}
         <div className="absolute top-20 right-10 w-32 h-32 border border-gold/10 rounded-full animate-float-slow" />
         <div className="absolute bottom-20 left-10 w-20 h-20 bg-teal/5 rotate-45 animate-bounce-gentle" />
@@ -268,15 +231,15 @@ const VedicMathCourse = () => {
       </section>
 
       {/* About Program - Bento Grid */}
-      <section className="py-24 bg-muted/30 relative overflow-hidden">
+      <section className="py-16 bg-muted/30 relative overflow-hidden">
         <div className="absolute top-10 left-10 w-40 h-40 bg-gold/5 rounded-full blur-3xl animate-zoom" />
         <div className="absolute bottom-10 right-20 w-32 h-32 bg-teal/5 rounded-full blur-2xl animate-float-slow" />
         
         <ParallaxWatermark text="LEARN" className="-right-20 top-1/4" speed={0.12} />
         
-        <div className="container mx-auto relative z-10">
-          <AnimatedSection className="text-center max-w-3xl mx-auto mb-16">
-            <span className="inline-block px-4 py-2 bg-teal/10 text-teal font-semibold tracking-wider uppercase text-sm rounded-full mb-4">
+        <div className="container mx-auto px-6 relative z-10">
+          <AnimatedSection className="text-center max-w-3xl mx-auto mb-10">
+            <span className="inline-block px-4 py-2 bg-teal/10 text-teal font-semibold tracking-wider uppercase text-sm rounded-full mb-3">
               About the Program
             </span>
             <h2 className="font-display text-4xl md:text-5xl font-bold text-foreground mb-6">
@@ -292,7 +255,7 @@ const VedicMathCourse = () => {
       </section>
 
       {/* Auto-Glide Levels */}
-      <section ref={levelsRef} id="levels" className="relative overflow-x-clip overflow-y-visible pt-16 pb-28 sm:pt-20 sm:pb-24 md:py-24">
+      <section ref={levelsRef} id="levels" className="relative overflow-x-clip overflow-y-visible pt-12 pb-16 sm:pt-14 sm:pb-20 md:py-16">
         <div 
           className="absolute inset-0"
           style={{ 
@@ -325,7 +288,7 @@ const VedicMathCourse = () => {
       </section>
 
       {/* Benefits Section */}
-      <section className="py-24 bg-background relative overflow-hidden">
+      <section className="py-16 bg-background relative overflow-hidden">
         <div className="container mx-auto">
           <AnimatedSection className="text-center max-w-3xl mx-auto mb-16">
             <span className="inline-block px-4 py-2 bg-teal/10 text-teal font-semibold tracking-wider uppercase text-sm rounded-full mb-4">
@@ -360,8 +323,9 @@ const VedicMathCourse = () => {
         </div>
       </section>
 
-      {/* Global Access - World Map Background Style */}
-      <section className="py-[120px] relative overflow-hidden group/section">
+      {/* Global Access - World Map Background Style (commented out as requested) */}
+      {false && (
+      <section className="py-16 md:py-20 relative overflow-hidden group/section">
         {/* World Map Background with subtle animation */}
         <div className="absolute inset-0 transition-transform duration-1000 group-hover/section:scale-105">
           <img 
@@ -442,9 +406,10 @@ const VedicMathCourse = () => {
           </div>
         </div>
       </section>
+      )}
 
       {/* Testimonials - Infinite Slider */}
-      <section className="py-24 bg-muted/30 overflow-hidden">
+      <section className="py-16 bg-muted/30 overflow-hidden">
         <div className="container mx-auto">
           <AnimatedSection className="text-center mb-12">
             <span className="inline-block px-4 py-2 bg-gold/10 text-gold font-semibold tracking-wider uppercase text-sm rounded-full mb-4">
@@ -463,7 +428,7 @@ const VedicMathCourse = () => {
       </section>
 
       {/* FAQ Section */}
-      <section className="py-24 bg-background relative overflow-hidden">
+      <section className="py-16 bg-background relative overflow-hidden">
         <div className="container mx-auto">
           <div className="grid lg:grid-cols-2 gap-12 items-start max-w-5xl mx-auto">
             <AnimatedSection animation="fade-right">
@@ -494,7 +459,7 @@ const VedicMathCourse = () => {
       </section>
 
       {/* Final CTA - Matching Home Hero Style */}
-      <section className="py-24 relative overflow-hidden">
+      <section className="py-16 relative overflow-hidden">
         <div 
           className="absolute inset-0"
           style={{ background: 'linear-gradient(135deg, hsl(var(--navy)) 0%, hsl(var(--navy-light)) 50%, hsl(var(--teal-dark)) 100%)' }}
@@ -528,9 +493,9 @@ const VedicMathCourse = () => {
                       animate={{ translateY: [0, -3, 0] }}
                       transition={{ duration: 1.5, repeat: Infinity, ease: "easeInOut" }}
                     >
-                      <Calendar className="w-5 h-5" />
+                      <Mail className="w-5 h-5" />
                     </motion.span>
-                    Book Free Demo Now
+                    Contact Us
                   </Link>
                 </Button>
               </MagneticButton>
@@ -541,9 +506,9 @@ const VedicMathCourse = () => {
                     className="border-2 border-gold text-gold hover:bg-gold hover:text-navy-dark font-display font-medium px-8 py-6 text-lg rounded-2xl backdrop-blur-sm transition-all"
                     asChild
                 >
-                  <Link to="/courses/abacus">
+                  <DiscoverProgramsLink>
                     View All Courses
-                  </Link>
+                  </DiscoverProgramsLink>
                 </Button>
               </MagneticButton>
             </div>

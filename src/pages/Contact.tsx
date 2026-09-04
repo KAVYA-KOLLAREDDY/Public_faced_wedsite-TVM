@@ -3,11 +3,13 @@ import { motion } from "framer-motion";
 import {
   Send,
   ChevronDown,
+  ChevronLeft,
+  ChevronRight,
   Loader2,
   Instagram,
-  Facebook,
+  MessageCircle,
   Youtube,
-  Calendar,
+  Mail,
   Star,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -16,20 +18,43 @@ import { Label } from "@/components/ui/label";
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
 import { toast } from "sonner";
-import { Link, useLocation, useSearchParams } from "react-router-dom";
+import { useLocation } from "react-router-dom";
+import { DiscoverProgramsLink } from "@/components/DiscoverProgramsLink";
 import { SocialSidebar } from "@/components/SocialSidebar";
 
 // New components
 import GlobalHero from "@/components/contact/GlobalHero";
 import GlobalWorldMap from "@/components/contact/GlobalWorldMap";
-import StatRibbon from "@/components/contact/StatRibbon";
-import SegmentedTabs from "@/components/contact/SegmentedTabs";
+import { AnimatedSection } from "@/components/AnimatedSection";
+import { ParallaxWatermark } from "@/components/ParallaxWatermark";
 import FloatingLabelInput from "@/components/contact/FloatingLabelInput";
 import FloatingLabelSelect from "@/components/contact/FloatingLabelSelect";
 import FloatingLabelTextarea from "@/components/contact/FloatingLabelTextarea";
+import PhoneWithCountryInput from "@/components/contact/PhoneWithCountryInput";
 import TestimonialBubble from "@/components/contact/TestimonialBubble";
 import ToggleSwitch from "@/components/contact/ToggleSwitch";
-import TrustSection from "@/components/signature/TrustSection";
+import FormStatusModal, {
+  type FormStatusState,
+} from "@/components/contact/FormStatusModal";
+import {
+  insertContactRequest,
+  insertDemoRequest,
+  insertFeedback,
+} from "@/subabase/contactInserts";
+import {
+  scrollToFirstContactError,
+  validateContactPageForm,
+  type ContactFieldErrorKey,
+  type ContactFieldErrors,
+} from "@/lib/contactFormValidation";
+import { HIGHLIGHTED_COUNTRY_COUNT } from "@/config/globalNetworkCountries";
+import { DEFAULT_PHONE_COUNTRY_ID, formatPhoneWithCountry } from "@/config/phoneCountries";
+import { SITE_LINKS, getWhatsAppUrl } from "@/config/siteLinks";
+
+const SUBMIT_ERROR_MESSAGE =
+  "We couldn't send your message right now. Please try again later.";
+
+const whatsAppUrl = getWhatsAppUrl();
 
 // Smooth scroll handler
 const smoothScroll = (targetId: string) => {
@@ -41,36 +66,63 @@ const smoothScroll = (targetId: string) => {
 
 const testimonials = [
   {
-    text: "Since joining Tiny Vivid Minds, my daughter's speed and confidence in maths have doubled! The teachers are amazing.",
-    author: "Mrs. Patel",
-    role: "Mother of Aarav (8)",
+    text: "My daughter is very much interested for class and doing home works easily. As of now, I saw a great improvement in solving sums using board. Madhuri mam is teaching that clearly.",
+    author: "Parent of Sahasra",
+    role: "Abacus learner",
     rating: 5,
   },
   {
-    text: "The teachers are patient and engaging. My son actually looks forward to math class now!",
-    author: "Mr. Reddy",
-    role: "Father of Vihaan (10)",
+    text: "I am pretty much happy with Madhuri mam teaching. After joining her in this abacus class her calculation skills was so good. Thank you for your guidance mam.",
+    author: "Gowthami",
+    role: "Abacus parent",
     rating: 5,
   },
   {
-    text: "Best decision we made! My daughter went from struggling to loving math.",
-    author: "Mrs. Kumar",
-    role: "Mother of Anaya (9)",
+    text: "We are extremely grateful for the abacus training provided by Sai Tejasvi mam in Tiny Vivid Minds. The step by step guidance and encouragement helped build strong foundational arithmetic skills, speed, and concentration. Highly recommend for any parent looking to strengthen their children's math skills. Thank you for teaching my child.",
+    author: "Jyothi",
+    role: "Abacus parent",
     rating: 5,
   },
   {
-    text: "Excellent program! The personalized attention each child receives is remarkable.",
-    author: "Mr. Sharma",
-    role: "Father of Riya (7)",
+    text: "The Abacus online classes are well organized and engaging. My child enjoys attending the sessions, and I can already see improvements in concentration, calculation speed, and confidence. The teacher explains the concepts clearly and is patient with the students. Thank you for your efforts and support. We look forward to continued progress.",
+    author: "Eligeti Meghana",
+    role: "Abacus parent",
     rating: 5,
   },
   {
-    text: "The Vedic math techniques have helped my son solve problems much faster. Amazing results!",
-    author: "Mrs. Gupta",
-    role: "Mother of Arjun (11)",
+    text: "Teacher is patiently guiding students to improve their speed and concentration, to become confident in solving numbers. She is good and very supportive to the students and giving very good guidance.",
+    author: "Rithika",
+    role: "Parent",
+    rating: 5,
+  },
+  {
+    text: "Very clear explanation and impressed with the way Sai Tejasvi mam is teaching my child.",
+    author: "Hiryanya",
+    role: "Abacus parent",
+    rating: 5,
+  },
+  {
+    text: "My son is doing good with calculations after joining in Tiny Vivid Minds. But the teacher is little strict.",
+    author: "Shalini",
+    role: "Parent",
+    rating: 5,
+  },
+  {
+    text: "Yugan has had difficulty in mathematics, however after starting with abacus he has shown an improvement. Since he is still learning the concepts and yet to use them in reality I'm unable to provide with complete feedback at the moment but once he retrieves his classes in September I should be able to notice and give you the feedback. For now I am happy with the classes and seeing an improvement in his understanding numbers and calculations.",
+    author: "Nityapriya Chandrashekhar",
+    role: "Parent of Yugan",
     rating: 5,
   },
 ];
+
+/** Short vs long groups — dots switch between these rows (full text, no ellipsis) */
+const CONTACT_SHORT_MAX_CHARS = 220;
+const shortTestimonials = testimonials.filter((t) => t.text.length <= CONTACT_SHORT_MAX_CHARS);
+const longTestimonials = testimonials.filter((t) => t.text.length > CONTACT_SHORT_MAX_CHARS);
+const testimonialPages = [
+  { label: "Short notes", items: shortTestimonials, cols: "md:grid-cols-2 lg:grid-cols-3" },
+  { label: "Detailed stories", items: longTestimonials, cols: "md:grid-cols-1 lg:grid-cols-2" },
+].filter((page) => page.items.length > 0);
 
 const faqs = [
   {
@@ -91,70 +143,143 @@ const faqs = [
   },
   {
     question: "How can I book a free trial class?",
-    answer: "Simply fill out the 'Book Free Demo' form above, and we'll contact you within 24 hours to schedule your free trial.",
+    answer: "Simply use the contact form above (or choose the demo request option), and we'll contact you within 24 hours to schedule your free trial.",
   },
 ];
 
+const initialDemoForm = {
+  fatherName: "",
+  fatherOccupation: "",
+  motherName: "",
+  motherOccupation: "",
+  motherTongue: "",
+  gradeOrClass: "",
+  cityAndState: "",
+  siblingsAndAge: "",
+  promoOrReferral: "promo" as "promo" | "referral",
+  promoReferralValue: "",
+  timezone: "",
+};
+
+const initialContactForm = {
+  name: "",
+  email: "",
+  phone: "",
+  phoneCountryId: DEFAULT_PHONE_COUNTRY_ID as string,
+  subject: "",
+  message: "",
+};
+
+const initialFeedbackForm = {
+  parentName: "",
+  course: "",
+  rating: 0,
+  message: "",
+  email: "",
+};
+
 const Contact = () => {
   const location = useLocation();
-  const [searchParams] = useSearchParams();
-  const [activeTab, setActiveTab] = useState("contact");
   const [activeFaq, setActiveFaq] = useState<number | null>(null);
   const [newsletter, setNewsletter] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [fieldErrors, setFieldErrors] = useState<ContactFieldErrors>({});
+  const [formStatus, setFormStatus] = useState<FormStatusState>(null);
+  const [testimonialPage, setTestimonialPage] = useState(0);
+
+  const totalTestimonialPages = Math.max(1, testimonialPages.length);
+  const safeTestimonialPage = Math.min(
+    Math.max(0, testimonialPage),
+    totalTestimonialPages - 1
+  );
+  const activeTestimonialPage = testimonialPages[safeTestimonialPage] ?? testimonialPages[0];
+  const visibleTestimonials = activeTestimonialPage?.items ?? [];
+
+  const dismissErrors = (...keys: ContactFieldErrorKey[]) => {
+    setFieldErrors((prev) => {
+      const next = { ...prev };
+      keys.forEach((k) => {
+        delete next[k];
+      });
+      return next;
+    });
+  };
 
   // Scroll to form and switch tab when navigating with #contact-form and ?tab= (e.g. from footer)
   useEffect(() => {
     if (location.hash === "#contact-form") {
-      const tab = searchParams.get("tab");
-      if (tab === "contact" || tab === "join" || tab === "demo") {
-        setActiveTab(tab);
-      }
       smoothScroll("contact-form");
     }
-  }, [location.hash, location.search]);
+  }, [location.hash]);
 
   // Form states
-  const [demoForm, setDemoForm] = useState({
-    studentFullName: "",
-    fatherName: "",
-    fatherOccupation: "",
-    motherName: "",
-    motherOccupation: "",
-    motherTongue: "",
-    gradeOrClass: "",
-    cityAndState: "",
-    contactNumber: "",
-    gmailId: "",
-    siblingsAndAge: "",
-    promoOrReferral: "promo" as "promo" | "referral",
-    promoReferralValue: "",
-    timezone: "",
-  });
+  const [demoForm, setDemoForm] = useState(initialDemoForm);
 
-  const [contactForm, setContactForm] = useState({
-    name: "",
-    email: "",
-    phone: "",
-    subject: "",
-    message: "",
-  });
+  const [contactForm, setContactForm] = useState(initialContactForm);
 
-  const [feedbackForm, setFeedbackForm] = useState({
-    parentName: "",
-    childName: "",
-    course: "",
-    rating: 0,
-    message: "",
-    email: "",
-  });
+  const [feedbackForm, setFeedbackForm] = useState(initialFeedbackForm);
 
-  const handleSubmit = async (e: React.FormEvent, formType: string) => {
+  useEffect(() => {
+    setFieldErrors({});
+  }, [contactForm.subject]);
+
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    const errors = validateContactPageForm(contactForm, demoForm, feedbackForm);
+    if (Object.keys(errors).length > 0) {
+      setFieldErrors(errors);
+      toast.error("Please fill in all required fields.");
+      scrollToFirstContactError(errors);
+      return;
+    }
+    setFieldErrors({});
     setIsSubmitting(true);
-    await new Promise((resolve) => setTimeout(resolve, 1500));
-    toast.success(`${formType} submitted successfully! We'll get back to you soon.`);
-    setIsSubmitting(false);
+    const payload = {
+      ...contactForm,
+      phone: formatPhoneWithCountry(contactForm.phoneCountryId, contactForm.phone),
+    };
+    try {
+      const { subject } = contactForm;
+      if (subject === "feedback") {
+        await insertFeedback(payload, feedbackForm, newsletter);
+        setFormStatus({
+          variant: "success",
+          title: "Thank you!",
+          message:
+            "We've received your feedback. We truly appreciate you taking the time to share your experience with us.",
+        });
+      } else if (subject === "demo" || subject === "courses") {
+        await insertDemoRequest(payload, demoForm, newsletter);
+        setFormStatus({
+          variant: "success",
+          title: "You're all set!",
+          message:
+            "We've received your request. Our team will contact you shortly to help with the next steps.",
+        });
+      } else {
+        await insertContactRequest(payload, newsletter);
+        setFormStatus({
+          variant: "success",
+          title: "Thank you!",
+          message:
+            "We've received your message and will get back to you within 24 hours.",
+        });
+      }
+      setContactForm({ ...initialContactForm });
+      setDemoForm({ ...initialDemoForm });
+      setFeedbackForm({ ...initialFeedbackForm });
+      setNewsletter(false);
+      setFieldErrors({});
+    } catch (err) {
+      console.error(err);
+      setFormStatus({
+        variant: "error",
+        title: "We couldn't send your message",
+        message: SUBMIT_ERROR_MESSAGE,
+      });
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
@@ -162,41 +287,34 @@ const Contact = () => {
       <Navbar />
       <SocialSidebar />
 
+      <FormStatusModal status={formStatus} onClose={() => setFormStatus(null)} />
+
       {/* Global Impact Hero */}
       <GlobalHero
         onBookDemo={() => smoothScroll("contact-form")}
         onContact={() => smoothScroll("contact-form")}
       />
 
-      {/* Stat Ribbon - Overlapping Map Section */}
-      <StatRibbon />
+      {/* World Map Section - Bento-style shell (matches Vedic About Program) */}
+      <section className="py-16 bg-muted/30 relative overflow-hidden">
+        <div className="absolute top-10 left-10 w-40 h-40 bg-gold/5 rounded-full blur-3xl animate-zoom" />
+        <div className="absolute bottom-10 right-20 w-32 h-32 bg-teal/5 rounded-full blur-2xl animate-float-slow" />
 
-      {/* Trust Section - Why Parents Trust Us */}
-      <TrustSection />
+        <ParallaxWatermark text="GLOBAL" className="-right-20 top-1/4" speed={0.12} />
 
-      {/* World Map Section - The Centerpiece */}
-      <section className="py-24 bg-background">
-        <div className="container mx-auto">
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            className="text-center max-w-3xl mx-auto mb-12"
-          >
-            <span className="text-primary font-semibold tracking-wider uppercase text-sm">
+        <div className="container mx-auto px-6 relative z-10">
+          <AnimatedSection className="text-center max-w-3xl mx-auto mb-16">
+            <span className="inline-block px-4 py-2 bg-teal/10 text-teal font-semibold tracking-wider uppercase text-sm rounded-full mb-4">
               Global Network
             </span>
-            <h2 className="font-display text-4xl md:text-5xl font-bold mt-4 mb-6">
-              Learning{" "}
-              <span className="bg-gradient-to-r from-primary to-gold bg-clip-text text-transparent">
-                Without Borders
-              </span>
+            <h2 className="font-display text-4xl md:text-5xl font-bold text-foreground mb-6">
+              Learning <span className="text-gold">Without Borders</span>
             </h2>
             <p className="text-muted-foreground text-lg">
-              Connecting students across 6 countries with world-class mathematics education.
+              Connecting students across {HIGHLIGHTED_COUNTRY_COUNT} countries with world-class mathematics education.
               Watch our learning network expand from India to the world.
             </p>
-          </motion.div>
+          </AnimatedSection>
 
           <GlobalWorldMap />
         </div>
@@ -205,7 +323,7 @@ const Contact = () => {
       {/* Forms Section with Diagonal Stripes */}
       <section
         id="contact-form"
-        className="py-24 relative overflow-hidden"
+        className="py-16 relative overflow-hidden"
         style={{
           background: `
             repeating-linear-gradient(
@@ -224,12 +342,12 @@ const Contact = () => {
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            className="text-center max-w-3xl mx-auto mb-12"
+            className="text-center max-w-3xl mx-auto mb-6"
           >
             <span className="text-primary font-semibold tracking-wider uppercase text-sm">
               Get Started
             </span>
-            <h2 className="font-display text-4xl md:text-5xl font-bold mt-4 mb-6">
+            <h2 className="font-display text-4xl md:text-5xl font-bold mt-2 mb-3">
               Connect With{" "}
               <span className="bg-gradient-to-r from-primary to-teal bg-clip-text text-transparent">
                 Our Team
@@ -240,110 +358,213 @@ const Contact = () => {
             </p>
           </motion.div>
 
-          {/* Segmented Tabs */}
-          <div className="flex justify-center mb-8">
-            <SegmentedTabs activeTab={activeTab} onTabChange={setActiveTab} />
-          </div>
-
           {/* Form Container */}
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            className="max-w-3xl mx-auto rounded-2xl sm:rounded-3xl p-4 sm:p-6 md:p-10 w-full min-w-0"
+            className="max-w-3xl mx-auto rounded-2xl sm:rounded-3xl p-4 sm:p-5 md:p-7 w-full min-w-0"
             style={{
               background: "hsl(var(--card))",
               boxShadow: "0 25px 80px hsl(var(--foreground) / 0.08)",
               border: "1px solid hsl(var(--border))",
             }}
           >
-            {/* Demo Form */}
-            {activeTab === "demo" && (
-              <form onSubmit={(e) => handleSubmit(e, "Demo booking")}>
-                <div className="grid md:grid-cols-2 gap-6 mb-6">
+            {/* Unified Contact Form */}
+            <form onSubmit={handleSubmit} noValidate>
+              <div className="grid md:grid-cols-2 gap-6 mb-6">
+                <FloatingLabelInput
+                  id="contactName"
+                  label={
+                    contactForm.subject === "demo" ||
+                    contactForm.subject === "courses" ||
+                    contactForm.subject === "feedback"
+                      ? "Student's full name"
+                      : "Full name"
+                  }
+                  value={contactForm.name}
+                  onChange={(v) => {
+                    setContactForm({ ...contactForm, name: v });
+                    dismissErrors("name");
+                  }}
+                  required
+                  error={fieldErrors.name}
+                />
+                {contactForm.subject === "feedback" ? (
                   <FloatingLabelInput
-                    id="studentFullName"
-                    label="Student's Full Name"
-                    value={demoForm.studentFullName}
-                    onChange={(v) => setDemoForm({ ...demoForm, studentFullName: v })}
+                    id="feedbackParentName"
+                    label="Parent's Name"
+                    value={feedbackForm.parentName}
+                    onChange={(v) => {
+                      setFeedbackForm({ ...feedbackForm, parentName: v });
+                      dismissErrors("parentName");
+                    }}
                     required
+                    error={fieldErrors.parentName}
                   />
+                ) : (
+                  <FloatingLabelInput
+                    id="contactEmail"
+                    label="Email Address"
+                    type="email"
+                    value={contactForm.email}
+                    onChange={(v) => {
+                      setContactForm({ ...contactForm, email: v });
+                      dismissErrors("email");
+                    }}
+                    required
+                    error={fieldErrors.email}
+                  />
+                )}
+              </div>
+              <div className="grid md:grid-cols-2 gap-6 mb-6">
+                <PhoneWithCountryInput
+                  id="contactPhone"
+                  label={
+                    contactForm.subject === "demo" || contactForm.subject === "courses"
+                      ? "Contact number (WhatsApp preferred)"
+                      : "Phone Number"
+                  }
+                  countryId={contactForm.phoneCountryId}
+                  nationalNumber={contactForm.phone}
+                  onCountryIdChange={(countryId) => {
+                    setContactForm((prev) => ({ ...prev, phoneCountryId: countryId }));
+                    dismissErrors("phone");
+                  }}
+                  onNationalNumberChange={(v) => {
+                    setContactForm((prev) => ({ ...prev, phone: v }));
+                    dismissErrors("phone");
+                  }}
+                  onNonDigitAttempt={() => {
+                    setFieldErrors((prev) => ({
+                      ...prev,
+                      phone: "Please enter numbers only.",
+                    }));
+                  }}
+                  required
+                  error={fieldErrors.phone}
+                />
+                <FloatingLabelSelect
+                  id="subject"
+                  label="How can we help you?"
+                  value={contactForm.subject}
+                  onChange={(v) => {
+                    setContactForm({ ...contactForm, subject: v });
+                    dismissErrors("subject");
+                  }}
+                  options={[
+                    { value: "courses", label: "Ask about courses" },
+                    { value: "demo", label: "Request a free demo" },
+                    { value: "feedback", label: "Share feedback" },
+                    { value: "issue", label: "Report an issue" },
+                    { value: "enquiry", label: "General Inquiry" },
+                  ]}
+                  required
+                  error={fieldErrors.subject}
+                />
+              </div>
+              {(contactForm.subject === "demo" || contactForm.subject === "courses") && (
+                <div className="grid md:grid-cols-2 gap-6 mb-6">
                   <FloatingLabelInput
                     id="fatherName"
                     label="Father's Name"
                     value={demoForm.fatherName}
-                    onChange={(v) => setDemoForm({ ...demoForm, fatherName: v })}
+                    onChange={(v) => {
+                      setDemoForm({ ...demoForm, fatherName: v });
+                      dismissErrors("fatherName");
+                    }}
                     required
+                    error={fieldErrors.fatherName}
                   />
-                </div>
-                <div className="grid md:grid-cols-2 gap-6 mb-6">
                   <FloatingLabelInput
                     id="fatherOccupation"
                     label="Father's Occupation"
                     value={demoForm.fatherOccupation}
-                    onChange={(v) => setDemoForm({ ...demoForm, fatherOccupation: v })}
+                    onChange={(v) => {
+                      setDemoForm({ ...demoForm, fatherOccupation: v });
+                      dismissErrors("fatherOccupation");
+                    }}
                     required
+                    error={fieldErrors.fatherOccupation}
                   />
+                </div>
+              )}
+              {(contactForm.subject === "demo" || contactForm.subject === "courses") && (
+                <div className="grid md:grid-cols-2 gap-6 mb-6">
                   <FloatingLabelInput
                     id="motherName"
                     label="Mother's Full Name"
                     value={demoForm.motherName}
-                    onChange={(v) => setDemoForm({ ...demoForm, motherName: v })}
+                    onChange={(v) => {
+                      setDemoForm({ ...demoForm, motherName: v });
+                      dismissErrors("motherName");
+                    }}
                     required
+                    error={fieldErrors.motherName}
                   />
-                </div>
-                <div className="grid md:grid-cols-2 gap-6 mb-6">
                   <FloatingLabelInput
                     id="motherOccupation"
                     label="Mother's Occupation"
                     value={demoForm.motherOccupation}
-                    onChange={(v) => setDemoForm({ ...demoForm, motherOccupation: v })}
+                    onChange={(v) => {
+                      setDemoForm({ ...demoForm, motherOccupation: v });
+                      dismissErrors("motherOccupation");
+                    }}
                     required
-                  />
-                  <FloatingLabelInput
-                    id="motherTongue"
-                    label="Mother tongue"
-                    value={demoForm.motherTongue}
-                    onChange={(v) => setDemoForm({ ...demoForm, motherTongue: v })}
-                    required
+                    error={fieldErrors.motherOccupation}
                   />
                 </div>
+              )}
+              {(contactForm.subject === "demo" || contactForm.subject === "courses") && (
                 <div className="grid md:grid-cols-2 gap-6 mb-6">
                   <FloatingLabelInput
                     id="gradeOrClass"
                     label="Current Grade / Class"
                     value={demoForm.gradeOrClass}
-                    onChange={(v) => setDemoForm({ ...demoForm, gradeOrClass: v })}
+                    onChange={(v) => {
+                      setDemoForm({ ...demoForm, gradeOrClass: v });
+                      dismissErrors("gradeOrClass");
+                    }}
                     required
+                    error={fieldErrors.gradeOrClass}
                   />
                   <FloatingLabelInput
                     id="cityAndState"
                     label="City & State of Residence"
                     value={demoForm.cityAndState}
-                    onChange={(v) => setDemoForm({ ...demoForm, cityAndState: v })}
+                    onChange={(v) => {
+                      setDemoForm({ ...demoForm, cityAndState: v });
+                      dismissErrors("cityAndState");
+                    }}
                     required
+                    error={fieldErrors.cityAndState}
                   />
+                  
                 </div>
+              )}
+              {(contactForm.subject === "demo" || contactForm.subject === "courses") && (
                 <div className="grid md:grid-cols-2 gap-6 mb-6">
+                  
                   <FloatingLabelInput
-                    id="contactNumber"
-                    label="Contact number (WhatsApp preferred)"
-                    type="tel"
-                    inputMode="numeric"
-                    pattern="[0-9]{10}"
-                    value={demoForm.contactNumber}
-                    onChange={(v) => setDemoForm({ ...demoForm, contactNumber: v })}
+                    id="motherTongue"
+                    label="Mother tongue"
+                    value={demoForm.motherTongue}
+                    onChange={(v) => {
+                      setDemoForm({ ...demoForm, motherTongue: v });
+                      dismissErrors("motherTongue");
+                    }}
                     required
+                    error={fieldErrors.motherTongue}
                   />
                   <FloatingLabelInput
-                    id="gmailId"
-                    label="Email Address"
-                    type="email"
-                    value={demoForm.gmailId}
-                    onChange={(v) => setDemoForm({ ...demoForm, gmailId: v })}
-                    required
+                    id="timezone"
+                    label="Time zone (If outside India)"
+                    value={demoForm.timezone}
+                    onChange={(v) => setDemoForm({ ...demoForm, timezone: v })}
                   />
                 </div>
+              )}
+              {(contactForm.subject === "demo" || contactForm.subject === "courses") && (
                 <div className="mb-2">
                   <FloatingLabelTextarea
                     id="siblingsAndAge"
@@ -353,6 +574,8 @@ const Contact = () => {
                     rows={1}
                   />
                 </div>
+              )}
+              {(contactForm.subject === "demo" || contactForm.subject === "courses") && (
                 <div className="mb-6">
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:items-center">
                     <div className="flex flex-col gap-2">
@@ -385,123 +608,9 @@ const Contact = () => {
                     </div>
                   </div>
                 </div>
-                <div className="mb-6">
-                  <FloatingLabelInput
-                    id="timezone"
-                    label="Time zone (If outside India)"
-                    value={demoForm.timezone}
-                    onChange={(v) => setDemoForm({ ...demoForm, timezone: v })}
-                  />
-                </div>
-                <Button
-                  type="submit"
-                  size="lg"
-                  disabled={isSubmitting}
-                  className="w-full text-lg py-6 rounded-xl"
-                >
-                  {isSubmitting ? (
-                    <>
-                      <Loader2 className="w-5 h-5 mr-2 animate-spin" />
-                      Booking...
-                    </>
-                  ) : (
-                    <>
-                      <Send className="w-5 h-5 mr-2" />
-                      Book Free Demo
-                    </>
-                  )}
-                </Button>
-              </form>
-            )}
-
-            {/* Contact Form */}
-            {activeTab === "contact" && (
-              <form onSubmit={(e) => handleSubmit(e, "Message")}>
-                <div className="grid md:grid-cols-2 gap-6 mb-6">
-                  <FloatingLabelInput
-                    id="contactName"
-                    label="Full Name"
-                    value={contactForm.name}
-                    onChange={(v) => setContactForm({ ...contactForm, name: v })}
-                    required
-                  />
-                  <FloatingLabelInput
-                    id="contactEmail"
-                    label="Email Address"
-                    type="email"
-                    value={contactForm.email}
-                    onChange={(v) => setContactForm({ ...contactForm, email: v })}
-                    required
-                  />
-                </div>
-                <div className="grid md:grid-cols-2 gap-6 mb-6">
-                  <FloatingLabelInput
-                    id="contactPhone"
-                    label="Phone Number"
-                    type="tel"
-                    value={contactForm.phone}
-                    onChange={(v) => setContactForm({ ...contactForm, phone: v })}
-                    required
-                  />
-                  <FloatingLabelSelect
-                    id="subject"
-                    label="How can we help you?"
-                    value={contactForm.subject}
-                    onChange={(v) => setContactForm({ ...contactForm, subject: v })}
-                    options={[
-                      { value: "courses", label: "Ask about courses" },
-                      { value: "demo", label: "Request a free demo" },
-                      { value: "feedback", label: "Share feedback" },
-                      { value: "issue", label: "Report an issue" },
-                      { value: "enquiry", label: "General Inquiry" },
-
-                    ]}
-                    required
-                  />
-                </div>
-                <div className="mb-6">
-                  <FloatingLabelTextarea
-                    id="contactMessage"
-                    label="Message"
-                    value={contactForm.message}
-                    onChange={(v) => setContactForm({ ...contactForm, message: v })}
-                    required
-                  />
-                </div>
-                <div className="flex items-center gap-3 mb-6">
-                  <ToggleSwitch
-                    checked={newsletter}
-                    onChange={setNewsletter}
-                    id="newsletter"
-                  />
-                  <label htmlFor="newsletter" className="text-sm text-muted-foreground">
-                  I’d like to receive updates and learning tips via email
-                  </label>
-                </div>
-                <Button
-                  type="submit"
-                  size="lg"
-                  disabled={isSubmitting}
-                  className="w-full text-lg py-6 rounded-xl"
-                >
-                  {isSubmitting ? (
-                    <>
-                      <Loader2 className="w-5 h-5 mr-2 animate-spin" />
-                      Sending...
-                    </>
-                  ) : (
-                    <>
-                      <Send className="w-5 h-5 mr-2" />
-                      Send Message
-                    </>
-                  )}
-                </Button>
-              </form>
-            )}
-
-            {/* Feedback Form */}
-            {activeTab === "join" && (
-              <form onSubmit={(e) => handleSubmit(e, "Feedback")}>
+              )}
+              {contactForm.subject === "feedback" && (
+                <>
                 <div className="text-center mb-8">
                   <h3 className="font-display text-2xl font-bold text-foreground mb-2">
                   We’d Love Your Feedback
@@ -509,28 +618,15 @@ const Contact = () => {
                   <p className="text-muted-foreground">
                   Your feedback helps us continuously improve and create a better learning experience for every child.                  </p>
                 </div>
-                <div className="grid md:grid-cols-2 gap-6 mb-6">
-                  <FloatingLabelInput
-                    id="feedbackParentName"
-                    label="Parent's Full Name"
-                    value={feedbackForm.parentName}
-                    onChange={(v)  => setFeedbackForm({ ...feedbackForm, parentName: v })}
-                    required
-                  />
-                  <FloatingLabelInput
-                    id="feedbackChildName"
-                    label="Student's Full Name"
-                    value={feedbackForm.childName}
-                    onChange={(v) =>   setFeedbackForm({ ...feedbackForm, childName: v })}
-                    required
-                  />
-                </div>
-                <div className="grid md:grid-cols-2 gap-6 mb-6">
+                <div className="grid md:grid-cols-2 gap-6 mb-6 items-start">
                   <FloatingLabelSelect
                     id="feedbackCourse"
                     label="Program Enrolled In"
                     value={feedbackForm.course}
-                    onChange={(v) => setFeedbackForm({ ...feedbackForm, course: v })}
+                    onChange={(v) => {
+                      setFeedbackForm({ ...feedbackForm, course: v });
+                      dismissErrors("course");
+                    }}
                     options={[
                       { value: "", label: "Select a course" },
                       { value: "Abacus", label: "Abacus" },
@@ -541,8 +637,9 @@ const Contact = () => {
 
                     ]}
                     required
+                    error={fieldErrors.course}
                   />
-                  <div className="space-y-2">
+                  <div id="feedback-rating" className="space-y-2">
                     <Label className="text-sm font-medium text-muted-foreground">
                       Overall Experience Rating <span className="text-destructive">*</span>
                     </Label>
@@ -551,7 +648,10 @@ const Contact = () => {
                         <button
                           key={star}
                           type="button"
-                          onClick={() => setFeedbackForm({ ...feedbackForm, rating: star })}
+                          onClick={() => {
+                            setFeedbackForm({ ...feedbackForm, rating: star });
+                            dismissErrors("rating");
+                          }}
                           className="p-1 rounded focus:outline-none focus-visible:ring-2 focus-visible:ring-ring"
                           aria-label={`${star} star${star > 1 ? "s" : ""}`}
                         >
@@ -564,6 +664,11 @@ const Contact = () => {
                         </button>
                       ))}
                     </div>
+                    {fieldErrors.rating ? (
+                      <p className="text-destructive text-xs px-0.5" role="alert">
+                        {fieldErrors.rating}
+                      </p>
+                    ) : null}
                   </div>
                 </div>
                 <div className="mb-6">
@@ -572,8 +677,12 @@ const Contact = () => {
                     label="Your Experience with Tiny Vivid Minds"
                     placeholder="Tell us what you liked, what we can improve, or how your child has benefited..."
                     value={feedbackForm.message}
-                    onChange={(v) => setFeedbackForm({ ...feedbackForm, message: v })}
+                    onChange={(v) => {
+                      setFeedbackForm({ ...feedbackForm, message: v });
+                      dismissErrors("feedbackMessage");
+                    }}
                     required
+                    error={fieldErrors.feedbackMessage}
                   />
                 </div>
                 <div className="mb-6">
@@ -582,38 +691,72 @@ const Contact = () => {
                     label="Email Address"
                     type="email"
                     value={feedbackForm.email}
-                    onChange={(v) => setFeedbackForm({ ...feedbackForm, email: v })}
+                    onChange={(v) => {
+                      setFeedbackForm({ ...feedbackForm, email: v });
+                      dismissErrors("feedbackEmail");
+                    }}
                     required
+                    error={fieldErrors.feedbackEmail}
                   />
                   <p className="text-sm text-muted-foreground mt-2">
                   We’ll use this only to send a thank-you note and respond if needed. We respect your privacy.                  </p>
                 </div>
-                <Button
-                  type="submit"
-                  size="lg"
-                  disabled={isSubmitting || feedbackForm.rating === 0}
-                  className="w-full text-lg py-6 rounded-xl"
-                >
-                  {isSubmitting ? (
-                    <>
-                      <Loader2 className="w-5 h-5 mr-2 animate-spin" />
-                      Sending...
-                    </>
-                  ) : (
-                    <>
-                      <Send className="w-5 h-5 mr-2" />
-                      Submit Feedback
-                    </>
-                  )}
-                </Button>
-              </form>
-            )}
+                </>
+              )}
+              {contactForm.subject !== "feedback" && (
+                <div className="mb-6">
+                  <FloatingLabelTextarea
+                    id="contactMessage"
+                    label="Message"
+                    value={contactForm.message}
+                    onChange={(v) => {
+                      setContactForm({ ...contactForm, message: v });
+                      dismissErrors("message");
+                    }}
+                    required
+                    error={fieldErrors.message}
+                  />
+                </div>
+              )}
+              <div className="flex items-center gap-3 mb-6">
+                <ToggleSwitch
+                  checked={newsletter}
+                  onChange={setNewsletter}
+                  id="newsletter"
+                />
+                <label htmlFor="newsletter" className="text-sm text-muted-foreground">
+                I’d like to receive updates and learning tips via email
+                </label>
+              </div>
+              <Button
+                type="submit"
+                size="lg"
+                disabled={isSubmitting}
+                className="w-full text-base py-4 rounded-md"
+              >
+                {isSubmitting ? (
+                  <>
+                    <Loader2 className="w-5 h-5 mr-2 animate-spin" />
+                    Sending...
+                  </>
+                ) : (
+                  <>
+                    <Send className="w-5 h-5 mr-2" />
+                    {contactForm.subject === "feedback"
+                      ? "Submit Feedback"
+                      : contactForm.subject === "demo" || contactForm.subject === "courses"
+                        ? "Send request"
+                        : "Send Message"}
+                  </>
+                )}
+              </Button>
+            </form>
           </motion.div>
         </div>
       </section>
 
       {/* Testimonials - Wall of Love */}
-      <section className="py-24 bg-gradient-to-b from-background to-muted/30">
+      <section className="py-16 bg-gradient-to-b from-background to-muted/30">
         <div className="container mx-auto">
           <motion.div
             initial={{ opacity: 0, y: 30 }}
@@ -635,22 +778,73 @@ const Contact = () => {
             </p>
           </motion.div>
 
-          {/* Organic Cluster Layout */}
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
-            {testimonials.map((testimonial, index) => (
+          {/* Short notes / detailed stories — dots switch groups; full text always shown */}
+          <p className="text-center text-sm text-muted-foreground mb-6">
+            {activeTestimonialPage?.label}
+          </p>
+          <div
+            className={`grid gap-6 lg:gap-8 ${activeTestimonialPage?.cols ?? "md:grid-cols-2 lg:grid-cols-3"}`}
+          >
+            {visibleTestimonials.map((testimonial, index) => (
               <TestimonialBubble
-                key={testimonial.author}
+                key={`${safeTestimonialPage}-${testimonial.author}`}
                 {...testimonial}
                 index={index}
                 variant={index === 0 ? "featured" : "normal"}
               />
             ))}
           </div>
+
+          {totalTestimonialPages > 1 && (
+            <div className="mt-10 flex flex-wrap items-center justify-center gap-3 sm:gap-4">
+              <button
+                type="button"
+                onClick={() =>
+                  setTestimonialPage((page) =>
+                    page <= 0 ? totalTestimonialPages - 1 : page - 1
+                  )
+                }
+                className="flex h-10 w-10 items-center justify-center rounded-full border border-border bg-card text-foreground transition-all duration-300 hover:scale-105 hover:bg-muted sm:h-11 sm:w-11"
+                aria-label="Previous testimonials page"
+              >
+                <ChevronLeft className="h-5 w-5" />
+              </button>
+
+              <div className="flex items-center gap-1.5" role="tablist" aria-label="Testimonial pages">
+                {testimonialPages.map((page, i) => (
+                  <button
+                    key={page.label}
+                    type="button"
+                    role="tab"
+                    aria-selected={i === safeTestimonialPage}
+                    aria-label={page.label}
+                    onClick={() => setTestimonialPage(i)}
+                    className={`h-2 rounded-full transition-all duration-300 ${
+                      i === safeTestimonialPage
+                        ? "w-7 bg-gold"
+                        : "w-2 bg-muted-foreground/30 hover:bg-muted-foreground/50"
+                    }`}
+                  />
+                ))}
+              </div>
+
+              <button
+                type="button"
+                onClick={() =>
+                  setTestimonialPage((page) => (page + 1) % totalTestimonialPages)
+                }
+                className="flex h-10 w-10 items-center justify-center rounded-full border border-border bg-card text-foreground transition-all duration-300 hover:scale-105 hover:bg-muted sm:h-11 sm:w-11"
+                aria-label="Next testimonials page"
+              >
+                <ChevronRight className="h-5 w-5" />
+              </button>
+            </div>
+          )}
         </div>
       </section>
 
       {/* Social Media Section */}
-      <section className="py-24 bg-background">
+      <section className="py-16 bg-background">
         <div className="container mx-auto">
           <motion.div
             initial={{ opacity: 0, y: 30 }}
@@ -668,14 +862,33 @@ const Contact = () => {
 
           <div className="grid md:grid-cols-3 gap-6 max-w-4xl mx-auto">
             {[
-              { icon: Instagram, name: "Instagram", color: "#E4405F", desc: "Daily tips & stories" },
-              { icon: Facebook, name: "Facebook", color: "#1877F2", desc: "Community updates" },
-              { icon: Youtube, name: "YouTube", color: "#FF0000", desc: "Tutorial videos" },
+              {
+                icon: Instagram,
+                name: "Instagram",
+                color: "#E4405F",
+                desc: "Daily tips & stories",
+                href: SITE_LINKS.instagram,
+              },
+              {
+                icon: MessageCircle,
+                name: "WhatsApp",
+                color: "#25D366",
+                desc: "Chat with us",
+                href: whatsAppUrl,
+              },
+              {
+                icon: Youtube,
+                name: "YouTube",
+                color: "#FF0000",
+                desc: "Tutorial videos",
+                href: SITE_LINKS.youtube,
+              },
             ].map((social, i) => (
               <motion.a
                 key={social.name}
-                href="#"
+                href={social.href}
                 target="_blank"
+                rel="noopener noreferrer"
                 initial={{ opacity: 0, y: 30 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
@@ -703,7 +916,7 @@ const Contact = () => {
       </section>
 
       {/* FAQ Section */}
-      <section className="py-24 bg-muted/20">
+      <section className="py-16 bg-muted/20">
         <div className="container mx-auto">
           <div className="grid lg:grid-cols-2 gap-12 items-start">
             <motion.div
@@ -720,11 +933,11 @@ const Contact = () => {
               <p className="text-muted-foreground text-lg mb-8">
                 Find answers to common questions about our math learning programs.
               </p>
-              <Link to="/courses/abacus">
+              <DiscoverProgramsLink>
                 <Button variant="outline" size="lg" className="rounded-xl">
                   Explore Our Courses
                 </Button>
-              </Link>
+              </DiscoverProgramsLink>
             </motion.div>
 
             <div className="space-y-4">
@@ -735,7 +948,9 @@ const Contact = () => {
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true }}
                   transition={{ delay: index * 0.1 }}
-                  className="rounded-2xl overflow-hidden"
+                  className={`rounded-2xl overflow-hidden transition-all duration-500 ${
+                    activeFaq === index ? "shadow-lg ring-1 ring-gold/20 scale-[1.02]" : "shadow-md hover:shadow-lg"
+                  }`}
                   style={{
                     background: "hsl(var(--card))",
                     border: "1px solid hsl(var(--border))",
@@ -743,24 +958,24 @@ const Contact = () => {
                 >
                   <button
                     onClick={() => setActiveFaq(activeFaq === index ? null : index)}
-                    className="w-full p-5 flex items-center justify-between text-left"
+                    className="w-full p-5 flex items-center justify-between text-left hover:bg-muted/50 transition-all duration-300 group"
                   >
-                    <span className="font-medium text-foreground">{faq.question}</span>
+                    <span className="font-medium text-foreground pr-4 group-hover:text-gold transition-colors">{faq.question}</span>
                     <ChevronDown
-                      className={`w-5 h-5 text-muted-foreground transition-transform ${
-                        activeFaq === index ? "rotate-180" : ""
+                      className={`w-5 h-5 text-gold flex-shrink-0 transition-all duration-500 ${
+                        activeFaq === index ? "rotate-180 scale-110" : "group-hover:scale-110"
                       }`}
                     />
                   </button>
-                  {activeFaq === index && (
-                    <motion.div
-                      initial={{ height: 0, opacity: 0 }}
-                      animate={{ height: "auto", opacity: 1 }}
-                      className="px-5 pb-5"
-                    >
+                  <div
+                    className={`overflow-hidden transition-all duration-500 ${
+                      activeFaq === index ? "max-h-96 opacity-100" : "max-h-0 opacity-0"
+                    }`}
+                  >
+                    <div className="px-5 pb-5">
                       <p className="text-muted-foreground">{faq.answer}</p>
-                    </motion.div>
-                  )}
+                    </div>
+                  </div>
                 </motion.div>
               ))}
             </div>
@@ -769,7 +984,7 @@ const Contact = () => {
       </section>
 
       {/* Final CTA */}
-      <section className="py-24 bg-gradient-to-r from-primary via-primary to-navy-dark text-white">
+      <section className="py-16 bg-gradient-to-r from-primary via-primary to-navy-dark text-white">
         <div className="container mx-auto text-center">
           <motion.div
             initial={{ opacity: 0, y: 30 }}
@@ -781,7 +996,7 @@ const Contact = () => {
               Ready to Build Your Child's Confidence in Maths?
             </h2>
             <p className="text-xl text-white/80 mb-10">
-              Join 200+ parents who trust Tiny Vivid Minds to make maths simple, smart, and joyful.
+              Join parents worldwide who trust Tiny Vivid Minds to make maths simple, smart, and joyful.
             </p>
             <div className="flex flex-wrap justify-center gap-4">
               <Button
@@ -794,11 +1009,11 @@ const Contact = () => {
                   animate={{ translateY: [0, -3, 0] }}
                   transition={{ duration: 1.5, repeat: Infinity, ease: "easeInOut" }}
                 >
-                  <Calendar className="w-5 h-5" />
+                  <Mail className="w-5 h-5" />
                 </motion.span>
-                Book a Free Demo Now
+                Contact Us
               </Button>
-              <Link to="/courses/abacus">
+              <DiscoverProgramsLink>
                 <Button
                   size="lg"
                   variant="outline"
@@ -806,7 +1021,7 @@ const Contact = () => {
                 >
                   Explore Programs
                 </Button>
-              </Link>
+              </DiscoverProgramsLink>
             </div>
           </motion.div>
         </div>

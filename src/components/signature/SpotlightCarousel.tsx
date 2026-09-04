@@ -1,10 +1,10 @@
 import { useState, useEffect, useRef } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion } from "framer-motion";
 import AnimatedSection from "@/components/AnimatedSection";
-import { ChevronLeft, ChevronRight, Play, Pause } from "lucide-react";
-import abacusHandsImg from "@/assets/abacus-hands.jpg";
-import curiousChildImg from "@/assets/curious-child.jpg";
-import confidentChildrenImg from "@/assets/confident-children.jpg";
+import { Check, ChevronLeft, ChevronRight, Play, Pause } from "lucide-react";
+import abacusHandsImg from "@/assets/students-learning/hand_writing.png";
+import curiousChildImg from "@/assets/students-learning/maths.png";
+import confidentChildrenImg from "@/assets/students-learning/phonetics.png";
 
 const courses = [
   {
@@ -13,8 +13,12 @@ const courses = [
     description: "Build strong mathematical foundations with personalized problem-solving techniques and concept clarity.",
     image: curiousChildImg,
     tags: ["Ages 5-14", "Weekly Reports", "Certified Tutors"],
-    icon: "📐",
-    accent: "from-vedic-teal to-vedic-teal-dark"
+    // Match SignatureHero subject colors
+    ringActive: "ring-vedic-teal/50",
+    ringIdle: "ring-vedic-teal/25",
+    badge: "bg-vedic-teal/10 text-vedic-teal border-vedic-teal/20",
+    check: "text-vedic-teal",
+    dot: "bg-vedic-teal",
   },
   {
     id: 2,
@@ -22,8 +26,11 @@ const courses = [
     description: "Develop beautiful, legible handwriting through structured practice and motor skill development.",
     image: abacusHandsImg,
     tags: ["Ages 4-12", "Progress Tracking", "Custom Worksheets"],
-    icon: "✍️",
-    accent: "from-vedic-gold to-vedic-gold-dark"
+    ringActive: "ring-vedic-gold/50",
+    ringIdle: "ring-vedic-gold/25",
+    badge: "bg-vedic-gold/10 text-vedic-gold border-vedic-gold/20",
+    check: "text-vedic-gold",
+    dot: "bg-vedic-gold",
   },
   {
     id: 3,
@@ -31,9 +38,12 @@ const courses = [
     description: "Master reading and pronunciation with phonetic awareness and fluency building exercises.",
     image: confidentChildrenImg,
     tags: ["Ages 3-10", "Audio Lessons", "Reading Support"],
-    icon: "🗣️",
-    accent: "from-purple-500 to-purple-700"
-  }
+    ringActive: "ring-purple-500/50",
+    ringIdle: "ring-purple-500/25",
+    badge: "bg-purple-500/10 text-purple-600 border-purple-500/20",
+    check: "text-purple-500",
+    dot: "bg-purple-500",
+  },
 ];
 
 const SpotlightCarousel = () => {
@@ -73,7 +83,6 @@ const SpotlightCarousel = () => {
         rotateY: 0,
         z: 100,
         opacity: 1,
-        filter: "brightness(1) saturate(1)"
       };
     } else if (isLeft) {
       return {
@@ -81,8 +90,7 @@ const SpotlightCarousel = () => {
         scale: 0.85,
         rotateY: 20,
         z: 0,
-        opacity: 0.85,
-        filter: "brightness(0.7) saturate(0.8)"
+        opacity: 1,
       };
     } else if (isRight) {
       return {
@@ -90,8 +98,7 @@ const SpotlightCarousel = () => {
         scale: 0.85,
         rotateY: -20,
         z: 0,
-        opacity: 0.85,
-        filter: "brightness(0.7) saturate(0.8)"
+        opacity: 1,
       };
     }
     return {
@@ -100,12 +107,11 @@ const SpotlightCarousel = () => {
       rotateY: 0,
       z: -100,
       opacity: 0,
-      filter: "brightness(0.5) saturate(0.5)"
     };
   };
 
   return (
-    <section id="courses" className="py-20 bg-muted/30 overflow-hidden">
+    <section id="courses" className="py-14 bg-muted/30 overflow-hidden">
       <div className="container px-4">
         {/* Section Header */}
         <AnimatedSection animation="fade-up" className="text-center mb-16">
@@ -119,12 +125,13 @@ const SpotlightCarousel = () => {
             </span>
           </h2>
           <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-            Specialized small group instruction in essential academic skills
+            Structured programs in the skills that support every subject—math, handwriting, and phonics.
           </p>
         </AnimatedSection>
 
-        {/* 3D Carousel Container */}
-        <div className="relative h-[500px] perspective-1000">
+        {/* 3D Carousel — mobile nav sits below fixed-height stage; side arrows from md+ */}
+        <div className="relative px-10 sm:px-12 md:px-0 perspective-1000">
+          <div className="relative h-[420px] sm:h-[480px] md:h-[500px]">
           <div 
             className="absolute inset-0 flex items-center justify-center"
             style={{ perspective: "1200px" }}
@@ -136,14 +143,13 @@ const SpotlightCarousel = () => {
               return (
                 <motion.div
                   key={course.id}
-                  className="absolute w-80 md:w-96 cursor-pointer"
+                  className="absolute w-[min(100%,18rem)] cursor-pointer max-w-[calc(100vw-5rem)] sm:w-80 md:w-96 sm:max-w-none"
                   animate={{
                     x: style.x,
                     scale: style.scale,
                     rotateY: style.rotateY,
                     zIndex: isActive ? 10 : 1,
                     opacity: style.opacity,
-                    filter: style.filter
                   }}
                   transition={{
                     type: "spring",
@@ -157,7 +163,7 @@ const SpotlightCarousel = () => {
                 >
                   <div className={`
                     relative rounded-3xl overflow-hidden shadow-2xl
-                    ${isActive ? 'ring-4 ring-vedic-gold/50' : 'ring-2 ring-white/20'}
+                    ${isActive ? `ring-4 ${course.ringActive}` : `ring-2 ${course.ringIdle}`}
                   `}>
                     {/* Image */}
                     <div className="relative h-48 overflow-hidden">
@@ -166,13 +172,11 @@ const SpotlightCarousel = () => {
                         alt={course.title}
                         className="w-full h-full object-cover"
                       />
-                      <div className={`absolute inset-0 bg-gradient-to-t ${course.accent} opacity-40`} />
-                      <div className="absolute top-4 left-4 text-4xl">{course.icon}</div>
                     </div>
 
-                    {/* Content */}
-                    <div className="p-6 bg-card">
-                      <h3 className="text-xl font-bold text-foreground mb-2">{course.title}</h3>
+                    {/* Content — horizontal padding on mobile keeps title clear of arrow hit zones */}
+                    <div className="bg-card px-5 py-5 sm:p-6 md:px-6">
+                      <h3 className="text-lg font-bold text-foreground sm:text-xl mb-2 pr-1">{course.title}</h3>
                       <p className="text-muted-foreground text-sm mb-4 line-clamp-2">
                         {course.description}
                       </p>
@@ -182,7 +186,7 @@ const SpotlightCarousel = () => {
                         {course.tags.map((tag, tagIndex) => (
                           <span
                             key={tagIndex}
-                            className="px-3 py-1 text-xs font-medium rounded-full bg-vedic-gold/10 text-vedic-gold border border-vedic-gold/20"
+                            className={`px-3 py-1 text-xs font-medium rounded-full border ${course.badge}`}
                           >
                             {tag}
                           </span>
@@ -197,13 +201,16 @@ const SpotlightCarousel = () => {
                           className="mt-4 pt-4 border-t border-border space-y-2"
                         >
                           <div className="flex items-center gap-2 text-sm text-muted-foreground">
-                            <span className="text-vedic-gold">✓</span> Small Group (3-5 Students)
+                            <Check className={`h-4 w-4 shrink-0 ${course.check}`} strokeWidth={2.5} />
+                            Live instruction with expert tutors
                           </div>
                           <div className="flex items-center gap-2 text-sm text-muted-foreground">
-                            <span className="text-vedic-gold">✓</span> Flexible Scheduling
+                            <Check className={`h-4 w-4 shrink-0 ${course.check}`} strokeWidth={2.5} />
+                            Flexible Scheduling
                           </div>
                           <div className="flex items-center gap-2 text-sm text-muted-foreground">
-                            <span className="text-vedic-gold">✓</span> Progress Tracking
+                            <Check className={`h-4 w-4 shrink-0 ${course.check}`} strokeWidth={2.5} />
+                            Progress Tracking
                           </div>
                         </motion.div>
                       )}
@@ -214,46 +221,71 @@ const SpotlightCarousel = () => {
             })}
           </div>
 
-          {/* Navigation */}
           <button
+            type="button"
             onClick={prevSlide}
-            className="absolute left-4 top-1/2 -translate-y-1/2 z-20 p-3 rounded-full bg-card/90 backdrop-blur-sm border border-vedic-gold/20 shadow-lg hover:bg-card hover:border-vedic-gold/40 transition-colors"
+            className="absolute left-1 top-1/2 z-20 hidden -translate-y-1/2 rounded-full border border-vedic-gold/20 bg-card/90 p-2.5 shadow-lg backdrop-blur-sm transition-colors hover:border-vedic-gold/40 hover:bg-card md:left-4 md:block md:p-3"
             aria-label="Previous course"
           >
-            <ChevronLeft className="w-6 h-6 text-foreground" />
+            <ChevronLeft className="h-5 w-5 text-foreground md:h-6 md:w-6" />
           </button>
           <button
+            type="button"
             onClick={nextSlide}
-            className="absolute right-4 top-1/2 -translate-y-1/2 z-20 p-3 rounded-full bg-card/90 backdrop-blur-sm border border-vedic-gold/20 shadow-lg hover:bg-card hover:border-vedic-gold/40 transition-colors"
+            className="absolute right-1 top-1/2 z-20 hidden -translate-y-1/2 rounded-full border border-vedic-gold/20 bg-card/90 p-2.5 shadow-lg backdrop-blur-sm transition-colors hover:border-vedic-gold/40 hover:bg-card md:right-4 md:block md:p-3"
             aria-label="Next course"
           >
-            <ChevronRight className="w-6 h-6 text-foreground" />
+            <ChevronRight className="h-5 w-5 text-foreground md:h-6 md:w-6" />
           </button>
+          </div>
 
-          {/* Indicators & Auto-play Toggle */}
-          <div className="absolute bottom-4 left-1/2 -translate-x-1/2 flex items-center gap-4 z-20">
+          {/* Indicators & Auto-play — below cards so they don't overlap */}
+          <div className="mt-6 flex items-center justify-center gap-4">
             <div className="flex gap-2">
-              {courses.map((_, index) => (
+              {courses.map((course, index) => (
                 <button
                   key={index}
+                  type="button"
                   onClick={() => setCurrentSlide(index)}
                   className={`h-2 rounded-full transition-all duration-300 ${
-                    currentSlide === index ? 'w-8 bg-vedic-gold' : 'w-2 bg-border hover:bg-muted-foreground'
+                    currentSlide === index
+                      ? `w-8 ${course.dot}`
+                      : "w-2 bg-border hover:bg-muted-foreground"
                   }`}
                   aria-label={`Go to slide ${index + 1}`}
                 />
               ))}
             </div>
             <button
+              type="button"
               onClick={() => setIsAutoPlaying(!isAutoPlaying)}
-              className="p-2 rounded-full bg-card/80 backdrop-blur-sm border border-vedic-gold/20 hover:bg-card hover:border-vedic-gold/40 transition-colors"
+              className="rounded-full border border-vedic-gold/20 bg-card/80 p-2 backdrop-blur-sm transition-colors hover:border-vedic-gold/40 hover:bg-card"
               aria-label={isAutoPlaying ? "Pause auto-play" : "Start auto-play"}
             >
               {isAutoPlaying ? (
-                <Pause className="w-4 h-4 text-foreground" />
+                <Pause className="h-4 w-4 text-foreground" />
               ) : (
-                <Play className="w-4 h-4 text-foreground" />
+                <Play className="h-4 w-4 text-foreground" />
               )}
+            </button>
+          </div>
+
+          <div className="mt-4 flex justify-center gap-10 pb-1 md:hidden">
+            <button
+              type="button"
+              onClick={prevSlide}
+              className="rounded-full border border-vedic-gold/20 bg-card/95 p-3 shadow-md backdrop-blur-sm transition-colors hover:border-vedic-gold/40"
+              aria-label="Previous course"
+            >
+              <ChevronLeft className="h-6 w-6 text-foreground" />
+            </button>
+            <button
+              type="button"
+              onClick={nextSlide}
+              className="rounded-full border border-vedic-gold/20 bg-card/95 p-3 shadow-md backdrop-blur-sm transition-colors hover:border-vedic-gold/40"
+              aria-label="Next course"
+            >
+              <ChevronRight className="h-6 w-6 text-foreground" />
             </button>
           </div>
         </div>

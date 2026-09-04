@@ -1,33 +1,9 @@
-import { useState, useEffect, useRef } from "react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
-import AnimatedSection from "@/components/AnimatedSection";
-import { Button } from "@/components/ui/button";
-import { Link } from "react-router-dom";
-import { 
-  GraduationCap, 
-  Clock, 
-  TrendingUp, 
-  Users, 
-  Target, 
-  Brain,
-  Monitor,
-  LayoutDashboard,
-  FileText,
-  MessageCircle,
-  Heart,
-  Rocket,
-  Calendar,
-  Star,
-  ChevronLeft,
-  ChevronRight,
-  Play,
-  Pause
-} from "lucide-react";
 import SignatureHero from "@/components/signature/SignatureHero";
 import BenefitsSection from "@/components/signature/BenefitsSection";
 import SpotlightCarousel from "@/components/signature/SpotlightCarousel";
-import TrustSection from "@/components/signature/TrustSection";
+import GlobalFoundationsSection from "@/components/signature/GlobalFoundationsSection";
 import StudentPersonas from "@/components/signature/StudentPersonas";
 import SignatureCTA from "@/components/signature/SignatureCTA";
 import { SocialSidebar } from "@/components/SocialSidebar";
@@ -37,14 +13,14 @@ const SignaturePrograms = () => {
     <div className="min-h-screen min-w-0 bg-background overflow-x-clip font-quicksand">
       <Navbar />
       <SocialSidebar />
-      
+
       <SignatureHero />
       <BenefitsSection />
       <SpotlightCarousel />
-      <TrustSection />
+      <GlobalFoundationsSection />
       <StudentPersonas />
       <SignatureCTA />
-      
+
       <Footer />
     </div>
   );

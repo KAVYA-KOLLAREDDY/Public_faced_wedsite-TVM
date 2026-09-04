@@ -1,5 +1,5 @@
-import { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
+import { useState, useEffect, useRef } from "react";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
 import {
   Calculator,
@@ -15,7 +15,7 @@ import {
   Lightbulb,
   Award,
   Users,
-  Calendar,
+  Mail,
   MessageSquare,
   Globe,
 } from "lucide-react";
@@ -26,10 +26,12 @@ import { AnimatedSection } from "@/components/AnimatedSection";
 import { MathBackground } from "@/components/MathBackground";
 import { SocialSidebar } from "@/components/SocialSidebar";
 import { FuturisticHero } from "@/components/home/FuturisticHero";
-import childrenLearning from "@/assets/children-learning.jpg";
-import teamTeacher from "@/assets/team-teacher1.jpg";
-import abacusHands from "@/assets/abacus-hands.jpg";
-import vedicCourse from "@/assets/vedic-math-course.jpg";
+import { DiscoverProgramsLink } from "@/components/DiscoverProgramsLink";
+import { DISCOVER_PROGRAMS_HASH } from "@/lib/homeAnchors";
+import childrenLearning from "@/assets/students-learning/children-learning.jpg";
+import teamTeacher from "@/assets/students-learning/certified.png";
+import abacusHands from "@/assets/students-learning/abacus.png";
+import vedicCourse from "@/assets/students-learning/vedic-math.png";
 
 const programs = [
   {
@@ -37,18 +39,21 @@ const programs = [
     title: "Abacus Learning",
     description: "Master mental calculation through traditional abacus techniques.",
     color: "teal",
+    to: "/courses/abacus",
   },
   {
     icon: Brain,
     title: "Vedic Math",
     description: "Explore ancient mathematical strategies for faster problem-solving.",
     color: "gold",
+    to: "/courses/vedic-math",
   },
   {
     icon: GraduationCap,
     title: "Personalized Coaching",
     description: "Tailored learning experiences that adapt to each child's unique needs.",
     color: "navy",
+    to: "/courses/signature-programs",
   },
 ];
 
@@ -72,34 +77,54 @@ const whyChooseFeatures = [
 
 const testimonials = [
   {
-    name: "Sunita Krishnan",
+    name: "Rama Devi",
     role: "Parent",
-    childName: "Arjun",
+    childName: "her child",
     childAge: 8,
     rating: 5,
     message:
-      "My son went from struggling with basic math to doing 3-digit multiplications in his head. The Vedic methods are truly magical!",
+      "We are very happy with the classes. Thank you for conducting such wonderful classes. My child is enjoying the sessions and is excited to attend them every time. The teaching is interactive, and the concepts are explained in a simple way that is easy for children to understand. I can see a positive change in my child's interest and confidence. We truly appreciate your hard work and care. Thank you!",
     date: "2024-01-15",
   },
   {
-    name: "Rajesh Patel",
+    name: "Bharathi",
     role: "Parent",
-    childName: "Priya",
-    childAge: 6,
+    childName: "her child",
+    childAge: 8,
     rating: 5,
     message:
-      "The abacus training has transformed my daughter's confidence in math. She now loves solving problems and even teaches her friends!",
+      "We can clearly see a positive change in our child's concentration and confidence. Thank you for your wonderful guidance and care.",
     date: "2024-02-20",
   },
   {
-    name: "Anita Sharma",
+    name: "Bhavani Ashok",
     role: "Parent",
-    childName: "Rahul",
+    childName: "her son",
     childAge: 10,
     rating: 5,
     message:
-      "Tiny Vivid Minds' personalized approach helped my child overcome math anxiety. The teachers are patient and incredibly skilled.",
+      "Previously my son used to take class with one of the teachers and then it did not work out properly. But he is doing good with the concept so I approached TVM team they allotted us a new teacher. Surprisingly from day 1 she is teaching beautifully in the class. Now my son is in level 7 and he is doing a great job. Thank you mam.",
     date: "2024-03-10",
+  },
+  {
+    name: "Hiryanya",
+    role: "Parent",
+    childName: "her child",
+    childAge: 8,
+    rating: 5,
+    message:
+      "Very clear explanation and impressed with the way Sai Tejasvi mam is teaching my child.",
+    date: "2024-04-05",
+  },
+  {
+    name: "Shalini",
+    role: "Parent",
+    childName: "her son",
+    childAge: 9,
+    rating: 5,
+    message:
+      "My son is doing good with calculations after joining in Tiny Vivid Minds. But the teacher is little strict.",
+    date: "2024-05-12",
   },
 ];
 
@@ -132,8 +157,11 @@ const faqs = [
 ];
 
 const Index = () => {
+  const location = useLocation();
+  const navigate = useNavigate();
   const [currentTestimonialIndex, setCurrentTestimonialIndex] = useState(0);
   const [activeFaq, setActiveFaq] = useState<number | null>(null);
+  const discoverSectionWasVisibleRef = useRef(false);
 
   // Auto-rotate testimonials
   useEffect(() => {
@@ -142,6 +170,61 @@ const Index = () => {
     }, 5000);
     return () => clearInterval(timer);
   }, []);
+
+  useEffect(() => {
+    if (location.hash !== `#${DISCOVER_PROGRAMS_HASH}`) return;
+    const el = document.getElementById(DISCOVER_PROGRAMS_HASH);
+    if (!el) return;
+    const t = window.setTimeout(() => {
+      el.scrollIntoView({ behavior: "smooth", block: "start" });
+    }, 80);
+    return () => window.clearTimeout(t);
+  }, [location.pathname, location.hash]);
+
+  useEffect(() => {
+    if (location.pathname !== "/" || location.hash !== `#${DISCOVER_PROGRAMS_HASH}`) return;
+    discoverSectionWasVisibleRef.current = false;
+    const el = document.getElementById(DISCOVER_PROGRAMS_HASH);
+    if (!el) return;
+
+    let clearHashTimer: number | undefined;
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        const [entry] = entries;
+        if (entry.isIntersecting && entry.intersectionRatio >= 0.05) {
+          discoverSectionWasVisibleRef.current = true;
+          return;
+        }
+        if (!discoverSectionWasVisibleRef.current || entry.isIntersecting) return;
+
+        const rect = entry.boundingClientRect;
+        const vh = window.innerHeight;
+        const sectionAbove = rect.bottom < 120;
+        const sectionBelow = rect.top > vh - 80;
+        if (!(sectionAbove || sectionBelow)) return;
+
+        // Debounce: immediate navigate() here can race with a course <Link> click and cancel SPA navigation.
+        window.clearTimeout(clearHashTimer);
+        clearHashTimer = window.setTimeout(() => {
+          if (window.location.pathname !== "/" || window.location.hash !== `#${DISCOVER_PROGRAMS_HASH}`) {
+            return;
+          }
+          const r = el.getBoundingClientRect();
+          const v = window.innerHeight;
+          if (r.bottom < 120 || r.top > v - 80) {
+            navigate({ pathname: "/", hash: "" }, { replace: true });
+          }
+        }, 220);
+      },
+      { threshold: [0, 0.05, 0.15] }
+    );
+    observer.observe(el);
+    return () => {
+      observer.disconnect();
+      window.clearTimeout(clearHashTimer);
+    };
+  }, [location.pathname, location.hash, navigate]);
 
   const nextTestimonial = () => {
     setCurrentTestimonialIndex((prev) => (prev + 1) % testimonials.length);
@@ -166,7 +249,10 @@ const Index = () => {
       <FuturisticHero />
 
       {/* Programs Section */}
-      <section className="py-24 bg-background relative overflow-hidden">
+      <section
+        id={DISCOVER_PROGRAMS_HASH}
+        className="scroll-mt-[1.5rem] pt-6 pb-16 sm:pt-10 md:pt-14 lg:pt-16 bg-background relative overflow-hidden"
+      >
         <MathBackground />
         <div className="absolute top-20 right-10 w-32 h-32 border border-gold/10 rounded-full animate-float-slow" />
         <div
@@ -190,32 +276,38 @@ const Index = () => {
 
           <div className="grid md:grid-cols-3 gap-8">
             {programs.map((program, index) => (
-              <AnimatedSection key={program.title} delay={index * 150} animation="pop">
-                <div className="group bg-card p-8 rounded-3xl shadow-lg hover:shadow-xl text-center transition-all duration-500 transform hover:-translate-y-3 border border-transparent hover:border-gold/20 relative overflow-hidden">
-                  <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none">
-                    <div className="absolute inset-0 bg-gradient-to-r from-transparent via-gold/5 to-transparent animate-shimmer" />
-                  </div>
+              <AnimatedSection key={program.title} delay={index * 150} animation="pop" className="h-full">
+                <Link
+                  to={program.to}
+                  className="group block h-full rounded-3xl text-center transition-all duration-500 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold focus-visible:ring-offset-2 focus-visible:ring-offset-background"
+                  aria-label={`Open ${program.title} course page`}
+                >
+                  <div className="h-full bg-card p-8 rounded-3xl shadow-lg hover:shadow-xl transition-all duration-500 transform hover:-translate-y-3 border border-transparent hover:border-gold/20 relative overflow-hidden">
+                    <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none">
+                      <div className="absolute inset-0 bg-gradient-to-r from-transparent via-gold/5 to-transparent animate-shimmer" />
+                    </div>
 
-                  <div
-                    className={`w-20 h-20 rounded-full flex items-center justify-center mx-auto mb-6 transition-all duration-500 group-hover:scale-110 ${
-                      program.color === "teal"
-                        ? "bg-teal/15 group-hover:bg-teal/25"
-                        : program.color === "gold"
-                          ? "bg-gold/15 group-hover:bg-gold/25"
-                          : "bg-navy/10 group-hover:bg-navy/20"
-                    }`}
-                  >
-                    <program.icon
-                      className={`w-10 h-10 transition-transform duration-300 group-hover:-translate-y-1 ${
-                        program.color === "teal" ? "text-teal" : program.color === "gold" ? "text-gold" : "text-navy"
+                    <div
+                      className={`w-20 h-20 rounded-full flex items-center justify-center mx-auto mb-6 transition-all duration-500 group-hover:scale-110 ${
+                        program.color === "teal"
+                          ? "bg-teal/15 group-hover:bg-teal/25"
+                          : program.color === "gold"
+                            ? "bg-gold/15 group-hover:bg-gold/25"
+                            : "bg-navy/10 group-hover:bg-navy/20"
                       }`}
-                    />
+                    >
+                      <program.icon
+                        className={`w-10 h-10 transition-transform duration-300 group-hover:-translate-y-1 ${
+                          program.color === "teal" ? "text-teal" : program.color === "gold" ? "text-gold" : "text-navy"
+                        }`}
+                      />
+                    </div>
+                    <h3 className="font-display font-bold text-xl text-foreground mb-3 group-hover:text-gold transition-colors duration-300">
+                      {program.title}
+                    </h3>
+                    <p className="text-muted-foreground">{program.description}</p>
                   </div>
-                  <h3 className="font-display font-bold text-xl text-foreground mb-3 group-hover:text-gold transition-colors duration-300">
-                    {program.title}
-                  </h3>
-                  <p className="text-muted-foreground">{program.description}</p>
-                </div>
+                </Link>
               </AnimatedSection>
             ))}
           </div>
@@ -227,7 +319,7 @@ const Index = () => {
                 className="border-2 border-foreground/20 text-foreground hover:border-gold hover:text-gold font-display px-6"
                 asChild
               >
-                <Link to="/courses/abacus">Explore All</Link>
+                <DiscoverProgramsLink>Explore All</DiscoverProgramsLink>
               </Button>
               <Button variant="link" className="text-gold hover:text-gold-dark font-display group" asChild>
                 <Link to="/about">
@@ -241,7 +333,7 @@ const Index = () => {
       </section>
 
       {/* Mission Section - Fixed Image */}
-      <section className="py-24 bg-muted/30 relative overflow-hidden">
+      <section className="py-16 bg-muted/30 relative overflow-hidden">
         <div
           className="absolute top-10 left-10 w-40 h-40 bg-gold/5 rounded-full blur-3xl animate-float"
           style={{ animationDelay: "200ms" }}
@@ -283,7 +375,7 @@ const Index = () => {
       </section>
 
       {/* Why Choose Section - Clean Cards */}
-      <section className="py-24 bg-background relative overflow-hidden">
+      <section className="py-16 bg-background relative overflow-hidden">
         <MathBackground />
 
         <div className="container mx-auto relative z-10">
@@ -318,7 +410,7 @@ const Index = () => {
       </section>
 
       {/* Trust Section */}
-      <section className="py-24 bg-muted/30 relative overflow-hidden">
+      <section className="py-16 bg-muted/30 relative overflow-hidden">
         <div
           className="absolute top-40 right-10 w-20 h-20 bg-gold/5 rounded-full animate-float"
           style={{ animationDelay: "100ms" }}
@@ -375,7 +467,7 @@ const Index = () => {
                   className="border-2 border-foreground/20 text-foreground hover:border-gold hover:text-gold font-display px-6"
                   asChild
                 >
-                  <Link to="/courses/abacus">Explore</Link>
+                  <DiscoverProgramsLink>Explore</DiscoverProgramsLink>
                 </Button>
                 <Button variant="link" className="text-gold hover:text-gold-dark font-display group" asChild>
                   <Link to="/about">
@@ -402,7 +494,7 @@ const Index = () => {
       </section>
 
       {/* Testimonials Section */}
-      <section className="py-24 bg-background relative overflow-hidden">
+      <section className="py-16 bg-background relative overflow-hidden">
         <div className="absolute top-10 left-1/4 w-20 h-20 border border-gold/10 rounded-full animate-float" />
         <div
           className="absolute bottom-10 right-1/4 w-16 h-16 bg-teal/5 rotate-45 animate-float"
@@ -480,7 +572,7 @@ const Index = () => {
       </section> 
 
       {/* Learning Moments Section - Fixed Images */}
-      <section className="py-24 bg-muted/30 relative overflow-hidden">
+      <section className="py-16 bg-muted/30 relative overflow-hidden">
         <MathBackground />
         <div className="absolute top-20 left-20 w-24 h-24 border border-gold/10 rounded-full animate-float-slow" />
 
@@ -525,8 +617,8 @@ const Index = () => {
         </div>
       </section>
 
-      {/* FAQ Section */}
-     <section className="py-24 bg-background relative overflow-hidden">
+      {/* FAQ Section
+      <section className="py-16 bg-background relative overflow-hidden">
         <div
           className="absolute top-20 right-20 w-16 h-16 bg-gold/5 rotate-45 animate-float"
           style={{ animationDelay: "200ms" }}
@@ -579,9 +671,10 @@ const Index = () => {
           </div>
         </div>
       </section> 
+      */}
 
       {/* Contact CTA Section */}
-      <section className="py-24 bg-muted/30 relative overflow-hidden">
+      <section className="py-16 bg-muted/30 relative overflow-hidden">
         <MathBackground />
         <div
           className="absolute top-20 right-1/4 w-24 h-24 bg-teal/5 rounded-full animate-float"
@@ -610,7 +703,7 @@ const Index = () => {
       </section>
 
       {/* Final CTA Section */}
-      <section className="py-24 bg-gradient-to-br from-gold/10 via-background to-teal/10 relative overflow-hidden">
+      <section className="py-16 bg-gradient-to-br from-gold/10 via-background to-teal/10 relative overflow-hidden">
         <div className="absolute top-10 left-10 w-20 h-20 border-2 border-gold/20 rotate-45 animate-float" />
         <div className="absolute bottom-10 right-10 w-16 h-16 bg-teal/10 rounded-full animate-float-slow" />
         <div
@@ -640,9 +733,9 @@ const Index = () => {
                     animate={{ translateY: [0, -3, 0] }}
                     transition={{ duration: 1.5, repeat: Infinity, ease: "easeInOut" }}
                   >
-                    <Calendar className="h-5 w-5" />
+                    <Mail className="h-5 w-5" />
                   </motion.span>
-                  Book a Free Demo Now
+                  Contact Us
                 </Link>
               </Button>
               <Button
@@ -651,10 +744,10 @@ const Index = () => {
                 className="border-2 border-gold text-gold hover:bg-gold hover:text-navy-dark transition-all duration-300 hover:scale-105 hover:-translate-y-1"
                 asChild
               >
-                <Link to="/courses/abacus">
+                <DiscoverProgramsLink>
                   <GraduationCap className="mr-2 h-5 w-5" />
                   Explore Programs
-                </Link>
+                </DiscoverProgramsLink>
               </Button>
             </div>
           </AnimatedSection>

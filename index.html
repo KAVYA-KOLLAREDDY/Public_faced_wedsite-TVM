@@ -15,9 +15,115 @@
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:site" content="%VITE_TWITTER_SITE%" />
     <meta name="twitter:image" content="%VITE_OG_IMAGE%" />
+
+    <style>
+      /* Immediate splash — before React / CSS bundle load (matches site navy–gold–teal) */
+      html, body {
+        margin: 0;
+        min-height: 100%;
+        background: #0a1628;
+      }
+      #app-splash {
+        position: fixed;
+        inset: 0;
+        z-index: 99999;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-direction: column;
+        gap: 1.5rem;
+        background: linear-gradient(135deg, #0a1628 0%, #142a4d 45%, #1a5c55 100%);
+        font-family: system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
+        transition: opacity 0.35s ease, visibility 0.35s ease;
+      }
+      #app-splash.is-hidden {
+        opacity: 0;
+        visibility: hidden;
+        pointer-events: none;
+      }
+      #app-splash .splash-ring {
+        position: relative;
+        width: 5rem;
+        height: 5rem;
+      }
+      #app-splash .splash-ring::before,
+      #app-splash .splash-ring::after {
+        content: "";
+        position: absolute;
+        inset: 0;
+        border-radius: 9999px;
+        border: 2px solid transparent;
+      }
+      #app-splash .splash-ring::before {
+        border-top-color: #ffc800;
+        border-right-color: #4db8ad;
+        animation: splash-spin 0.9s linear infinite;
+      }
+      #app-splash .splash-ring::after {
+        inset: 0.5rem;
+        border-bottom-color: #ffd84d;
+        animation: splash-spin 1.4s linear infinite reverse;
+      }
+      #app-splash .splash-mark {
+        position: absolute;
+        inset: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: #ffc800;
+        font-weight: 700;
+        font-size: 1.125rem;
+        letter-spacing: 0.04em;
+      }
+      #app-splash .splash-title {
+        margin: 0;
+        color: #fff;
+        font-size: 1.35rem;
+        font-weight: 700;
+        letter-spacing: 0.02em;
+      }
+      #app-splash .splash-sub {
+        margin: 0.35rem 0 0;
+        color: rgba(255, 255, 255, 0.6);
+        font-size: 0.875rem;
+        font-weight: 500;
+      }
+      #app-splash .splash-dots {
+        display: flex;
+        gap: 0.5rem;
+      }
+      #app-splash .splash-dots span {
+        width: 0.5rem;
+        height: 0.5rem;
+        border-radius: 9999px;
+        background: #ffc800;
+        animation: splash-bounce 0.9s ease-in-out infinite;
+      }
+      #app-splash .splash-dots span:nth-child(2) { animation-delay: 0.15s; }
+      #app-splash .splash-dots span:nth-child(3) { animation-delay: 0.3s; }
+      @keyframes splash-spin {
+        to { transform: rotate(360deg); }
+      }
+      @keyframes splash-bounce {
+        0%, 80%, 100% { transform: translateY(0); opacity: 0.55; }
+        40% { transform: translateY(-6px); opacity: 1; }
+      }
+    </style>
   </head>
 
   <body>
+    <div id="app-splash" aria-busy="true" aria-live="polite" role="status" aria-label="Loading Tiny Vivid Minds">
+      <div class="splash-ring">
+        <span class="splash-mark">TVM</span>
+      </div>
+      <div style="text-align:center">
+        <p class="splash-title">Tiny Vivid Minds</p>
+        <p class="splash-sub">Loading…</p>
+      </div>
+      <div class="splash-dots" aria-hidden="true">
+        <span></span><span></span><span></span>
+      </div>
+    </div>
     <div id="root"></div>
     <script type="module" src="/src/main.tsx"></script>
   </body>
