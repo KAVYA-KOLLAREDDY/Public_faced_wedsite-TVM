@@ -45,132 +45,146 @@ const abacusLevels: Level[] = [
     id: 1,
     title: "Level 0",
     subtitle: "Introduction to Abacus",
-    description: "Introduction to abacus fundamentals with basic addition and subtraction up to 4 columns.",
+    description:
+      "Introduction to abacus with simple addition and subtraction, plus Small and Half Big Friends.",
     skills: [
-      "Abacus basics",
-      "Simple addition & subtraction (3–4 columns)",
-      "Small & Half Big Friends"
+      "Introduction to abacus",
+      "Simple addition and subtraction (3 columns and 4 columns)",
+      "Small friends upto 3 columns and 4 columns",
+      "Half Big friends upto 3 columns and 4 columns",
     ],
-    accentColor: "teal"
+    accentColor: "teal",
   },
   {
     id: 2,
     title: "Level 1",
     subtitle: "Friends Practice",
-    description: "Strengthening small, big, and mixed friends with extended column practice.",
+    description:
+      "Half Big Friends, revision of Small and Big Friends, Mixed Friends, and full friends revision.",
     skills: [
-      "Half Big Friends",
-      "Small, Big & Mixed Friends",
-      "Up to 5 columns"
+      "Half Big friends upto 3 columns and 4 columns",
+      "Revision on Small and big friends upto 4 columns and 5 columns",
+      "Mixed friends upto 3 columns and 4 columns",
+      "Revision on Small, big and mixed friends upto 4 columns and 5 columns",
     ],
-    accentColor: "gold"
+    accentColor: "gold",
   },
   {
     id: 3,
     title: "Level 2",
     subtitle: "Digit Expansion",
-    description: "Single and double-digit operations up to 6 columns.",
+    description: "Single-digit and double-digit addition and subtraction with multi-column practice.",
     skills: [
-      "Single digit (4–6 columns)",
-      "Basic double-digit sums",
-      "4-column double-digit practice"
+      "Single digit addition and subtraction upto 4 columns to 6 columns",
+      "Basic double digit addition and subtraction (4 columns)",
+      "Double digit sums (4 columns)",
     ],
-    accentColor: "teal"
+    accentColor: "teal",
   },
   {
     id: 4,
     title: "Level 3",
     subtitle: "Advanced Addition",
-    description: "Triple-digit operations and board / non-board practice.",
+    description:
+      "Single and double revision with and without board, plus triple-digit addition and subtraction.",
     skills: [
-      "Single & double revision (up to 6 columns)",
-      "Triple-digit addition & subtraction",
-      "With & without board"
+      "Single double revision for with and without board upto 6 columns",
+      "Triple digit addition and subtraction (2 to 4 columns)",
     ],
-    accentColor: "gold"
+    accentColor: "gold",
   },
   {
     id: 5,
     title: "Level 4",
     subtitle: "Multiplication Begins",
-    description: "Higher column mastery and introduction to multiplication.",
+    description:
+      "Higher column work with and without board, and multiplication by a single digit with board.",
     skills: [
-      "Single digit (up to 10 columns)",
-      "Double & triple digits",
-      "Single-digit multiplication"
+      "Single (upto 10 cols), double (upto 7 cols) & triple (upto 4 cols) with and without board",
+      "Multiplication: single, double and triple by single with board",
     ],
-    accentColor: "teal"
+    accentColor: "teal",
   },
   {
     id: 6,
     title: "Level 5",
     subtitle: "Multi-Digit Mastery",
-    description: "Multi-digit multiplication and statement problem solving.",
+    description:
+      "Extended column work, multiplication with and without board, and simple statement problems.",
     skills: [
-      "Double × double multiplication",
-      "Up to 10 columns",
-      "Word problems (add & subtract)"
+      "Single (upto 10 cols without board), double (upto 10) & triple (upto 7) with and without board",
+      "Multiplication: single/double/triple × single without board; double × double with board",
+      "Simple statement problems in addition and subtraction",
     ],
-    accentColor: "gold"
+    accentColor: "gold",
   },
   {
     id: 7,
     title: "Level 6",
-    subtitle: "Four-digit & advanced multiply",
-    description: "Four-digit operations and larger multiplication combinations with strong column discipline.",
+    subtitle: "Four-digit & Advanced Multiply",
+    description:
+      "Four-digit addition and subtraction, 3×3 and 3×2 multiplications, and combination sums.",
     skills: [
-      "4-digit addition & subtraction",
-      "3×3 & 3×2 multiplication",
-      "Combination sums"
+      "Four digit addition and subtractions upto 4 columns (with single, double and triple digit)",
+      "Multiplications — 3×3, 3×2",
+      "Combination of addition and multiplications",
     ],
-    accentColor: "teal"
+    accentColor: "teal",
   },
   {
     id: 8,
     title: "Level 7",
-    subtitle: "Division & mixed mastery",
-    description: "Division fluency alongside mixed operations and longer mental chains.",
+    subtitle: "Division & Mixed Mastery",
+    description:
+      "Four-digit operations, multiplications, combination sums, simple divisions, and statement problems.",
     skills: [
-      "Division routines",
-      "Mixed operation sets",
-      "Longer column chains"
+      "Additions and subtractions upto four digit",
+      "Multiplications",
+      "Combinations sums",
+      "Simple divisions",
+      "Statement problems",
     ],
-    accentColor: "gold"
+    accentColor: "gold",
   },
   {
     id: 9,
     title: "Level 8",
-    subtitle: "Speed & accuracy",
-    description: "Timed sets and error-free execution at higher difficulty—tighten accuracy under pressure.",
-    skills: ["Timed drills", "Error review", "Consistency goals"],
-    accentColor: "teal"
+    subtitle: "Decimals Operations",
+    description:
+      "Decimal addition, subtraction, and multiplication with and without board.",
+    skills: [
+      "Decimal addition with and without board",
+      "Decimal subtraction with and without board",
+      "Decimal multiplication with and without board",
+    ],
+    accentColor: "teal",
   },
   {
     id: 10,
     title: "Level 9",
-    subtitle: "Competition prep",
-    description: "Competition-style formats, pacing, and problem sets that mirror event conditions.",
-    skills: ["Event pacing", "Problem banks", "Mock rounds"],
-    accentColor: "gold"
+    subtitle: "Decimal Division & Number Theory",
+    description: "Decimal division, LCM, and GCD with and without board.",
+    skills: [
+      "Decimal division with and without board",
+      "LCM with and without board",
+      "GCD with and without board",
+    ],
+    accentColor: "gold",
   },
   {
     id: 11,
     title: "Level 10",
-    subtitle: "Mental transfer",
-    description: "Transfer abacus imagery to mental calculation with increasingly abstract prompts.",
-    skills: ["Image-based solving", "No-board sets", "Visualization drills"],
-    accentColor: "teal"
+    subtitle: "Percentages & Negatives",
+    description:
+      "Percentages, decimal multiplication and division, and negative numbers addition and subtraction with and without board.",
+    skills: [
+      "Percentages with and without board",
+      "Decimal multiplication and division with and without board",
+      "Negative numbers addition and subtraction with and without board",
+    ],
+    accentColor: "teal",
   },
-  {
-    id: 12,
-    title: "Level 11",
-    subtitle: "Capstone",
-    description: "Capstone practice integrating the full skill stack—review, refine, and perform at peak level.",
-    skills: ["Integrated review", "Peak difficulty sets", "Performance polish"],
-    accentColor: "gold"
-  }
 ];
-
 
 const vedicLevels: Level[] = [
   {
@@ -259,93 +273,115 @@ export const StackedLevelCards: React.FC<StackedLevelCardsProps> = ({ variant = 
           <div 
             className={`
               relative z-[1] w-full
-              py-2 sm:py-3
+              py-0
               grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4 items-stretch px-3 sm:px-4
               transition-all duration-700 delay-300
               ${isVisible ? 'opacity-100 scale-100' : 'opacity-0 scale-95'}
             `}
           >
-            {visibleLevels.map((level, index) => (
+            {visibleLevels.map((level, index) => {
+              const isVedic = variant === "vedic";
+              const compactSyllabus =
+                isVedic ||
+                level.title === "Level 1" ||
+                level.title === "Level 5";
+
+              return (
               <div
                 key={`${safePage}-${level.id}`}
-                className="relative flex w-full min-w-0 min-h-0 h-full"
+                className="relative flex h-full w-full min-h-0 min-w-0"
                 style={{
                   transitionDelay: isVisible ? `${Math.min(index, 8) * 60}ms` : '0ms',
                 }}
               >
-                <div className="flex flex-1 min-h-0 min-w-0 transition-[transform,opacity] duration-500 ease-out hover:-translate-y-0.5">
-                {/* Premium Card */}
-                <div 
+                <div className="flex h-full min-h-0 min-w-0 w-full flex-1 transition-[transform,opacity] duration-500 ease-out hover:-translate-y-0.5">
+                <div
                   className={`
-                    relative flex flex-col flex-1 min-h-0 min-w-0 w-full rounded-2xl overflow-hidden
-                    backdrop-blur-xl border transition-all duration-500
-                    bg-gradient-to-br from-white/15 to-white/5 border-gold/40 shadow-xl shadow-gold/15
+                    relative flex w-full min-w-0 flex-col overflow-hidden rounded-2xl
+                    border border-gold/40 bg-gradient-to-br from-white/15 to-white/5
+                    shadow-xl shadow-gold/15 backdrop-blur-xl transition-all duration-500
+                    ${isVedic
+                      ? "h-[13.5rem] sm:h-[14.25rem]"
+                      : "h-[17.5rem] sm:h-[18.5rem]"
+                    }
                   `}
                 >
-                  {/* Top accent line */}
-                  <div className={`absolute top-0 inset-x-0 h-0.5 bg-gradient-to-r ${
-                    level.accentColor === 'gold' 
-                      ? 'from-transparent via-gold to-transparent' 
+                  <div className={`absolute inset-x-0 top-0 h-0.5 bg-gradient-to-r ${
+                    level.accentColor === 'gold'
+                      ? 'from-transparent via-gold to-transparent'
                       : 'from-transparent via-teal to-transparent'
                   }`} />
-                  
-                  <div className="absolute inset-0 bg-gradient-to-br from-gold/10 via-transparent to-teal/10 pointer-events-none" />
 
-                  <div className="relative z-[1] flex min-h-0 min-w-0 flex-1 flex-col p-3 sm:p-4">
-                      {/* No flex-1 on body: avoids a tall empty band above the footer in stretched grid cells */}
-                      <div className="flex min-w-0 flex-col gap-1 font-sans antialiased sm:gap-1.5">
-                        <div className="w-full shrink-0">
-                          <h3 className="text-center font-display text-base font-bold leading-tight tracking-tight text-white sm:text-lg">
-                            {level.title}
-                          </h3>
-                          <p
-                            className={`mt-0.5 line-clamp-2 text-left text-xs font-medium leading-snug tracking-normal sm:text-[13px] ${
-                              level.accentColor === 'gold' ? 'text-gold/80' : 'text-teal/80'
+                  <div className="pointer-events-none absolute inset-0 bg-gradient-to-br from-gold/10 via-transparent to-teal/10" />
+
+                  <div className="relative z-[1] flex h-full min-h-0 min-w-0 flex-col px-3.5 pb-3 pt-3.5 sm:px-4 sm:pb-3.5 sm:pt-4">
+                    <div className="shrink-0 text-center">
+                      <h3 className="font-display text-base font-bold leading-none tracking-tight text-white sm:text-lg">
+                        {level.title}
+                      </h3>
+                    </div>
+
+                    <p
+                      className={`line-clamp-2 shrink-0 text-left text-xs leading-snug text-white/70 sm:text-sm ${
+                        compactSyllabus ? "mt-1.5" : "mt-2.5"
+                      }`}
+                    >
+                      {level.description}
+                    </p>
+
+                    <ol
+                      className={`min-h-0 flex-1 overflow-y-auto overscroll-contain pr-0.5 [scrollbar-width:thin] ${
+                        compactSyllabus
+                          ? "mt-1 space-y-0.5"
+                          : "mt-2.5 space-y-1"
+                      }`}
+                    >
+                      {level.skills.map((skill, skillIndex) => (
+                        <li
+                          key={skill}
+                          className="grid grid-cols-[1.5rem_minmax(0,1fr)] gap-x-2 text-left"
+                        >
+                          <span
+                            className={`pt-px font-mono text-xs font-semibold tabular-nums leading-snug sm:text-[13px] ${
+                              level.accentColor === 'gold' ? 'text-gold/75' : 'text-teal/75'
                             }`}
                           >
-                            {level.subtitle}
-                          </p>
-                        </div>
+                            {String(skillIndex + 1).padStart(2, '0')}
+                          </span>
+                          <span className="text-xs leading-snug text-white/90 sm:text-sm">
+                            {skill}
+                          </span>
+                        </li>
+                      ))}
+                    </ol>
 
-                        <p className="line-clamp-2 text-left text-sm leading-snug tracking-normal text-white/75">
-                          {level.description}
-                        </p>
-                        <div className="flex flex-wrap gap-1 sm:gap-1.5">
-                          {level.skills.map((skill) => (
-                            <span
-                              key={skill}
-                              className="rounded-md border border-white/10 bg-white/10 px-1.5 py-0.5 text-[11px] font-medium leading-snug tracking-normal text-white/85
-                                hover:bg-white/15 sm:px-2 sm:text-xs
-                                transition-colors break-words"
-                            >
-                              {skill}
-                            </span>
-                          ))}
-                        </div>
-                      </div>
-
-                      <div className="mt-auto flex shrink-0 justify-end pt-2 sm:pt-2.5">
-                        <Link
-                          to="/contact#contact-form"
-                          className={`
-                            inline-flex items-center gap-1.5 rounded-lg px-3 py-1.5
-                            font-sans text-xs font-semibold tracking-tight
-                            transition-all duration-300 hover:scale-[1.02] hover:shadow-md
-                            ${level.accentColor === 'gold'
-                              ? 'bg-gold text-navy-dark hover:bg-gold-light hover:shadow-gold/30'
-                              : 'bg-teal text-white hover:bg-teal-light hover:shadow-teal/30'
-                            }
-                          `}
-                        >
-                          Enroll
-                          <ArrowRight className="w-3 h-3" />
-                        </Link>
-                      </div>
+                    <div
+                      className={`flex shrink-0 justify-end border-t border-white/10 ${
+                        compactSyllabus ? "mt-1.5 pt-1.5" : "mt-2.5 pt-2.5"
+                      }`}
+                    >
+                      <Link
+                        to="/contact#contact-form"
+                        className={`
+                          inline-flex items-center gap-1.5 rounded-md px-3 py-1.5
+                          font-sans text-xs font-semibold tracking-tight sm:text-sm
+                          transition-all duration-300 hover:scale-[1.02]
+                          ${level.accentColor === 'gold'
+                            ? 'bg-gold text-navy-dark hover:bg-gold-light'
+                            : 'bg-teal text-white hover:bg-teal-light'
+                          }
+                        `}
+                      >
+                        Enroll
+                        <ArrowRight className="h-3.5 w-3.5" />
+                      </Link>
+                    </div>
                   </div>
                 </div>
               </div>
               </div>
-            ))}
+              );
+            })}
           </div>
 
           {totalPages > 1 && (

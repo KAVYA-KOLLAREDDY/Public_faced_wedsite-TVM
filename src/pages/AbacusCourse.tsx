@@ -12,7 +12,10 @@ import {
   Sparkles,
   Globe,
   Mail,
-  RotateCcw
+  RotateCcw,
+  Trophy,
+  Headphones,
+  Users,
 } from "lucide-react";
 import FloatingMathSymbols from "@/components/FloatingMathSymbols";
 import HeroMathSymbols from "@/components/HeroMathSymbols";
@@ -34,6 +37,12 @@ import TestimonialsWithPagination from "@/components/abacus/TestimonialsWithPagi
 import PremiumAccordion from "@/components/abacus/PremiumAccordion";
 import StatsBar from "@/components/vedic/StatsBar";
 import Abacus from "@/utils/abacus";
+
+const abacusStats = [
+  { icon: Trophy, value: "Level 11", label: "Mastery" },
+  { icon: Headphones, value: "Live 1-on-1", label: "Support" },
+  { icon: Users, value: "Group Sessions", label: "Students" },
+];
 
 const benefits = [
   { icon: Brain, title: "Brain Development", description: "Stimulates both hemispheres, enhancing cognitive abilities." },
@@ -174,7 +183,7 @@ const AbacusCourse = () => {
       </section>
 
       {/* Stats Bar - Below Hero */}
-      <StatsBar stackedMobileThree />
+      <StatsBar stats={abacusStats} stackedMobileThree />
 
       {/* Benefits Section - Matching Programs Section Style */}
       <section className="py-16 bg-background relative overflow-hidden">
@@ -244,12 +253,12 @@ const AbacusCourse = () => {
         <ParallaxWatermark text="LEVELS" className="-right-20 top-[58%]" speed={0.12} />
 
         <div className="container mx-auto relative z-10">
-          <AnimatedSection className="relative z-[2] mx-auto mb-8 max-w-3xl text-center sm:mb-12 md:mb-16">
-            <span className="inline-block px-4 py-2 bg-gold/20 text-gold font-semibold tracking-wider uppercase text-sm rounded-full mb-4">
+          <AnimatedSection className="relative z-[2] mx-auto mb-3 max-w-3xl text-center sm:mb-4 md:mb-5">
+            <span className="inline-block px-4 py-2 bg-gold/20 text-gold font-semibold tracking-wider uppercase text-sm rounded-full mb-3">
               Learning Path
             </span>
-            <h2 className="font-display text-3xl font-bold text-white mb-4 sm:text-4xl md:mb-6 md:text-5xl">
-              Six Progressive <span className="text-gold">Levels</span>
+            <h2 className="font-display text-3xl font-bold text-white mb-2 sm:text-4xl md:mb-3 md:text-5xl">
+              Eleven Progressive <span className="text-gold">Levels</span>
             </h2>
             <p className="text-base text-white/70 sm:text-lg">
               Navigate through our carefully designed curriculum that builds mathematical confidence step by step.

@@ -1,11 +1,23 @@
 import { Link } from "react-router-dom";
 import { DiscoverProgramsLink } from "@/components/DiscoverProgramsLink";
 import { motion } from "framer-motion";
-import { 
-  ArrowRight, Target, Heart, Lightbulb, Users, Award, Calculator, Brain, 
-  UserCheck, Laptop, ChartLine, Shield, Medal, Gamepad2, UsersRound, 
-  BarChart3, Quote, Eye, Sparkles, GraduationCap, BookOpen, Star, Zap, Globe,
-  Smile, Activity, BrainCircuit, HeartHandshake, Mail
+import {
+  ArrowRight,
+  Target,
+  Heart,
+  Lightbulb,
+  Users,
+  UsersRound,
+  Quote,
+  Sparkles,
+  GraduationCap,
+  Globe,
+  Activity,
+  BrainCircuit,
+  HeartHandshake,
+  Mail,
+  Laptop,
+  ChartLine,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Navbar } from "@/components/Navbar";
@@ -14,53 +26,175 @@ import { AnimatedSection } from "@/components/AnimatedSection";
 import { StatsCounter } from "@/components/StatsCounter";
 import { ParallaxWatermark } from "@/components/ParallaxWatermark";
 import { TextReveal } from "@/components/TextReveal";
-import { GlowCard } from "@/components/GlowCard";
 import { BentoGrid, AnimatedBentoItem } from "@/components/BentoGrid";
 import { SocialSidebar } from "@/components/SocialSidebar";
 import { HIGHLIGHTED_COUNTRY_COUNT } from "@/config/globalNetworkCountries";
 
-// Images
 import abacusCourseImg from "@/assets/TVM_tools/abacus.png";
 import vedicMathImg from "@/assets/students-learning/vedic_math_learning.png";
-import tutoringImg from "@/assets/tutoring-course.jpg";
-import founderImg from "@/assets/founder/founder_pic1.png";
+import founderImg from "@/assets/founder_pic2.jpeg";
 import curiousChildImg from "@/assets/students-learning/curious-child.jpg";
 import worldNetworkImg from "@/assets/world-network.jpg";
-import childrenLearningImg from "@/assets/students-learning/student1.png";
+import mathematicsImg from "@/assets/students-learning/maths.png";
+import handwritingImg from "@/assets/students-learning/hand_writing.png";
+import phonicsImg from "@/assets/students-learning/phonetics.png";
 
 const values = [
-  { icon: Target, title: "Excellence", description: "We strive for the highest standards in education and student outcomes." },
-  { icon: Heart, title: "Passion", description: "Our love for mathematics inspires us to create engaging learning experiences." },
-  { icon: Lightbulb, title: "Innovation", description: "We blend ancient wisdom with modern teaching methodologies." },
-  { icon: Users, title: "Community", description: "Building a supportive network of learners, parents, and educators." },
+  {
+    icon: Target,
+    title: "Excellence",
+    description:
+      "We strive to provide thoughtful, structured, and high-quality learning experiences that help every child make meaningful progress.",
+  },
+  {
+    icon: Heart,
+    title: "Passion",
+    description:
+      "Our passion for learning inspires us to create engaging experiences that help children stay curious and excited to grow.",
+  },
+  {
+    icon: Lightbulb,
+    title: "Innovation",
+    description:
+      "We combine proven teaching approaches with engaging, modern learning experiences that make learning relevant and enjoyable.",
+  },
+  {
+    icon: Users,
+    title: "Community",
+    description:
+      "We build a supportive learning community where children, parents, and educators work together toward meaningful growth.",
+  },
 ];
 
 const fourPillars = [
-  { 
-    icon: UsersRound, 
-    title: "Socially", 
-    description: "Building confidence through collaborative learning and peer interactions",
-    color: "from-vedic-gold/20 to-vedic-gold/5"
+  {
+    icon: UsersRound,
+    title: "Socially",
+    description:
+      "Building confidence through communication, collaboration, and positive learning interactions.",
+    color: "from-vedic-gold/20 to-vedic-gold/5",
   },
-  { 
-    icon: Heart, 
-    title: "Emotionally", 
-    description: "Nurturing resilience and positive attitudes toward challenges",
-    color: "from-rose-500/20 to-rose-500/5"
+  {
+    icon: Heart,
+    title: "Emotionally",
+    description:
+      "Encouraging resilience, curiosity, and a positive attitude toward learning and challenges.",
+    color: "from-rose-500/20 to-rose-500/5",
   },
-  { 
-    icon: Activity, 
-    title: "Physically", 
-    description: "Engaging activities that develop fine motor skills and coordination",
-    color: "from-vedic-teal/20 to-vedic-teal/5"
+  {
+    icon: Activity,
+    title: "Physically",
+    description:
+      "Developing coordination, focus, and physical engagement through age-appropriate learning activities.",
+    color: "from-vedic-teal/20 to-vedic-teal/5",
   },
-  { 
-    icon: BrainCircuit, 
-    title: "Mentally", 
-    description: "Strengthening cognitive abilities and problem-solving skills",
-    color: "from-purple-500/20 to-purple-500/5"
+  {
+    icon: BrainCircuit,
+    title: "Mentally",
+    description:
+      "Strengthening thinking, reasoning, concentration, and problem-solving skills through meaningful learning experiences.",
+    color: "from-purple-500/20 to-purple-500/5",
   },
 ];
+
+type Accent = "gold" | "teal" | "purple" | "rose" | "orange";
+
+const aboutPrograms: {
+  name: string;
+  headline: [string, string];
+  description: string;
+  features: string[];
+  image: string;
+  alt: string;
+  accent: Accent;
+}[] = [
+  {
+    name: "Abacus",
+    headline: ["Numbers Made Simple,", "Minds Made Strong"],
+    description:
+      "A visual and hands-on approach to numbers that helps children build a strong foundation for mental math while making learning active and engaging.",
+    features: ["Mental Calculation", "Concentration", "Number Sense", "Visual Learning"],
+    image: abacusCourseImg,
+    alt: "Abacus Learning",
+    accent: "gold",
+  },
+  {
+    name: "Vedic Mathematics",
+    headline: ["Ancient Wisdom,", "Modern Thinking"],
+    description:
+      "Explore smart mathematical techniques that encourage learners to see patterns, simplify calculations, and approach problems in new ways.",
+    features: ["Faster Calculations", "Pattern Recognition", "Logical Thinking", "Problem-Solving"],
+    image: vedicMathImg,
+    alt: "Vedic Mathematics",
+    accent: "teal",
+  },
+  {
+    name: "Mathematics",
+    headline: ["Think Beyond", "the Numbers"],
+    description:
+      "Build a deeper understanding of mathematics through concept-focused learning, practical application, and step-by-step exploration.",
+    features: ["Concept Clarity", "Mathematical Reasoning", "Practical Application", "Analytical Thinking"],
+    image: mathematicsImg,
+    alt: "Mathematics Learning",
+    accent: "purple",
+  },
+  {
+    name: "Handwriting",
+    headline: ["Where Every Stroke", "Builds Confidence"],
+    description:
+      "Develop a clear and comfortable writing style through guided practice that encourages consistency, control, and attention to detail.",
+    features: ["Letter Formation", "Writing Control", "Neatness", "Writing Fluency"],
+    image: handwritingImg,
+    alt: "Handwriting Practice",
+    accent: "rose",
+  },
+  {
+    name: "Phonics",
+    headline: ["Where Sounds", "Become Words"],
+    description:
+      "Discover the building blocks of language by learning how sounds connect with letters and words in a fun, structured learning environment.",
+    features: ["Sound Recognition", "Letter-Sound Connection", "Word Building", "Early Reading"],
+    image: phonicsImg,
+    alt: "Phonics Learning",
+    accent: "orange",
+  },
+];
+
+const accentStyles: Record<
+  Accent,
+  { glow: string; text: string; chip: string; dot: string }
+> = {
+  gold: {
+    glow: "from-vedic-gold/30 to-vedic-gold/10",
+    text: "text-vedic-gold",
+    chip: "bg-vedic-gold/5 hover:bg-vedic-gold/10",
+    dot: "bg-vedic-gold",
+  },
+  teal: {
+    glow: "from-vedic-teal/30 to-vedic-teal/10",
+    text: "text-vedic-teal",
+    chip: "bg-vedic-teal/5 hover:bg-vedic-teal/10",
+    dot: "bg-vedic-teal",
+  },
+  purple: {
+    glow: "from-purple-500/30 to-purple-500/10",
+    text: "text-purple-500",
+    chip: "bg-purple-500/5 hover:bg-purple-500/10",
+    dot: "bg-purple-500",
+  },
+  rose: {
+    glow: "from-rose-500/30 to-rose-500/10",
+    text: "text-rose-500",
+    chip: "bg-rose-500/5 hover:bg-rose-500/10",
+    dot: "bg-rose-500",
+  },
+  orange: {
+    glow: "from-orange-500/30 to-orange-500/10",
+    text: "text-orange-500",
+    chip: "bg-orange-500/5 hover:bg-orange-500/10",
+    dot: "bg-orange-500",
+  },
+};
 
 const About = () => {
   return (
@@ -71,7 +205,7 @@ const About = () => {
       {/* ============================================
           PART 1: THE VISIONARY HERO HEADER
           ============================================ */}
-      <section className="relative min-h-[70vh] flex items-center pt-24 pb-14">
+      <section className="relative min-h-[58vh] flex items-center pt-20 pb-8">
         <ParallaxWatermark text="VIVID" className="top-1/3 -left-20" speed={0.15} />
         
         {/* Subtle mesh background */}
@@ -85,7 +219,7 @@ const About = () => {
           <div className="max-w-5xl mx-auto text-center">
             {/* Badge */}
             <AnimatedSection animation="pop-in">
-              <span className="inline-flex items-center gap-2 text-vedic-gold font-semibold tracking-widest uppercase text-xs bg-vedic-gold/10 px-4 py-2 rounded-full mb-8">
+              <span className="inline-flex items-center gap-2 text-vedic-gold font-semibold tracking-widest uppercase text-xs bg-vedic-gold/10 px-4 py-2 rounded-full mt-8 mb-4">
                 <Sparkles className="w-4 h-4" />
                 About Tiny Vivid Minds
               </span>
@@ -105,9 +239,7 @@ const About = () => {
             {/* Sub-headline - Lead paragraph with larger font */}
             <AnimatedSection animation="fade-up" delay={400}>
               <p className="text-xl md:text-2xl lg:text-3xl text-muted-foreground font-light max-w-4xl mx-auto leading-relaxed">
-                A globally recognized online academy committed to children's mathematical 
-                skill development through well-researched, need-based, quality programs 
-                for ages 4 and above.
+              A globally recognized online academy committed to children's overall learning & skill development through well-researched, need-based, quality programs for ages 4 and above.
               </p>
             </AnimatedSection>
 
@@ -133,7 +265,7 @@ const About = () => {
       {/* ============================================
           PART 2: THE 'CURIOUS SOULS' SPLIT SECTION
           ============================================ */}
-      <section className="py-16 md:py-20 relative overflow-hidden">
+      <section className="py-10 md:py-12 relative overflow-hidden">
         <ParallaxWatermark text="CURIOUS" className="-right-32 top-0" speed={0.2} />
         
         <div className="container mx-auto">
@@ -149,7 +281,7 @@ const About = () => {
                 <div className="relative rounded-3xl overflow-hidden shadow-2xl">
                   <img 
                     src={curiousChildImg}
-                    alt="Child looking at mathematical shapes with wonder"
+                    alt="Child exploring and learning with curiosity"
                     className="w-full h-[500px] lg:h-[600px] object-cover transform group-hover:scale-105 transition-transform duration-700"
                   />
                   {/* Subtle overlay gradient */}
@@ -180,10 +312,7 @@ const About = () => {
                 </TextReveal>
 
                 <p className="text-lg md:text-xl text-muted-foreground leading-relaxed">
-                  From learning basic counting to building mathematical vocabulary, 
-                  recognizing patterns to solving complex problems — young children are 
-                  just curious souls. They are nimble at picking skills and hop to 
-                  another one fast.
+                From learning basic counting to building vocabulary, improving handwriting, recognizing sounds and patterns, and solving complex problems — young children are just curious souls. They are nimble at picking skills and hop to another one fast.
                 </p>
 
                 <div className="relative pl-6 border-l-4 border-vedic-gold/40">
@@ -196,9 +325,9 @@ const About = () => {
                 </div>
 
                 <p className="text-lg text-muted-foreground leading-relaxed">
-                  Your child can "grow more and learn more" in so many different ways. 
-                  It's a matter of opportunity and environment. We understand that you 
-                  want the best for your kids — and so do we.
+                  Your child can grow and learn in so many different ways. Sometimes, all they need is the right
+                  opportunity, encouragement, and environment. We understand that you want the best for your child —
+                  and that's exactly what we strive to provide.
                 </p>
               </div>
             </AnimatedSection>
@@ -209,25 +338,25 @@ const About = () => {
       {/* ============================================
           PART 3: THE 'FOUR PILLARS' BENTO GRID
           ============================================ */}
-      <section className="py-16 md:py-20 bg-muted/30 relative overflow-hidden">
+      <section className="py-10 md:py-12 bg-muted/30 relative overflow-hidden">
         <ParallaxWatermark text="GROWTH" className="top-20 -left-20" speed={0.18} />
         
         <div className="container mx-auto">
           {/* Section Header */}
-          <div className="text-center max-w-3xl mx-auto mb-16">
+          <div className="text-center max-w-3xl mx-auto mb-10">
             <AnimatedSection animation="blur-in">
               <span className="text-vedic-teal font-semibold tracking-widest uppercase text-sm">
                 Holistic Development
               </span>
             </AnimatedSection>
             <TextReveal delay={100}>
-              <h2 className="font-display text-4xl md:text-5xl lg:text-6xl font-bold text-foreground mt-4 pt-3 leading-snug md:leading-[1.18]">
+              <h2 className="font-display text-4xl md:text-5xl lg:text-6xl font-bold text-foreground mt-2 pt-1 leading-snug md:leading-[1.12]">
                 Growing as an
                 <span className="text-vedic-gold"> Individual</span>
               </h2>
             </TextReveal>
             <AnimatedSection animation="fade-up" delay={300}>
-              <p className="text-xl text-muted-foreground mt-6">
+              <p className="text-xl text-muted-foreground mt-3">
                 With Tiny Vivid Minds, your kids get exposed to a surrounding which 
                 helps them grow as an individual — in every dimension.
               </p>
@@ -271,10 +400,10 @@ const About = () => {
           {/* Supporting text */}
           <AnimatedSection animation="fade-up" delay={600} className="text-center mt-12 max-w-3xl mx-auto">
             <p className="text-lg text-muted-foreground leading-relaxed">
-              Let your kid dive deep into Tiny Vivid Minds, developing 
-              <span className="text-vedic-gold font-semibold"> creative thinking</span>, 
-              <span className="text-vedic-teal font-semibold"> reasoning skills</span>, 
-              verbal skills and logic reasoning in their growing years.
+              Let your child explore, discover, and grow with Tiny Vivid Minds — developing{" "}
+              <span className="text-vedic-gold font-semibold">communication</span>,{" "}
+              <span className="text-vedic-teal font-semibold">creativity</span>, reasoning, concentration,
+              problem-solving, and essential academic skills during their formative years.
             </p>
           </AnimatedSection>
         </div>
@@ -283,7 +412,7 @@ const About = () => {
       {/* ============================================
           PART 4: THE 'ANYWHERE, EVERYWHERE' FEATURE
           ============================================ */}
-      <section className="py-16 md:py-20 relative overflow-hidden">
+      <section className="py-10 md:py-12 relative overflow-hidden">
         {/* World Map Background */}
         <div className="absolute inset-0">
           <img 
@@ -358,7 +487,7 @@ const About = () => {
       {/* ============================================
           PART 5: THE EINSTEIN QUOTE FINALE
           ============================================ */}
-      <section className="py-16 md:py-20 relative overflow-hidden bg-vedic-navy">
+      <section className="py-10 md:py-12 relative overflow-hidden bg-vedic-navy">
         {/* Glow effects */}
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-vedic-gold/20 rounded-full blur-[150px]" />
         <div className="absolute top-0 right-0 w-[400px] h-[400px] bg-vedic-teal/15 rounded-full blur-[100px]" />
@@ -390,8 +519,8 @@ const About = () => {
             <AnimatedSection animation="scale" delay={600}>
               <div className="mt-12 pt-8 border-t border-white/10">
                 <p className="text-lg text-white/70">
-                  At Tiny Vivid Minds, we make learning feel like discovering fairy tales — 
-                  magical, engaging, and transformative.
+                  At Tiny Vivid Minds, we believe learning should spark the same sense of wonder that stories do —
+                  engaging children's curiosity, encouraging exploration, and making every new discovery exciting.
                 </p>
               </div>
             </AnimatedSection>
@@ -400,13 +529,13 @@ const About = () => {
       </section>
 
       {/* ============================================
-          PROGRAMS SECTION - Z-Pattern Layout
+          PROGRAMS SECTION - Z-Pattern Layout (5 programs)
           ============================================ */}
-      <section className="py-16 md:py-20 relative overflow-hidden">
+      <section className="py-10 md:py-12 relative overflow-hidden">
         <ParallaxWatermark text="LEARN" className="top-1/4 -left-32" speed={0.2} />
         
         <div className="container mx-auto">
-          <AnimatedSection className="text-center max-w-3xl mx-auto mb-20" animation="fade-up">
+          <AnimatedSection className="text-center max-w-3xl mx-auto mb-12" animation="fade-up">
             <span className="text-vedic-gold font-semibold tracking-widest uppercase text-sm">Our Programs</span>
             <h2 className="font-display text-4xl md:text-5xl lg:text-6xl font-bold text-foreground mt-4 mb-6">
               Curated for
@@ -417,177 +546,105 @@ const About = () => {
             </p>
           </AnimatedSection>
 
-          {/* Program 1 - Abacus */}
-          <div className="grid lg:grid-cols-2 gap-12 lg:gap-24 items-center mb-32">
-            <AnimatedSection animation="fade-right" className="relative">
-              <div className="relative group">
-                <div className="absolute -inset-6 bg-gradient-to-br from-vedic-gold/30 to-vedic-gold/10 rounded-[3rem] rotate-3 group-hover:rotate-6 transition-transform duration-700" />
-                <div className="relative rounded-3xl overflow-hidden shadow-2xl">
-                  <img 
-                    src={abacusCourseImg} 
-                    alt="Abacus Learning" 
-                    className="w-full h-[500px] object-cover"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-vedic-navy/90 via-vedic-navy/20 to-transparent flex items-end p-8">
-                    <div className="text-white">
-                      <span className="inline-block bg-vedic-gold text-vedic-navy px-3 py-1 rounded-full text-sm font-semibold mb-3">Ages 3-8</span>
-                      <h3 className="font-display text-3xl font-bold">Abacus</h3>
+          {aboutPrograms.map((program, index) => {
+            const styles = accentStyles[program.accent];
+            const flip = index % 2 === 1;
+            const isLast = index === aboutPrograms.length - 1;
+
+            return (
+              <div
+                key={program.name}
+                className={`grid lg:grid-cols-2 gap-12 lg:gap-24 items-center ${isLast ? "" : "mb-12 md:mb-10"}`}
+              >
+                <AnimatedSection
+                  animation="fade-right"
+                  delay={flip ? 200 : 0}
+                  className={`relative ${flip ? "lg:order-2" : ""}`}
+                >
+                  <div className="relative group">
+                    <div
+                      className={`absolute -inset-6 bg-gradient-to-br ${styles.glow} rounded-[3rem] ${
+                        flip ? "-rotate-3 group-hover:-rotate-6" : "rotate-3 group-hover:rotate-6"
+                      } transition-transform duration-700`}
+                    />
+                    <div className="relative rounded-3xl overflow-hidden shadow-2xl">
+                      <img
+                        src={program.image}
+                        alt={program.alt}
+                        className="w-full h-[500px] object-cover"
+                      />
+                      <div className="absolute inset-0 bg-gradient-to-t from-vedic-navy/90 via-vedic-navy/20 to-transparent flex items-end p-8">
+                        <div className="text-white">
+                          <h3 className="font-display text-3xl font-bold">{program.name}</h3>
+                        </div>
+                      </div>
                     </div>
                   </div>
-                </div>
-              </div>
-            </AnimatedSection>
+                </AnimatedSection>
 
-            <AnimatedSection animation="fade-left" delay={200}>
-              <TextReveal>
-                <h3 className="font-display text-3xl md:text-4xl font-bold text-foreground mb-6">
-                  Ancient Tool,
-                  <span className="block text-vedic-gold">Modern Minds</span>
-                </h3>
-              </TextReveal>
-              <p className="text-lg text-muted-foreground leading-relaxed mb-8">
-                Program includes tools & visualization. Our Abacus program develops mental 
-                calculation skills that form the foundation for mathematical excellence.
-              </p>
-              <div className="grid grid-cols-2 gap-4">
-                {["Mental calculation", "Concentration", "Enhanced memory", "Visual-spatial"].map((feature, i) => (
-                  <AnimatedSection key={feature} animation="pop-in" delay={300 + i * 100}>
-                    <div className="flex items-center gap-3 p-3 rounded-xl bg-vedic-gold/5 hover:bg-vedic-gold/10 transition-colors">
-                      <span className="w-2 h-2 rounded-full bg-vedic-gold" />
-                      <span className="text-sm text-foreground">{feature}</span>
-                    </div>
-                  </AnimatedSection>
-                ))}
-              </div>
-            </AnimatedSection>
-          </div>
-
-          {/* Program 2 - Vedic Math (Z-Pattern flip) */}
-          <div className="grid lg:grid-cols-2 gap-12 lg:gap-24 items-center mb-32">
-            <AnimatedSection animation="fade-right" delay={200} className="lg:order-2 relative">
-              <div className="relative group">
-                <div className="absolute -inset-6 bg-gradient-to-br from-vedic-teal/30 to-vedic-teal/10 rounded-[3rem] -rotate-3 group-hover:-rotate-6 transition-transform duration-700" />
-                <div className="relative rounded-3xl overflow-hidden shadow-2xl">
-                  <img 
-                    src={vedicMathImg} 
-                    alt="Vedic Mathematics" 
-                    className="w-full h-[500px] object-cover"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-vedic-navy/90 via-vedic-navy/20 to-transparent flex items-end p-8">
-                    <div className="text-white">
-                      <span className="inline-block bg-vedic-teal text-white px-3 py-1 rounded-full text-sm font-semibold mb-3">Ages 12+</span>
-                      <h3 className="font-display text-3xl font-bold">Vedic Maths</h3>
-                    </div>
+                <AnimatedSection
+                  animation="fade-left"
+                  delay={flip ? 0 : 200}
+                  className={flip ? "lg:order-1" : ""}
+                >
+                  <TextReveal>
+                    <h3 className="font-display text-3xl md:text-4xl font-bold text-foreground mb-6">
+                      {program.headline[0]}
+                      <span className={`block ${styles.text}`}>{program.headline[1]}</span>
+                    </h3>
+                  </TextReveal>
+                  <p className="text-lg text-muted-foreground leading-relaxed mb-8">{program.description}</p>
+                  <div className="grid grid-cols-2 gap-4">
+                    {program.features.map((feature, i) => (
+                      <AnimatedSection key={feature} animation="pop-in" delay={300 + i * 100}>
+                        <div className={`flex items-center gap-3 p-3 rounded-xl transition-colors ${styles.chip}`}>
+                          <span className={`w-2 h-2 rounded-full ${styles.dot}`} />
+                          <span className="text-sm text-foreground">{feature}</span>
+                        </div>
+                      </AnimatedSection>
+                    ))}
                   </div>
-                </div>
+                </AnimatedSection>
               </div>
-            </AnimatedSection>
-
-            <AnimatedSection animation="fade-left" className="lg:order-1">
-              <TextReveal>
-                <h3 className="font-display text-3xl md:text-4xl font-bold text-foreground mb-6">
-                  Speed Meets
-                  <span className="block text-vedic-teal">Elegance</span>
-                </h3>
-              </TextReveal>
-              <p className="text-lg text-muted-foreground leading-relaxed mb-8">
-                Ancient techniques for modern mathematical excellence. Unlock rapid-calculation 
-                techniques that sharpen analytical thinking.
-              </p>
-              <div className="grid grid-cols-2 gap-4">
-                {["Speed calculation", "Pattern recognition", "Problem-solving", "Creativity"].map((feature, i) => (
-                  <AnimatedSection key={feature} animation="pop-in" delay={300 + i * 100}>
-                    <div className="flex items-center gap-3 p-3 rounded-xl bg-vedic-teal/5 hover:bg-vedic-teal/10 transition-colors">
-                      <span className="w-2 h-2 rounded-full bg-vedic-teal" />
-                      <span className="text-sm text-foreground">{feature}</span>
-                    </div>
-                  </AnimatedSection>
-                ))}
-              </div>
-            </AnimatedSection>
-          </div>
-
-          {/* Program 3 - Personalized Coaching */}
-          <div className="grid lg:grid-cols-2 gap-12 lg:gap-24 items-center">
-            <AnimatedSection animation="fade-right" className="relative">
-              <div className="relative group">
-                <div className="absolute -inset-6 bg-gradient-to-br from-purple-500/30 to-purple-500/10 rounded-[3rem] rotate-3 group-hover:rotate-6 transition-transform duration-700" />
-                <div className="relative rounded-3xl overflow-hidden shadow-2xl">
-                  <img 
-                    src={childrenLearningImg} 
-                    alt="Personalized Coaching" 
-                    className="w-full h-[500px] object-cover"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-vedic-navy/90 via-vedic-navy/20 to-transparent flex items-end p-8">
-                    <div className="text-white">
-                      <span className="inline-block bg-purple-500 text-white px-3 py-1 rounded-full text-sm font-semibold mb-3">All Ages</span>
-                      <h3 className="font-display text-3xl font-bold">Personalized Coaching</h3>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </AnimatedSection>
-
-            <AnimatedSection animation="fade-left" delay={200}>
-              <TextReveal>
-                <h3 className="font-display text-3xl md:text-4xl font-bold text-foreground mb-6">
-                  Individual
-                  <span className="block text-purple-500">Attention</span>
-                </h3>
-              </TextReveal>
-              <p className="text-lg text-muted-foreground leading-relaxed mb-8">
-                One-on-one tutoring tailored to individual needs. Your child learns at their 
-                own pace with customized curriculum.
-              </p>
-              <div className="grid grid-cols-2 gap-4">
-                {["1-on-1 attention", "Custom curriculum", "Flexible timing", "Progress tracking"].map((feature, i) => (
-                  <AnimatedSection key={feature} animation="pop-in" delay={300 + i * 100}>
-                    <div className="flex items-center gap-3 p-3 rounded-xl bg-purple-500/5 hover:bg-purple-500/10 transition-colors">
-                      <span className="w-2 h-2 rounded-full bg-purple-500" />
-                      <span className="text-sm text-foreground">{feature}</span>
-                    </div>
-                  </AnimatedSection>
-                ))}
-              </div>
-            </AnimatedSection>
-          </div>
+            );
+          })}
         </div>
       </section>
 
       {/* ============================================
           WHY CHOOSE US - Bento Grid
           ============================================ */}
-      <section className="py-16 md:py-20 bg-muted/30 relative overflow-hidden">
+      <section className="py-10 md:py-12 bg-muted/30 relative overflow-hidden">
         <ParallaxWatermark text="WHY" className="top-10 -right-20" speed={0.15} />
         
         <div className="container mx-auto">
-          <AnimatedSection className="text-center max-w-3xl mx-auto mb-16" animation="blur-in">
+          <AnimatedSection className="text-center max-w-3xl mx-auto mb-10" animation="blur-in">
             <span className="text-vedic-gold font-semibold tracking-widest uppercase text-sm">Why Choose Us</span>
             <h2 className="font-display text-4xl md:text-5xl font-bold text-foreground mt-4">
               Expertise Meets
-              <span className="text-vedic-gold"> Innovation</span>
+              <span className="text-vedic-gold"> Personalization</span>
             </h2>
           </AnimatedSection>
 
           <BentoGrid className="grid-cols-1 md:grid-cols-2 lg:grid-cols-4 max-w-6xl mx-auto">
             <AnimatedBentoItem
-              title="Expert Teachers"
-              description="Certified instructors with years of experience in child education and specialized training."
+              title="Expert Educators"
+              description="Experienced educators who bring subject knowledge, thoughtful guidance, and a child-friendly approach to every learning session."
               icon={GraduationCap}
               variant="highlight"
               animation="pop-in"
               delay={0}
             />
             <AnimatedBentoItem
-              title="Online Learning"
-              description="Flexible online classes that fit your family's schedule with interactive tools."
+              title="Flexible Online Learning"
+              description="Live, interactive classes designed to fit your family's schedule while keeping children engaged and supported."
               icon={Laptop}
               animation="pop-in"
               delay={100}
             />
             <AnimatedBentoItem
-              title="Proven Results"
-              description="95% success rate with measurable improvements in math skills and confidence."
+              title="Progress You Can See"
+              description="Structured learning, regular practice, and progress tracking help parents understand how their child is developing over time."
               icon={ChartLine}
               variant="subtle"
               animation="pop-in"
@@ -595,7 +652,7 @@ const About = () => {
             />
             <AnimatedBentoItem
               title="Child-Centered"
-              description="Every program is designed with the child's well-being and learning style at center."
+              description="Every learning experience is designed around the child's needs, pace, strengths, and areas for growth."
               icon={HeartHandshake}
               animation="pop-in"
               delay={300}
@@ -607,11 +664,11 @@ const About = () => {
       {/* ============================================
           CORE VALUES
           ============================================ */}
-      <section className="py-16 md:py-20 relative overflow-hidden">
+      <section className="py-10 md:py-12 relative overflow-hidden">
         <ParallaxWatermark text="VALUES" className="top-1/4 -left-20" speed={0.2} />
         
         <div className="container mx-auto">
-          <AnimatedSection className="text-center max-w-3xl mx-auto mb-16" animation="fade-up">
+          <AnimatedSection className="text-center max-w-3xl mx-auto mb-10" animation="fade-up">
             <span className="text-vedic-teal font-semibold tracking-widest uppercase text-sm">Our Core Values</span>
             <h2 className="font-display text-4xl md:text-5xl font-bold text-foreground mt-4">
               What <span className="text-vedic-gold">Drives</span> Us
@@ -641,7 +698,7 @@ const About = () => {
       {/* ============================================
           FOUNDER'S MESSAGE
           ============================================ */}
-      <section className="py-16 md:py-20 bg-muted/30 relative overflow-hidden">
+      <section className="py-10 md:py-12 bg-muted/30 relative overflow-hidden">
         <ParallaxWatermark text="TEAM" className="-right-32 top-20" speed={0.18} />
         
         <div className="container mx-auto">
@@ -673,13 +730,24 @@ const About = () => {
                 <div className="relative pl-6 border-l-4 border-vedic-gold/40">
                   <Quote className="w-8 h-8 text-vedic-gold/30 mb-4" />
                   <p className="text-lg text-muted-foreground leading-relaxed mb-4">
-                   
-                    "Mathematics is not just about numbers and calculations; it's about developing critical thinking, problem-solving skills, and confidence that will help children throughout their lives.Our dedicated team nurtures young minds of age 3-8 years through the timeless art of abacus, building foundational numeracy, concentration, and confidence. For students over the age 12, we unlock the power of Vedic Mathematics, offering elegant, rapid‑calculation techniques that sharpen analytical thinking and problem‑solving skills."
-
-
+                    "Learning is not just about acquiring knowledge; it is about developing the confidence, curiosity,
+                    and skills that help children navigate the world around them. At Tiny Vivid Minds, we believe every
+                    child has the ability to learn and grow when given the right guidance, encouragement, and
+                    environment. Through our programs in Mathematics, Abacus, Vedic Mathematics, Handwriting, and
+                    Phonics, we aim to strengthen essential skills while making learning engaging, meaningful, and
+                    enjoyable."
+                  </p>
+                  <p className="text-lg text-muted-foreground leading-relaxed mb-4">
+                    "Our approach brings together structured learning, personalized attention, and engaging practice so
+                    that children can progress at their own pace. Whether a child is developing early reading and writing
+                    skills, strengthening mathematical foundations, or exploring advanced calculation strategies, we want
+                    every learning experience to build not only ability, but also confidence."
                   </p>
                   <p className="text-lg text-muted-foreground leading-relaxed">
-                    At <b>Tiny Vivid Minds,</b> we blend tradition with innovation, ensuring every learner embarks on a journey of curiosity, excellence, and joy. Explore our programs, meet our instructors, and join us in shaping the mathematicians of tomorrow.
+                    At <b>Tiny Vivid Minds,</b> we blend proven approaches with thoughtful, modern learning experiences
+                    to nurture curious, confident, and capable learners. We invite you to explore our programs, meet our
+                    educators, and join us in creating a learning journey where every child has the opportunity to grow
+                    and shine.
                   </p>
                 </div>
               </AnimatedSection>
@@ -688,12 +756,8 @@ const About = () => {
                 <div className="flex flex-wrap gap-8 pt-4">
                   <div>
                     <h5 className="font-display font-bold text-lg text-foreground">Sai Tejasvi Peravali</h5>
-                    <p className="text-vedic-gold text-sm font-medium">Director of Tiny Vivid Minds</p>
+                    <p className="text-vedic-gold text-sm font-medium">Director, Tiny Vivid Minds</p>
                   </div>
-                  {/* <div>
-                    <h5 className="font-display font-bold text-lg text-foreground">Yasasvi Peravali</h5>
-                    <p className="text-vedic-teal text-sm font-medium">Founder & Chief Education Officer</p>
-                  </div> */}
                 </div>
               </AnimatedSection>
             </div>
@@ -711,8 +775,14 @@ const About = () => {
           <AnimatedSection animation="fade-up">
           <div className="flex flex-wrap justify-center gap-12 max-w-4xl mx-auto text-center">
             <StatsCounter end={HIGHLIGHTED_COUNTRY_COUNT} suffix="+" label="Countries Reached" />
-            <StatsCounter end={4} suffix="+" label="Years Experience" />
+            <StatsCounter end={4} suffix="+" label="Years of Experience" />
             <StatsCounter end={95} suffix="%" label="Success Rate" />
+            {/* <div className="text-center group">
+              <div className="text-4xl md:text-5xl font-display font-bold text-vedic-gold mb-2 group-hover:scale-110 transition-transform duration-300">
+                Growing
+              </div>
+              <p className="text-white/70 font-medium">Learning Community</p>
+            </div> */}
           </div>
           </AnimatedSection>
         </div>
@@ -721,7 +791,7 @@ const About = () => {
       {/* ============================================
           CTA SECTION
           ============================================ */}
-      <section className="py-16 md:py-20 relative overflow-hidden">
+      <section className="py-10 md:py-12 relative overflow-hidden">
         <div className="absolute inset-0 bg-gradient-to-br from-vedic-gold/10 via-transparent to-vedic-teal/10" />
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-vedic-gold/10 rounded-full blur-[150px]" />
         
@@ -730,12 +800,12 @@ const About = () => {
             <AnimatedSection animation="zoom">
               <span className="text-vedic-gold font-semibold tracking-widest uppercase text-sm">Start Today</span>
               <h2 className="font-display text-4xl md:text-5xl lg:text-6xl font-bold text-foreground mt-4 mb-6">
-                Ready to Join Our
-                <span className="block text-vedic-gold">Learning Community?</span>
+                Ready to Begin Your Child's
+                <span className="block text-vedic-gold">Learning Journey?</span>
               </h2>
               <p className="text-xl text-muted-foreground mb-10 max-w-2xl mx-auto">
-                Discover how Tiny Vivid Minds can transform your child's mathematical 
-                journey and unlock their full potential.
+                Explore personalized programs in Mathematics, Abacus, Vedic Mathematics, Handwriting, and Phonics — and
+                give your child the opportunity to build strong skills, confidence, and a love for learning.
               </p>
               <div className="flex flex-wrap justify-center gap-4">
                 <Button
