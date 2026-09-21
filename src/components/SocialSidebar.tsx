@@ -269,7 +269,7 @@ export const SocialSidebar = () => {
 
               {/* Footer Text */}
               <p className="text-center text-muted-foreground text-sm mt-6">
-              Stay updated with smart math tips, student success stories, and exciting updates.
+              Stay connected with learning tips, updates, and moments from Tiny Vivid Minds.
               </p>
             </motion.div>
           </motion.div>

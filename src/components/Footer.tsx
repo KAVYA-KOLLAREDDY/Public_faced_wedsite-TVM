@@ -29,7 +29,7 @@ export const Footer = () => {
     { name: "Home", path: "/" },
     { name: "About Us", path: "/about" },
     { name: "Abacus", path: "/courses/abacus" },
-    { name: "Vedic Maths", path: "/courses/vedic-math" },
+    { name: "Vedic Mathematics", path: "/courses/vedic-math" },
     { name: "Personalized Coaching", path: "/courses/signature-programs" },
     { name: "Gallery", path: "/gallery" },
     { name: "Contact Us", path: "/contact" },
@@ -52,11 +52,11 @@ export const Footer = () => {
                 Tiny Vivid Minds
               </h3>
               <span className="text-sm text-white/60 block mt-1">
-                Enlarges the tiny minds of buds and lads through Online Math Learning
+                Enlarges the tiny minds of buds and lads through joyful online learning
               </span>
             </Link>
             <p className="text-white/70 leading-relaxed text-sm">
-              We are dedicated to making mathematics fun, engaging, and accessible through innovative teaching methods including Abacus (ages 3-8), Vedic Maths (ages above 12), and personalized coaching (any age).
+              We are dedicated to making learning fun, engaging, and meaningful through innovative programs designed to help children learn, grow, and thrive.
             </p>
             <div className="flex gap-3">
               {footerSocialLinks.map(({ Icon, href, label }) => (
@@ -130,7 +130,7 @@ export const Footer = () => {
           <div>
             <h4 className="font-display font-bold text-lg mb-6 text-vedic-gold">Stay Updated</h4>
             <p className="text-white/70 text-sm mb-4">
-              Subscribe to our newsletter for math tips and updates!
+              Stay connected with learning tips, updates, and moments from Tiny Vivid Minds.
             </p>
             <div className="flex gap-2 mb-6">
               <Input

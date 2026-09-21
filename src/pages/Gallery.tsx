@@ -700,7 +700,7 @@ const Gallery = () => {
             </h2>
             <p className="text-muted-foreground text-lg max-w-2xl mx-auto">
               Experience how our expert trainers connect with students across {HIGHLIGHTED_COUNTRY_COUNT}+ countries
-              through fun, engaging math activities.
+              through fun, engaging learning activities.
             </p>
           </AnimatedSection>
 
@@ -1191,7 +1191,7 @@ const Gallery = () => {
                 Be Part of Our <span className="text-vedic-gold">Growing Family!</span>
               </h2>
               <p className="text-white/70 text-lg max-w-2xl mx-auto mb-10">
-                Join hundreds of happy learners from around the world who are discovering the fun side of math.
+                Join hundreds of happy learners from around the world who are discovering the joy of learning.
               </p>
               <div className="flex flex-wrap justify-center gap-4">
                 <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>

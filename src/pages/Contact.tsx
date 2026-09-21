@@ -135,7 +135,7 @@ const testimonialPages = [
 const faqs = [
   {
     question: "What age groups do you teach?",
-    answer: "We offer programs for children aged 4-14, with courses tailored to different skill levels and developmental stages.",
+    answer: "We offer programs for children across different age groups, with courses tailored to different skill levels and developmental stages.",
   },
   {
     question: "How do online classes work?",
@@ -330,7 +330,7 @@ const Contact = () => {
               Learning <span className="text-gold">Without Borders</span>
             </h2>
             <p className="text-muted-foreground text-lg">
-              Connecting students across {HIGHLIGHTED_COUNTRY_COUNT} countries with world-class mathematics education.
+              Connecting students across {HIGHLIGHTED_COUNTRY_COUNT} countries through engaging learning experiences.
               Watch our learning network expand from India to the world.
             </p>
           </AnimatedSection>
@@ -472,7 +472,7 @@ const Contact = () => {
                     dismissErrors("subject");
                   }}
                   options={[
-                    { value: "courses", label: "Ask about courses" },
+                    { value: "courses", label: "Ask About Programs" },
                     { value: "demo", label: "Request a free demo" },
                     { value: "feedback", label: "Share feedback" },
                     { value: "issue", label: "Report an issue" },
@@ -647,12 +647,12 @@ const Contact = () => {
                       dismissErrors("course");
                     }}
                     options={[
-                      { value: "", label: "Select a course" },
+                      { value: "", label: "Select a program" },
                       { value: "Abacus", label: "Abacus" },
-                      { value: "Vedic Maths", label: "Vedic Maths" },
+                      { value: "Vedic Mathematics", label: "Vedic Mathematics" },
                       { value: "Mathematics", label: "Mathematics" },
-                      { value: "Hand Writing", label: "Hand Writing" },
-                      { value: "Phonetics", label: "Phonetics" },
+                      { value: "Handwriting", label: "Handwriting" },
+                      { value: "Phonics", label: "Phonics" },
 
                     ]}
                     required
@@ -793,7 +793,7 @@ const Contact = () => {
               </span>
             </h2>
             <p className="text-muted-foreground text-lg">
-              Real feedback from families who have experienced our program.
+              Real feedback from families who have experienced our programs.
             </p>
           </motion.div>
 
@@ -951,7 +951,7 @@ const Contact = () => {
                 Have a Question?
               </h2>
               <p className="text-muted-foreground text-lg mb-8">
-                Find answers to common questions about our math learning programs.
+                Find answers to common questions about our learning programs.
               </p>
               <DiscoverProgramsLink>
                 <Button variant="outline" size="lg" className="rounded-xl">
@@ -1013,10 +1013,10 @@ const Contact = () => {
             className="max-w-3xl mx-auto"
           >
             <h2 className="font-display text-3xl md:text-5xl font-bold mb-6">
-              Ready to Build Your Child's Confidence in Maths?
+              Ready to Build Your Child's Confidence in Learning?
             </h2>
             <p className="text-xl text-white/80 mb-10">
-              Join parents worldwide who trust Tiny Vivid Minds to make maths simple, smart, and joyful.
+              Join parents worldwide who trust Tiny Vivid Minds to make learning simple, engaging, and joyful.
             </p>
             <div className="flex flex-wrap justify-center gap-4">
               <Button
