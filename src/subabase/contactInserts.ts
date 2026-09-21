@@ -1,7 +1,7 @@
 import { getSupabase } from "./supabaseClient";
 
 const SUBJECT_LABELS: Record<string, string> = {
-  courses: "Ask About Programs",
+  courses: "Ask about courses",
   demo: "Request a free demo",
   feedback: "Share feedback",
   issue: "Report an issue",

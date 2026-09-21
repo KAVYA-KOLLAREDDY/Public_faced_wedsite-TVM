@@ -14,7 +14,7 @@ const moments = [
     when: "At school",
     title: "Confidence shows up on the page",
     detail:
-      "Clearer handwriting, stronger number sense, and better sound awareness help children participate more confidently in class and complete their work with greater independence.",
+      "Clearer handwriting, stronger number sense, and better phonetic awareness help children participate more confidently in class and complete their work with greater independence.",
     tone: "gold",
     time: "12:15 PM",
   },
