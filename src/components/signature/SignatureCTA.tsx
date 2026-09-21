@@ -10,7 +10,7 @@ const courseSymbols = [
   "÷", "×", "∑", "π", "√", "%", "=", "+",
   // Handwriting symbols
   "Aa", "Bb", "Cc",
-  // Phonetics symbols
+  // Phonics symbols
   "æ", "ə", "θ", "ʃ"
 ];
 
@@ -95,7 +95,7 @@ const SignatureCTA = () => {
           </h2>
 
           <p className="text-lg md:text-xl text-white/80 mb-10 leading-relaxed">
-            Help your child build essential skills in Math, HandWriting, and Phonetics — 
+            Help your child build essential skills in Math, Handwriting, and Phonics —
             with structured, interactive live lessons designed to build strong fundamentals.
           </p>
 

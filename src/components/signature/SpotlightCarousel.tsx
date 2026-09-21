@@ -22,7 +22,7 @@ const courses = [
   },
   {
     id: 2,
-    title: "HandWriting Excellence",
+    title: "Handwriting Excellence",
     description: "Develop beautiful, legible handwriting through structured practice and motor skill development.",
     image: abacusHandsImg,
     tags: ["Ages 4-12", "Progress Tracking", "Custom Worksheets"],
@@ -34,8 +34,8 @@ const courses = [
   },
   {
     id: 3,
-    title: "Phonetics Foundation",
-    description: "Master reading and pronunciation with phonetic awareness and fluency building exercises.",
+    title: "Phonics Foundation",
+    description: "Master reading and pronunciation with sound awareness and fluency building exercises.",
     image: confidentChildrenImg,
     tags: ["Ages 3-10", "Audio Lessons", "Reading Support"],
     ringActive: "ring-purple-500/50",

@@ -18,14 +18,14 @@ const subjects = [
     symbols: ["÷", "×", "∑", "π", "√", "∞", "%", "="]
   },
   { 
-    name: "HandWriting", 
+    name: "Handwriting", 
     color: "from-vedic-gold via-vedic-gold-light to-vedic-gold",
     bgColor: "bg-vedic-gold",
     textColor: "text-vedic-navy",
     symbols: ["✎", "Aa", "Bb", "✍", "📝", "✒", "Cc", "Dd"]
   },
   { 
-    name: "Phonetics", 
+    name: "Phonics", 
     color: "from-purple-400 via-purple-300 to-purple-400",
     bgColor: "bg-purple-500",
     textColor: "text-white",
@@ -134,7 +134,7 @@ const SignatureHero = () => {
 
           <AnimatedSection animation="fade-up" delay={300}>
             <p className="text-xl md:text-2xl text-white/80 mb-10 leading-relaxed max-w-2xl mx-auto">
-              Live, instructor-led programs in Mathematics, Handwriting, and Phonetics—structured paths
+              Live, instructor-led programs in Mathematics, Handwriting, and Phonics—structured paths
               that build clarity, confidence, and lasting habits.
             </p>
           </AnimatedSection>

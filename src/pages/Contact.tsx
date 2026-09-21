@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { motion } from "framer-motion";
 import {
   Send,
@@ -50,6 +50,14 @@ import {
 import { HIGHLIGHTED_COUNTRY_COUNT } from "@/config/globalNetworkCountries";
 import { DEFAULT_PHONE_COUNTRY_ID, formatPhoneWithCountry } from "@/config/phoneCountries";
 import { SITE_LINKS, getWhatsAppUrl } from "@/config/siteLinks";
+import {
+  formKindFromSubject,
+  trackFormStart,
+  trackFormSubmitError,
+  trackFormSubmitSuccess,
+  trackFormValidationError,
+  trackSocialClick,
+} from "@/lib/analytics";
 
 const SUBMIT_ERROR_MESSAGE =
   "We couldn't send your message right now. Please try again later.";
@@ -127,7 +135,7 @@ const testimonialPages = [
 const faqs = [
   {
     question: "What age groups do you teach?",
-    answer: "We offer programs for children aged 4-14, with courses tailored to different skill levels and developmental stages.",
+    answer: "We offer programs for children across different age groups, with courses tailored to different skill levels and developmental stages.",
   },
   {
     question: "How do online classes work?",
@@ -218,6 +226,13 @@ const Contact = () => {
   const [contactForm, setContactForm] = useState(initialContactForm);
 
   const [feedbackForm, setFeedbackForm] = useState(initialFeedbackForm);
+  const formStartedRef = useRef(false);
+
+  const markFormStarted = () => {
+    if (formStartedRef.current) return;
+    formStartedRef.current = true;
+    trackFormStart(formKindFromSubject(contactForm.subject));
+  };
 
   useEffect(() => {
     setFieldErrors({});
@@ -225,9 +240,11 @@ const Contact = () => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    const formKind = formKindFromSubject(contactForm.subject);
     const errors = validateContactPageForm(contactForm, demoForm, feedbackForm);
     if (Object.keys(errors).length > 0) {
       setFieldErrors(errors);
+      trackFormValidationError(formKind);
       toast.error("Please fill in all required fields.");
       scrollToFirstContactError(errors);
       return;
@@ -265,6 +282,7 @@ const Contact = () => {
             "We've received your message and will get back to you within 24 hours.",
         });
       }
+      trackFormSubmitSuccess(formKind);
       setContactForm({ ...initialContactForm });
       setDemoForm({ ...initialDemoForm });
       setFeedbackForm({ ...initialFeedbackForm });
@@ -272,6 +290,7 @@ const Contact = () => {
       setFieldErrors({});
     } catch (err) {
       console.error(err);
+      trackFormSubmitError(formKind);
       setFormStatus({
         variant: "error",
         title: "We couldn't send your message",
@@ -311,7 +330,7 @@ const Contact = () => {
               Learning <span className="text-gold">Without Borders</span>
             </h2>
             <p className="text-muted-foreground text-lg">
-              Connecting students across {HIGHLIGHTED_COUNTRY_COUNT} countries with world-class mathematics education.
+              Connecting students across {HIGHLIGHTED_COUNTRY_COUNT} countries through engaging learning experiences.
               Watch our learning network expand from India to the world.
             </p>
           </AnimatedSection>
@@ -371,7 +390,7 @@ const Contact = () => {
             }}
           >
             {/* Unified Contact Form */}
-            <form onSubmit={handleSubmit} noValidate>
+            <form onSubmit={handleSubmit} noValidate onFocusCapture={markFormStarted}>
               <div className="grid md:grid-cols-2 gap-6 mb-6">
                 <FloatingLabelInput
                   id="contactName"
@@ -453,7 +472,7 @@ const Contact = () => {
                     dismissErrors("subject");
                   }}
                   options={[
-                    { value: "courses", label: "Ask about courses" },
+                    { value: "courses", label: "Ask About Programs" },
                     { value: "demo", label: "Request a free demo" },
                     { value: "feedback", label: "Share feedback" },
                     { value: "issue", label: "Report an issue" },
@@ -628,12 +647,12 @@ const Contact = () => {
                       dismissErrors("course");
                     }}
                     options={[
-                      { value: "", label: "Select a course" },
+                      { value: "", label: "Select a program" },
                       { value: "Abacus", label: "Abacus" },
-                      { value: "Vedic Maths", label: "Vedic Maths" },
+                      { value: "Vedic Mathematics", label: "Vedic Mathematics" },
                       { value: "Mathematics", label: "Mathematics" },
-                      { value: "Hand Writing", label: "Hand Writing" },
-                      { value: "Phonetics", label: "Phonetics" },
+                      { value: "Handwriting", label: "Handwriting" },
+                      { value: "Phonics", label: "Phonics" },
 
                     ]}
                     required
@@ -774,7 +793,7 @@ const Contact = () => {
               </span>
             </h2>
             <p className="text-muted-foreground text-lg">
-              Real feedback from families who have experienced our program.
+              Real feedback from families who have experienced our programs.
             </p>
           </motion.div>
 
@@ -889,6 +908,7 @@ const Contact = () => {
                 href={social.href}
                 target="_blank"
                 rel="noopener noreferrer"
+                onClick={() => trackSocialClick(social.name, "contact_stay_connected")}
                 initial={{ opacity: 0, y: 30 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
@@ -931,7 +951,7 @@ const Contact = () => {
                 Have a Question?
               </h2>
               <p className="text-muted-foreground text-lg mb-8">
-                Find answers to common questions about our math learning programs.
+                Find answers to common questions about our learning programs.
               </p>
               <DiscoverProgramsLink>
                 <Button variant="outline" size="lg" className="rounded-xl">
@@ -993,10 +1013,10 @@ const Contact = () => {
             className="max-w-3xl mx-auto"
           >
             <h2 className="font-display text-3xl md:text-5xl font-bold mb-6">
-              Ready to Build Your Child's Confidence in Maths?
+              Ready to Build Your Child's Confidence in Learning?
             </h2>
             <p className="text-xl text-white/80 mb-10">
-              Join parents worldwide who trust Tiny Vivid Minds to make maths simple, smart, and joyful.
+              Join parents worldwide who trust Tiny Vivid Minds to make learning simple, engaging, and joyful.
             </p>
             <div className="flex flex-wrap justify-center gap-4">
               <Button
