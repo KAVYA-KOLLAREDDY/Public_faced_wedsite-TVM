@@ -202,7 +202,7 @@ const About = () => {
       <Navbar />
       <SocialSidebar />
 
-      {/* ============================================
+      {/* =============================================
           PART 1: THE VISIONARY HERO HEADER
           ============================================ */}
       <section className="relative min-h-[58vh] flex items-center pt-20 pb-8">
