@@ -3,7 +3,6 @@ import { Mail, Phone, MapPin, Instagram, Youtube, ArrowRight, MessageCircle, Sen
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { CONTACT_DETAILS, SITE_LINKS, getMailtoHref, getPhoneHref, getWhatsAppUrl } from "@/config/siteLinks";
-import { trackSocialClick } from "@/lib/analytics";
 
 const whatsAppUrl = getWhatsAppUrl();
 
@@ -29,7 +28,7 @@ export const Footer = () => {
     { name: "Home", path: "/" },
     { name: "About Us", path: "/about" },
     { name: "Abacus", path: "/courses/abacus" },
-    { name: "Vedic Mathematics", path: "/courses/vedic-math" },
+    { name: "Vedic Maths", path: "/courses/vedic-math" },
     { name: "Personalized Coaching", path: "/courses/signature-programs" },
     { name: "Gallery", path: "/gallery" },
     { name: "Contact Us", path: "/contact" },
@@ -52,11 +51,11 @@ export const Footer = () => {
                 Tiny Vivid Minds
               </h3>
               <span className="text-sm text-white/60 block mt-1">
-                Enlarges the tiny minds of buds and lads through joyful online learning
+                Enlarges the tiny minds of buds and lads through Online Math Learning
               </span>
             </Link>
             <p className="text-white/70 leading-relaxed text-sm">
-              We are dedicated to making learning fun, engaging, and meaningful through innovative programs designed to help children learn, grow, and thrive.
+              We are dedicated to making mathematics fun, engaging, and accessible through innovative teaching methods including Abacus (ages 3-8), Vedic Maths (ages above 12), and personalized coaching (any age).
             </p>
             <div className="flex gap-3">
               {footerSocialLinks.map(({ Icon, href, label }) => (
@@ -66,7 +65,6 @@ export const Footer = () => {
                   target="_blank"
                   rel="noopener noreferrer"
                   aria-label={label}
-                  onClick={() => trackSocialClick(label, "footer")}
                   className="w-10 h-10 bg-white/10 rounded-full flex items-center justify-center hover:bg-vedic-gold hover:text-vedic-navy transition-all duration-300 transform hover:-translate-y-1 hover:shadow-lg hover:shadow-vedic-gold/30"
                 >
                   <Icon size={18} />
@@ -115,11 +113,7 @@ export const Footer = () => {
               </li>
               <li className="flex items-center gap-3 group">
                 <MessageCircle className="w-5 h-5 text-vedic-gold flex-shrink-0 group-hover:scale-110 transition-transform" />
-                <a
-                  href={whatsAppUrl}
-                  className="text-white/70 hover:text-vedic-gold transition-colors text-sm"
-                  onClick={() => trackSocialClick("whatsapp", "footer_contact")}
-                >
+                <a href={whatsAppUrl} className="text-white/70 hover:text-vedic-gold transition-colors text-sm">
                   WhatsApp Us
                 </a>
               </li>
@@ -130,7 +124,7 @@ export const Footer = () => {
           <div>
             <h4 className="font-display font-bold text-lg mb-6 text-vedic-gold">Stay Updated</h4>
             <p className="text-white/70 text-sm mb-4">
-              Stay connected with learning tips, updates, and moments from Tiny Vivid Minds.
+              Subscribe to our newsletter for math tips and updates!
             </p>
             <div className="flex gap-2 mb-6">
               <Input

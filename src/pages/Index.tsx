@@ -10,12 +10,13 @@ import {
   ChevronDown,
   ChevronLeft,
   ArrowRight,
-  Layers,
-  Sparkles,
-  HeartHandshake,
+  CheckSquare,
+  Gauge,
+  Lightbulb,
+  Award,
+  Users,
   Mail,
-  PenLine,
-  BookOpen,
+  MessageSquare,
   Globe,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -36,70 +37,50 @@ const programs = [
   {
     icon: Calculator,
     title: "Abacus Learning",
-    description:
-      "Build number sense, concentration, visualization, and mental calculation skills through structured Abacus learning.",
+    description: "Master mental calculation through traditional abacus techniques.",
     color: "teal",
     to: "/courses/abacus",
   },
   {
     icon: Brain,
-    title: "Vedic Mathematics",
-    description:
-      "Discover powerful calculation strategies that strengthen mathematical thinking, flexibility, and problem-solving confidence.",
+    title: "Vedic Math",
+    description: "Explore ancient mathematical strategies for faster problem-solving.",
     color: "gold",
     to: "/courses/vedic-math",
   },
   {
     icon: GraduationCap,
-    title: "Mathematics",
-    description:
-      "Strengthen mathematical concepts, problem-solving, and confidence through clear instruction and personalized practice.",
+    title: "Personalized Coaching",
+    description: "Tailored learning experiences that adapt to each child's unique needs.",
     color: "navy",
-    to: "/courses/signature-programs",
-  },
-  {
-    icon: PenLine,
-    title: "Handwriting",
-    description:
-      "Develop clear, legible, and confident handwriting through guided practice that builds control, consistency, and good writing habits.",
-    color: "teal",
-    to: "/courses/signature-programs",
-  },
-  {
-    icon: BookOpen,
-    title: "Phonics",
-    description:
-      "Build sound awareness, pronunciation, and early reading confidence through engaging phonics activities and guided practice.",
-    color: "gold",
     to: "/courses/signature-programs",
   },
 ];
 
 const whyChooseFeatures = [
   {
-    icon: Layers,
-    title: "Strong Foundations",
-    description:
-      "Build essential academic skills through clear instruction, guided practice, and learning experiences designed around each child's needs.",
+    icon: CheckSquare,
+    title: "Problem Solving",
+    description: "Develop analytical thinking and tackle complex problems with confidence",
   },
   {
-    icon: Sparkles,
-    title: "Engaging Learning",
-    description:
-      "Interactive activities and age-appropriate practice help children stay curious, involved, and motivated to learn.",
+    icon: Gauge,
+    title: "Mental Speed",
+    description: "Enhance calculation speed through proven cognitive techniques",
   },
   {
-    icon: HeartHandshake,
-    title: "Confidence to Grow",
-    description:
-      "Celebrate progress, encourage effort, and help children become more confident and independent learners.",
+    icon: Lightbulb,
+    title: "Build Confidence",
+    description: "Transform math anxiety into a love for numbers and learning",
   },
 ];
 
 const testimonials = [
   {
     name: "Rama Devi",
-    attribution: "Parent of an 8-year-old",
+    role: "Parent",
+    childName: "her child",
+    childAge: 8,
     rating: 5,
     message:
       "We are very happy with the classes. Thank you for conducting such wonderful classes. My child is enjoying the sessions and is excited to attend them every time. The teaching is interactive, and the concepts are explained in a simple way that is easy for children to understand. I can see a positive change in my child's interest and confidence. We truly appreciate your hard work and care. Thank you!",
@@ -107,7 +88,9 @@ const testimonials = [
   },
   {
     name: "Bharathi",
-    attribution: "Parent of an 8-year-old",
+    role: "Parent",
+    childName: "her child",
+    childAge: 8,
     rating: 5,
     message:
       "We can clearly see a positive change in our child's concentration and confidence. Thank you for your wonderful guidance and care.",
@@ -115,7 +98,9 @@ const testimonials = [
   },
   {
     name: "Bhavani Ashok",
-    attribution: "Parent of a 10-year-old boy",
+    role: "Parent",
+    childName: "her son",
+    childAge: 10,
     rating: 5,
     message:
       "Previously my son used to take class with one of the teachers and then it did not work out properly. But he is doing good with the concept so I approached TVM team they allotted us a new teacher. Surprisingly from day 1 she is teaching beautifully in the class. Now my son is in level 7 and he is doing a great job. Thank you mam.",
@@ -123,7 +108,9 @@ const testimonials = [
   },
   {
     name: "Hiryanya",
-    attribution: "Parent of an 8-year-old",
+    role: "Parent",
+    childName: "her child",
+    childAge: 8,
     rating: 5,
     message:
       "Very clear explanation and impressed with the way Sai Tejasvi mam is teaching my child.",
@@ -131,7 +118,9 @@ const testimonials = [
   },
   {
     name: "Shalini",
-    attribution: "Parent of a 9-year-old boy",
+    role: "Parent",
+    childName: "her son",
+    childAge: 9,
     rating: 5,
     message:
       "My son is doing good with calculations after joining in Tiny Vivid Minds. But the teacher is little strict.",
@@ -141,29 +130,29 @@ const testimonials = [
 
 const faqs = [
   {
-    question: "What programs does Tiny Vivid Minds offer?",
+    question: "What is Vedic math",
     answer:
-      "We currently offer Abacus, Vedic Mathematics, Mathematics, Handwriting, and Phonics programs. Each program is designed to support different learning needs and skill levels.",
+      "Vedic math is an ancient system of mathematical techniques that simplifies complex calculations through intuitive mental strategies. It helps children develop faster computational skills.",
   },
   {
-    question: "How do your online classes work?",
+    question: "Are online classes effective",
     answer:
-      "Our live online classes are interactive and instructor-led. Children learn through clear explanations, guided practice, activities, questions, and feedback while receiving support throughout the session.",
+      "Our online classes are interactive, engaging, and designed to provide personalized attention. We use advanced digital tools to ensure an immersive learning experience.",
   },
   {
-    question: "What age groups do you teach?",
+    question: "What age groups do you teach",
     answer:
-      "Our programs are designed for children across different age groups, with learning levels and activities adapted to their age, abilities, and individual needs.",
+      "We offer specialized math programs for children aged 3–8 in Abacus, above 12 in Vedic Math, and personalized classes for all ages — each designed to match every child's unique learning level and pace.",
   },
   {
-    question: "How are classes structured?",
+    question: "How are classes structured",
     answer:
-      "Classes combine clear instruction, interactive activities, guided practice, and regular feedback to keep children engaged while helping them build skills step by step.",
+      "Our classes combine interactive teaching, hands-on practice, and fun learning techniques to keep children motivated and engaged.",
   },
   {
-    question: "Can my child attend a demo or trial session?",
+    question: "Do you offer trial classes",
     answer:
-      "Yes, we offer demo sessions so parents and children can experience our teaching approach and learn more about the program before getting started.",
+      "Yes, we provide free demo classes so parents and children can experience our teaching methodology before committing.",
   },
 ];
 
@@ -272,33 +261,34 @@ const Index = () => {
         />
 
         <div className="container mx-auto relative z-10">
-          <AnimatedSection animation="slide-up" className="text-center max-w-5xl lg:max-w-6xl mx-auto mb-16">
+          <AnimatedSection animation="slide-up" className="text-center max-w-3xl mx-auto mb-16">
             <span className="inline-block px-4 py-2 bg-gold/10 text-gold font-semibold tracking-wider uppercase text-sm rounded-full mb-4">
               Discover
             </span>
-            <h2 className="font-display text-3xl sm:text-4xl md:text-5xl font-bold text-foreground mb-6 lg:whitespace-nowrap">
-              Our Programs That Build <span className="text-gold">Strong Foundations</span>
+            <h2 className="font-display text-4xl md:text-5xl font-bold text-foreground mb-6">
+              Our innovative math learning <span className="text-gold">programs</span>
             </h2>
-            <p className="text-muted-foreground text-lg max-w-5xl mx-auto">
-              From Mathematics and Abacus to Vedic Mathematics, Handwriting, and Phonics, our programs help children develop essential skills through engaging, structured, and personalized learning.
+            <p className="text-muted-foreground text-lg">
+              Tiny Vivid Minds offers comprehensive math education designed to make learning fun, engaging, and
+              transformative for children.
             </p>
           </AnimatedSection>
 
-          <div className="mx-auto grid w-full max-w-[90rem] grid-cols-1 gap-4 sm:grid-cols-2 sm:gap-5 lg:grid-cols-5 lg:gap-4 xl:gap-5">
+          <div className="grid md:grid-cols-3 gap-8">
             {programs.map((program, index) => (
-              <AnimatedSection key={program.title} delay={index * 80} animation="pop" className="h-full min-w-0">
+              <AnimatedSection key={program.title} delay={index * 150} animation="pop" className="h-full">
                 <Link
                   to={program.to}
-                  className="group block h-full rounded-2xl text-center transition-all duration-500 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold focus-visible:ring-offset-2 focus-visible:ring-offset-background"
+                  className="group block h-full rounded-3xl text-center transition-all duration-500 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold focus-visible:ring-offset-2 focus-visible:ring-offset-background"
                   aria-label={`Open ${program.title} course page`}
                 >
-                  <div className="relative flex h-full min-h-0 flex-col overflow-hidden rounded-2xl border border-transparent bg-card p-5 shadow-md transition-all duration-500 hover:-translate-y-2 hover:border-gold/20 hover:shadow-xl sm:p-6 xl:p-7">
-                    <div className="pointer-events-none absolute inset-0 opacity-0 transition-opacity duration-500 group-hover:opacity-100">
-                      <div className="absolute inset-0 animate-shimmer bg-gradient-to-r from-transparent via-gold/5 to-transparent" />
+                  <div className="h-full bg-card p-8 rounded-3xl shadow-lg hover:shadow-xl transition-all duration-500 transform hover:-translate-y-3 border border-transparent hover:border-gold/20 relative overflow-hidden">
+                    <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none">
+                      <div className="absolute inset-0 bg-gradient-to-r from-transparent via-gold/5 to-transparent animate-shimmer" />
                     </div>
 
                     <div
-                      className={`relative z-10 mx-auto mb-4 flex h-14 w-14 shrink-0 items-center justify-center rounded-full transition-all duration-500 group-hover:scale-110 xl:mb-5 xl:h-16 xl:w-16 ${
+                      className={`w-20 h-20 rounded-full flex items-center justify-center mx-auto mb-6 transition-all duration-500 group-hover:scale-110 ${
                         program.color === "teal"
                           ? "bg-teal/15 group-hover:bg-teal/25"
                           : program.color === "gold"
@@ -307,17 +297,15 @@ const Index = () => {
                       }`}
                     >
                       <program.icon
-                        className={`h-7 w-7 transition-transform duration-300 group-hover:-translate-y-0.5 xl:h-8 xl:w-8 ${
+                        className={`w-10 h-10 transition-transform duration-300 group-hover:-translate-y-1 ${
                           program.color === "teal" ? "text-teal" : program.color === "gold" ? "text-gold" : "text-navy"
                         }`}
                       />
                     </div>
-                    <h3 className="relative z-10 mb-2 shrink-0 font-display text-base font-bold leading-snug text-foreground transition-colors duration-300 group-hover:text-gold xl:text-lg">
+                    <h3 className="font-display font-bold text-xl text-foreground mb-3 group-hover:text-gold transition-colors duration-300">
                       {program.title}
                     </h3>
-                    <p className="relative z-10 flex-1 text-pretty text-xs leading-relaxed text-muted-foreground sm:text-sm">
-                      {program.description}
-                    </p>
+                    <p className="text-muted-foreground">{program.description}</p>
                   </div>
                 </Link>
               </AnimatedSection>
@@ -331,7 +319,7 @@ const Index = () => {
                 className="border-2 border-foreground/20 text-foreground hover:border-gold hover:text-gold font-display px-6"
                 asChild
               >
-                <DiscoverProgramsLink>Explore Programs</DiscoverProgramsLink>
+                <DiscoverProgramsLink>Explore All</DiscoverProgramsLink>
               </Button>
               <Button variant="link" className="text-gold hover:text-gold-dark font-display group" asChild>
                 <Link to="/about">
@@ -358,7 +346,7 @@ const Index = () => {
               <div className="relative group">
                 <img
                   src={childrenLearning}
-                  alt="Teacher and student learning together"
+                  alt="Teacher and student interaction - building confidence in math"
                   className="rounded-3xl shadow-2xl w-full h-[450px] object-cover transition-transform duration-700 group-hover:scale-[1.02]"
                 />
                 <div className="absolute -bottom-4 -right-4 w-32 h-32 bg-gold/20 rounded-full blur-2xl animate-pulse-glow" />
@@ -371,16 +359,15 @@ const Index = () => {
                 <Globe className="w-8 h-8 text-gold" />
               </div>
               <h2 className="font-display text-4xl md:text-5xl font-bold text-foreground mb-6">
-                Our mission is to make every child's learning journey{" "}
+                Our mission is to make math learning an{" "}
                 <span className="text-gold relative">
-                  meaningful and joyful
+                  exciting journey
                   <span className="absolute -bottom-1 left-0 w-full h-0.5 bg-gold/40 rounded-full" />
                 </span>
               </h2>
               <p className="text-muted-foreground text-lg leading-relaxed">
-                At Tiny Vivid Minds, we believe strong foundations are built one skill at a time. Through engaging
-                instruction and personalized support, we help children strengthen their Mathematics, Abacus, Vedic
-                Mathematics, Handwriting, and Phonics skills while developing confidence, curiosity, and independence.
+                Founded with a vision to transform math education, we believe every child has the potential to excel in
+                mathematics through engaging and supportive learning experiences.
               </p>
             </AnimatedSection>
           </div>
@@ -392,15 +379,15 @@ const Index = () => {
         <MathBackground />
 
         <div className="container mx-auto relative z-10">
-          <AnimatedSection animation="slide-up" className="text-center max-w-5xl lg:max-w-6xl mx-auto mb-16">
+          <AnimatedSection animation="slide-up" className="text-center max-w-3xl mx-auto mb-16">
             <span className="inline-block px-4 py-2 bg-teal/10 text-teal font-semibold tracking-wider uppercase text-sm rounded-full mb-4">
               Why Choose Us
             </span>
-            <h2 className="font-display text-3xl sm:text-4xl md:text-5xl font-bold text-foreground mb-6 lg:whitespace-nowrap">
-              Build Skills. Grow Confidence. <span className="text-gold">Love Learning.</span>
+            <h2 className="font-display text-4xl md:text-5xl font-bold text-foreground mb-6">
+              Build confidence and <span className="text-gold">excel in math</span>
             </h2>
-            <p className="text-muted-foreground text-lg max-w-4xl mx-auto">
-              Our teaching approach combines clear instruction, meaningful practice, and personalized support to help every child make steady progress.
+            <p className="text-muted-foreground text-lg">
+              Our unique teaching methods are designed to make math enjoyable and empowering.
             </p>
           </AnimatedSection>
 
@@ -440,22 +427,22 @@ const Index = () => {
                 Trust
               </span>
               <h2 className="font-display text-4xl md:text-5xl font-bold text-foreground mb-6">
-                A Trusted Partner in Your Child's <span className="text-gold">Learning Journey</span>
+                A certified and reliable math <span className="text-gold">learning partner</span>
               </h2>
               <p className="text-muted-foreground text-lg mb-8">
-                We are a government-certified educational institution committed to providing structured, engaging, and
-                high-quality learning experiences that help children build strong academic foundations and confidence.
+                We are a government-certified educational institution committed to delivering high-quality math
+                education with proven methodologies.
               </p>
 
               <div className="space-y-6 mb-8">
                 {[
                   {
                     title: "Certified",
-                    desc: "A government-certified educational institution committed to maintaining high standards in learning and teaching.",
+                    desc: "Recognized by official educational authorities for our exceptional teaching standards.",
                   },
                   {
-                    title: "Experienced Educators",
-                    desc: "Our instructors bring knowledge, experience, and a caring approach to every learning session.",
+                    title: "Experienced",
+                    desc: "Our instructors bring years of specialized math education expertise.",
                   },
                 ].map((item, index) => (
                   <AnimatedSection key={item.title} delay={index * 200} animation="fade-right">
@@ -480,11 +467,11 @@ const Index = () => {
                   className="border-2 border-foreground/20 text-foreground hover:border-gold hover:text-gold font-display px-6"
                   asChild
                 >
-                  <DiscoverProgramsLink>Explore Programs</DiscoverProgramsLink>
+                  <DiscoverProgramsLink>Explore</DiscoverProgramsLink>
                 </Button>
                 <Button variant="link" className="text-gold hover:text-gold-dark font-display group" asChild>
                   <Link to="/about">
-                    Learn More
+                    Learn
                     <ArrowRight className="ml-2 w-4 h-4 group-hover:translate-x-1 transition-transform" />
                   </Link>
                 </Button>
@@ -495,7 +482,7 @@ const Index = () => {
               <div className="relative group">
                 <img
                   src={teamTeacher}
-                  alt="Teacher supporting a confident student"
+                  alt="Trusted by Parents and Students"
                   className="rounded-3xl shadow-2xl w-full h-[500px] object-cover transition-all duration-700 group-hover:scale-[1.02]"
                 />
                 <div className="absolute -top-4 -left-4 w-32 h-32 bg-teal/20 rounded-full blur-2xl animate-pulse-glow" />
@@ -533,7 +520,13 @@ const Index = () => {
               <div className="text-center sm:text-left">
                 <h4 className="font-display font-bold text-lg text-foreground">{currentTestimonial.name}</h4>
                 <p className="text-muted-foreground">
-                  <span className="text-gold">{currentTestimonial.attribution}</span>
+                  {currentTestimonial.role}
+                  {currentTestimonial.childName && (
+                    <span className="text-gold">
+                      {" "}
+                      of {currentTestimonial.childName} ({currentTestimonial.childAge} years)
+                    </span>
+                  )}
                 </p>
               </div>
               <div className="md:ml-4 md:pl-4 md:border-l border-border">
@@ -584,13 +577,11 @@ const Index = () => {
         <div className="absolute top-20 left-20 w-24 h-24 border border-gold/10 rounded-full animate-float-slow" />
 
         <div className="container mx-auto relative z-10">
-          <AnimatedSection animation="slide-up" className="text-center max-w-5xl lg:max-w-6xl mx-auto mb-16">
+          <AnimatedSection animation="slide-up" className="text-center max-w-3xl mx-auto mb-16">
             <h2 className="font-display text-4xl md:text-5xl font-bold text-foreground mb-4">
-              Learning <span className="text-gold">Moments</span>
+              Learning <span className="text-gold">moments</span>
             </h2>
-            <p className="text-muted-foreground text-lg max-w-5xl mx-auto lg:whitespace-nowrap">
-              A glimpse into the engaging, interactive learning experiences that help children build skills and confidence.
-            </p>
+            <p className="text-muted-foreground text-lg">Glimpses of our engaging math learning environment</p>
           </AnimatedSection>
 
           <div className="grid md:grid-cols-2 gap-8">
@@ -602,11 +593,9 @@ const Index = () => {
                   className="w-full h-[350px] object-cover transition-all duration-700 group-hover:scale-110"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-navy/80 via-navy/20 to-transparent opacity-0 group-hover:opacity-100 transition-all duration-500" />
-                <div className="absolute bottom-5 left-4 right-4 sm:bottom-6 sm:left-5 sm:right-5 text-white transform translate-y-8 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-500">
+                <div className="absolute bottom-6 left-6 right-6 text-white transform translate-y-8 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-500">
                   <h4 className="font-display font-bold text-xl">Abacus Training</h4>
-                  <p className="text-white/80 text-sm sm:text-base leading-snug mt-1">
-                    Building number sense, concentration, and mental calculation skills through hands-on practice.
-                  </p>
+                  <p className="text-white/80">Building mental math foundations with hands-on practice</p>
                 </div>
               </div>
             </AnimatedSection>
@@ -618,11 +607,9 @@ const Index = () => {
                   className="w-full h-[350px] object-cover transition-all duration-700 group-hover:scale-110"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-navy/80 via-navy/20 to-transparent opacity-0 group-hover:opacity-100 transition-all duration-500" />
-                <div className="absolute bottom-5 left-4 right-4 sm:bottom-6 sm:left-5 sm:right-5 text-white transform translate-y-8 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-500">
-                  <h4 className="font-display font-bold text-xl">Vedic Mathematics</h4>
-                  <p className="text-white/80 text-sm sm:text-base leading-snug mt-1">
-                    Exploring efficient mathematical strategies that encourage flexible thinking and confident problem-solving.
-                  </p>
+                <div className="absolute bottom-6 left-6 right-6 text-white transform translate-y-8 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-500">
+                  <h4 className="font-display font-bold text-xl">Vedic Math</h4>
+                  <p className="text-white/80">Ancient techniques for modern learners</p>
                 </div>
               </div>
             </AnimatedSection>
@@ -642,10 +629,10 @@ const Index = () => {
           <div className="max-w-3xl">
             <AnimatedSection animation="slide-up">
               <h2 className="font-display text-4xl md:text-5xl font-bold text-foreground mb-4">
-                <span className="text-gold">Frequently Asked Questions</span>
+                <span className="text-gold">FAQs</span>
               </h2>
               <p className="text-muted-foreground text-lg mb-12">
-                Find answers to common questions about our programs, learning approach, classes, and student progress.
+                Find answers to common questions about our math learning programs
               </p>
             </AnimatedSection>
 
@@ -698,11 +685,10 @@ const Index = () => {
           <div className="max-w-3xl">
             <AnimatedSection animation="slide-up">
               <h2 className="font-display text-4xl md:text-5xl font-bold text-foreground mb-4">
-                Have Questions About Our <span className="text-gold">Programs?</span>
+                Need more <span className="text-gold">information</span>
               </h2>
               <p className="text-muted-foreground text-lg mb-8">
-                We're here to help you find the right learning program for your child and answer any questions you may
-                have.
+                We're here to answer all your questions and help you get started.
               </p>
               <Button
                 variant="outline"
@@ -729,11 +715,11 @@ const Index = () => {
         <div className="container mx-auto relative z-10">
           <AnimatedSection animation="blur" className="text-center max-w-3xl mx-auto">
             <h2 className="font-display text-4xl md:text-5xl font-bold text-foreground mb-6">
-              Ready to Begin Your Child's <span className="text-gold">Learning Journey?</span>
+              Ready to start your math <span className="text-gold">journey</span>
             </h2>
             <p className="text-muted-foreground text-lg mb-10">
-              Explore Mathematics, Abacus, Vedic Mathematics, Handwriting, and Phonics programs designed to help your
-              child build strong skills, confidence, and a love for learning.
+              Join thousands of parents who have transformed their children's math learning experience with Tiny Vivid
+              Minds.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Button
