@@ -36,7 +36,7 @@ import studentsLearningImg2Img from "@/assets/students-learning/competitions.png
 import teamTeacher2Img from "@/assets/student-prizes/Acheivement16.jpeg";
 import childrenLearningImg from "@/assets/student-prizes/student_moment1.jpg";
 import confidentChildrenImg from "@/assets/student-prizes/student_moment2.jpg";
-import curiousChildImg from "@/assets/student-prizes/student_moment3.jpg";
+import curiousChildImg from "@/assets/student-prizes/student_moment3.jpeg";
 import digitalClassroomImg from "@/assets/student-prizes/student_moment4.jpg";
 
 import prize1Img from "@/assets/student-prizes/Acheivement1.png";
@@ -62,8 +62,8 @@ import heroStudentsImg from "@/assets/student-prizes/student_moment8.jpeg";
 import tutoringCourseImg from "@/assets/student-prizes/student_moment5.jpeg";
 import vedicMathCourseImg from "@/assets/student-prizes/student_moments9.jpeg";
 import worldNetworkImg from "@/assets/student-prizes/student_moment10.jpeg";
-import founderPicImg from "@/assets/student-prizes/student_moment11.jpeg";
-import studentMoment3 from "@/assets/student-prizes/student_moment12.jpeg";
+import  studentMoment3  from "@/assets/student-prizes/student_moment11.jpeg";
+import founderPicImg from "@/assets/student-prizes/student_moment12.jpg";
 
 const GALLERY_PAGE_SIZE = 6;
 

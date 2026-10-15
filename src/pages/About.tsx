@@ -30,13 +30,13 @@ import { BentoGrid, AnimatedBentoItem } from "@/components/BentoGrid";
 import { SocialSidebar } from "@/components/SocialSidebar";
 import { HIGHLIGHTED_COUNTRY_COUNT } from "@/config/globalNetworkCountries";
 
-import abacusCourseImg from "@/assets/TVM_tools/abacus.png";
+import abacusCourseImg from "@/assets/students-learning/abacus2.png";
 import vedicMathImg from "@/assets/students-learning/vedic_math_learning.png";
-import founderImg from "@/assets/founder_pic2.jpeg";
+import founderImg from "@/assets/founder_pic3.png";
 import curiousChildImg from "@/assets/students-learning/curious-child.jpg";
 import worldNetworkImg from "@/assets/world-network.jpg";
 import mathematicsImg from "@/assets/students-learning/maths.png";
-import handwritingImg from "@/assets/students-learning/hand_writing.png";
+import handwritingImg from "@/assets/students-learning/hand_writing1.png";
 import phonicsImg from "@/assets/students-learning/phonetics.png";
 
 const values = [

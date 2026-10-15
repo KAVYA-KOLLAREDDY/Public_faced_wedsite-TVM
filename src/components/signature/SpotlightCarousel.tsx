@@ -2,9 +2,9 @@ import { useState, useEffect, useRef } from "react";
 import { motion } from "framer-motion";
 import AnimatedSection from "@/components/AnimatedSection";
 import { Check, ChevronLeft, ChevronRight, Play, Pause } from "lucide-react";
-import abacusHandsImg from "@/assets/students-learning/hand_writing.png";
-import curiousChildImg from "@/assets/students-learning/maths.png";
-import confidentChildrenImg from "@/assets/students-learning/phonetics.png";
+import abacusHandsImg from "@/assets/students-learning/hand_writing.jpg";
+import curiousChildImg from "@/assets/students-learning/math1.png";
+import confidentChildrenImg from "@/assets/students-learning/phonetics1.png";
 
 const courses = [
   {

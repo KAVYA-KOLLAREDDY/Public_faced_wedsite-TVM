@@ -62,20 +62,22 @@ const GlobalFoundationsSection = () => {
       </div>
 
       <div className="container relative z-10 px-4">
-        <AnimatedSection animation="fade-up" className="mx-auto mb-12 max-w-3xl text-center md:mb-14">
+        <AnimatedSection animation="fade-up" className="mx-auto mb-6 max-w-5xl text-center md:mb-8">
           <span className="mb-4 inline-block rounded-full bg-vedic-teal/10 px-4 py-1.5 text-sm font-medium text-vedic-teal">
             What learning looks like beyond the classroom
           </span>
-          <h2 className="mb-4 text-3xl font-bold text-foreground md:text-4xl lg:text-5xl">
+          <h2 className="mb-4 whitespace-nowrap text-[clamp(1.35rem,3.6vw,3rem)] font-bold leading-tight text-foreground">
             From live lessons to{" "}
             <span className="bg-gradient-to-r from-vedic-gold to-vedic-gold-light bg-clip-text text-transparent">
               everyday confidence
             </span>
           </h2>
-          <p className="mx-auto max-w-2xl text-lg leading-relaxed text-muted-foreground">
-            A great lesson doesn&apos;t end when the class ends. The real impact appears in the little
-            moments that follow — when a child approaches a maths problem with confidence, writes more
-            clearly, or reads a new word without hesitation.
+          <p className="mx-auto text-lg leading-relaxed text-muted-foreground">
+            A great lesson doesn&apos;t end when the class ends. The real impact appears in the
+            little moments that follow —{" "}
+            <br className="hidden lg:block" />
+            when a child approaches a maths problem with confidence, writes more clearly, or reads a
+            new word without hesitation.
           </p>
         </AnimatedSection>
 

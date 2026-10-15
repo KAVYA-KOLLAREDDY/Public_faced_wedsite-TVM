@@ -107,7 +107,7 @@ const testimonials: AbacusTestimonial[] = [
     name: "Jyothi",
     childName: "Unknown",
     content:
-      "We are extremely grateful for the abacus training provided by Si tejasvi mam in Tiny Vivid Minds. The step by step guidance and encouragement helped build strong foundational arithmetic skills, speed, and concentration. Highly recommend for any parent looking to strengthen their children's math skills. Thank you for teaching my child.",
+      "We are extremely grateful for the abacus training provided by Sai tejasvi mam in Tiny Vivid Minds. The step by step guidance and encouragement helped build strong foundational arithmetic skills, speed, and concentration. Highly recommend for any parent looking to strengthen their children's math skills. Thank you for teaching my child.",
     rating: 5,
   },
   {

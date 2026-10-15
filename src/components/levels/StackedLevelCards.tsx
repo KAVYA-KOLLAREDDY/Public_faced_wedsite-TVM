@@ -190,51 +190,51 @@ const vedicLevels: Level[] = [
   {
     id: 1,
     title: "Level 0",
-    subtitle: "Vedic Basics",
-    description: "Master the fundamentals of ancient Vedic calculation techniques.",
-    skills: ["Vedic Sutras", "Fast addition", "Number patterns"],
-    accentColor: "gold"
+    subtitle: "Core Operations",
+    description: "Build speed with the four foundational Vedic operations.",
+    skills: ["Additions", "Subtractions", "Multiplications"],
+    accentColor: "gold",
   },
   {
     id: 2,
     title: "Level 1",
-    subtitle: "Speed Tricks",
-    description: "Learn shortcut techniques for lightning-fast multiplication.",
-    skills: ["2-digit shortcuts", "Crosswise method", "Speed drills"],
-    accentColor: "teal"
+    subtitle: "Division & Algebra",
+    description: "Extend Vedic methods into division, algebra, and squares.",
+    skills: ["Divisions", "Multiplication in Algebra", "Squares"],
+    accentColor: "teal",
   },
   {
     id: 3,
     title: "Level 2",
-    subtitle: "Elegant Methods",
-    description: "Master the Nikhilam method and mental fraction work.",
-    skills: ["Nikhilam division", "Quick remainders", "Mental fractions"],
-    accentColor: "gold"
+    subtitle: "Powers & Roots",
+    description: "Master cubes and root extraction with Vedic shortcuts.",
+    skills: ["Cubes", "Square roots", "Cube roots"],
+    accentColor: "gold",
   },
   {
     id: 4,
     title: "Level 3",
-    subtitle: "Pattern Mastery",
-    description: "Turn complex calculations into recognizable patterns.",
-    skills: ["Square shortcuts", "Cube methods", "Root estimation"],
-    accentColor: "teal"
+    subtitle: "Higher Powers",
+    description: "Handle fourth powers, roots, and simultaneous equations.",
+    skills: ["Fourth power of number", "Fourth root of number", "Simultaneous equations"],
+    accentColor: "teal",
   },
   {
     id: 5,
     title: "Level 4",
-    subtitle: "Advanced Math",
-    description: "Apply ancient wisdom to modern algebraic concepts.",
-    skills: ["Linear equations", "Quadratic solutions", "Word problems"],
-    accentColor: "gold"
+    subtitle: "Checks & Applications",
+    description: "Verify work and apply Vedic math to trig and calendars.",
+    skills: ["Casting out of 9's", "Trigonometry", "Calendar"],
+    accentColor: "gold",
   },
   {
     id: 6,
     title: "Level 5",
-    subtitle: "Competition Ready",
-    description: "Achieve elite performance in competitive mathematics.",
-    skills: ["Problem-solving", "Olympiad prep", "Peer mentoring"],
-    accentColor: "teal"
-  }
+    subtitle: "Tricks & Factorization",
+    description: "Fun applications, cubic factorization, and extra tricks.",
+    skills: ["Birthday magic", "Cubic factorization", "Small extra tricks"],
+    accentColor: "teal",
+  },
 ];
 
 export const StackedLevelCards: React.FC<StackedLevelCardsProps> = ({ variant = 'abacus' }) => {

@@ -412,7 +412,7 @@ function Abacus(parentDivId) {
   };
 
   const loop = () => {
-    const moving = abacusCtrl.tickAnimation(0.3);
+    const moving = abacusCtrl.tickAnimation(0.45);
     drawFrame();
     if (moving) {
       rafId = requestAnimationFrame(loop);
