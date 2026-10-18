@@ -139,8 +139,11 @@ const AbacusCourse = () => {
             </TextReveal>
 
             <AnimatedSection animation="fade-up" delay={300}>
-              <p className="text-xl md:text-2xl text-white/80 mb-10 leading-relaxed max-w-2xl mx-auto">
-                Join our certified program designed for children aged 4-14. Transform how they learn numbers, calculation, and concentration through engaging digital learning.
+              <p className="mx-auto mb-10 max-w-4xl text-xl leading-relaxed text-white/80 md:text-2xl">
+                Abacus learning turns numbers into something children can touch and visualize. Tiny Vivid
+                Minds brings this ancient method to life for ages 3–8 through live, structured classes —
+                practice with beads, then without them, developing concentration, speed, and a lasting love
+                for numbers.
               </p>
             </AnimatedSection>
 

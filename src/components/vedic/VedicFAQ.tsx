@@ -14,7 +14,7 @@ const faqs: FAQ[] = [
   },
   {
     question: "At what age can my child join?",
-    answer: "Our Vedic Math program is designed for children aged 8-14. We have different levels tailored to various age groups and mathematical abilities to ensure optimal learning."
+    answer: "Our Vedic Math program is designed for learners aged 12 and above. We have different levels tailored to various abilities to ensure optimal learning."
   },
   {
     question: "Do you provide practice material?",

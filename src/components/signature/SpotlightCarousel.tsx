@@ -10,9 +10,10 @@ const courses = [
   {
     id: 1,
     title: "Mathematics Mastery",
-    description: "Build strong mathematical foundations with personalized problem-solving techniques and concept clarity.",
+    description:
+      "Build strong mathematical foundations with personalized problem-solving, concept clarity, and IXL learning for any age group.",
     image: curiousChildImg,
-    tags: ["Ages 5-14", "Weekly Reports", "Certified Tutors"],
+    tags: ["Any age", "IXL Learning", "Certified Tutors"],
     // Match SignatureHero subject colors
     ringActive: "ring-vedic-teal/50",
     ringIdle: "ring-vedic-teal/25",
@@ -25,7 +26,7 @@ const courses = [
     title: "Handwriting Excellence",
     description: "Develop beautiful, legible handwriting through structured practice and motor skill development.",
     image: abacusHandsImg,
-    tags: ["Ages 4-12", "Progress Tracking", "Custom Worksheets"],
+    tags: ["Ages 5+", "Progress Tracking", "Custom Worksheets"],
     ringActive: "ring-vedic-gold/50",
     ringIdle: "ring-vedic-gold/25",
     badge: "bg-vedic-gold/10 text-vedic-gold border-vedic-gold/20",
@@ -34,10 +35,11 @@ const courses = [
   },
   {
     id: 3,
-    title: "Phonics Foundation",
-    description: "Master reading and pronunciation with sound awareness and fluency building exercises.",
+    title: "Phonics & Grammar",
+    description:
+      "Master reading, pronunciation, and grammar with sound awareness and fluency-building exercises.",
     image: confidentChildrenImg,
-    tags: ["Ages 3-10", "Audio Lessons", "Reading Support"],
+    tags: ["Ages 4+", "Audio Lessons", "Reading Support"],
     ringActive: "ring-purple-500/50",
     ringIdle: "ring-purple-500/25",
     badge: "bg-purple-500/10 text-purple-600 border-purple-500/20",

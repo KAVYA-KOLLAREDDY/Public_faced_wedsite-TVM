@@ -120,9 +120,10 @@ const VedicMathCourse = () => {
             </TextReveal>
 
             <AnimatedSection animation="fade-up" delay={300}>
-              <p className="text-xl md:text-2xl text-white/80 mb-10 leading-relaxed max-w-2xl mx-auto">
-                Empower your child with ancient Indian techniques that make math faster, easier, and fun. 
-                Designed for ages 8–14.
+              <p className="mx-auto mb-10 max-w-4xl text-xl leading-relaxed text-white/80 md:text-2xl">
+                Vedic Mathematics turns complex calculations into simple patterns and shortcuts. Tiny Vivid
+                Minds brings these ancient Indian techniques to life for ages 12+ through live, structured
+                classes — building speed, clarity, and a lasting confidence with numbers.
               </p>
             </AnimatedSection>
 

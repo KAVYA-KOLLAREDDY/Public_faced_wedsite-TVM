@@ -11,7 +11,7 @@ import {
   Quote,
   Sparkles,
   GraduationCap,
-  Globe,
+  // Globe, // used by Learn from Anywhere (commented out)
   Activity,
   BrainCircuit,
   HeartHandshake,
@@ -34,7 +34,7 @@ import abacusCourseImg from "@/assets/students-learning/abacus2.png";
 import vedicMathImg from "@/assets/students-learning/vedic_math_learning.png";
 import founderImg from "@/assets/founder_pic3.png";
 import curiousChildImg from "@/assets/students-learning/curious-child.jpg";
-import worldNetworkImg from "@/assets/world-network.jpg";
+// import worldNetworkImg from "@/assets/world-network.jpg"; // used by Learn from Anywhere (commented out)
 import mathematicsImg from "@/assets/students-learning/maths.png";
 import handwritingImg from "@/assets/students-learning/hand_writing1.png";
 import phonicsImg from "@/assets/students-learning/phonetics.png";
@@ -112,8 +112,8 @@ const aboutPrograms: {
     name: "Abacus",
     headline: ["Numbers Made Simple,", "Minds Made Strong"],
     description:
-      "A visual and hands-on approach to numbers that helps children build a strong foundation for mental math while making learning active and engaging.",
-    features: ["Mental Calculation", "Concentration", "Number Sense", "Visual Learning"],
+      "For ages 3–8. A visual and hands-on approach to numbers that helps children build a strong foundation for mental math while making learning active and engaging.",
+    features: ["Ages 3–8", "Mental Calculation", "Concentration", "Number Sense"],
     image: abacusCourseImg,
     alt: "Abacus Learning",
     accent: "gold",
@@ -122,8 +122,8 @@ const aboutPrograms: {
     name: "Vedic Mathematics",
     headline: ["Ancient Wisdom,", "Modern Thinking"],
     description:
-      "Explore smart mathematical techniques that encourage learners to see patterns, simplify calculations, and approach problems in new ways.",
-    features: ["Faster Calculations", "Pattern Recognition", "Logical Thinking", "Problem-Solving"],
+      "For ages 12+. Explore smart mathematical techniques that encourage learners to see patterns, simplify calculations, and approach problems in new ways.",
+    features: ["Ages 12+", "Faster Calculations", "Pattern Recognition", "Problem-Solving"],
     image: vedicMathImg,
     alt: "Vedic Mathematics",
     accent: "teal",
@@ -132,8 +132,8 @@ const aboutPrograms: {
     name: "Mathematics",
     headline: ["Think Beyond", "the Numbers"],
     description:
-      "Build a deeper understanding of mathematics through concept-focused learning, practical application, and step-by-step exploration.",
-    features: ["Concept Clarity", "Mathematical Reasoning", "Practical Application", "Analytical Thinking"],
+      "For any age group. Build a deeper understanding of mathematics through concept-focused learning, practical application, and IXL learning support.",
+    features: ["Any age", "IXL Learning", "Concept Clarity", "Problem-Solving"],
     image: mathematicsImg,
     alt: "Mathematics Learning",
     accent: "purple",
@@ -142,20 +142,20 @@ const aboutPrograms: {
     name: "Handwriting",
     headline: ["Where Every Stroke", "Builds Confidence"],
     description:
-      "Develop a clear and comfortable writing style through guided practice that encourages consistency, control, and attention to detail.",
-    features: ["Letter Formation", "Writing Control", "Neatness", "Writing Fluency"],
+      "For ages 5+. Develop a clear and comfortable writing style through guided practice that encourages consistency, control, and attention to detail.",
+    features: ["Ages 5+", "Letter Formation", "Writing Control", "Writing Fluency"],
     image: handwritingImg,
     alt: "Handwriting Practice",
     accent: "rose",
   },
   {
-    name: "Phonics",
+    name: "Phonics & Grammar",
     headline: ["Where Sounds", "Become Words"],
     description:
-      "Discover the building blocks of language by learning how sounds connect with letters and words in a fun, structured learning environment.",
-    features: ["Sound Recognition", "Letter-Sound Connection", "Word Building", "Early Reading"],
+      "For ages 4+. Discover the building blocks of language by learning how sounds connect with letters, words, and grammar in a fun, structured environment.",
+    features: ["Ages 4+", "Sound Recognition", "Grammar", "Early Reading"],
     image: phonicsImg,
-    alt: "Phonics Learning",
+    alt: "Phonics and Grammar Learning",
     accent: "orange",
   },
 ];
@@ -239,7 +239,7 @@ const About = () => {
             {/* Sub-headline - Lead paragraph with larger font */}
             <AnimatedSection animation="fade-up" delay={400}>
               <p className="text-xl md:text-2xl lg:text-3xl text-muted-foreground font-light max-w-4xl mx-auto leading-relaxed">
-              A globally recognized online academy committed to children's overall learning & skill development through well-researched, need-based, quality programs for ages 4 and above.
+              A globally recognized online academy committed to children's overall learning & skill development through well-researched, need-based, quality programs for ages 3 and above.
               </p>
             </AnimatedSection>
 
@@ -411,9 +411,9 @@ const About = () => {
 
       {/* ============================================
           PART 4: THE 'ANYWHERE, EVERYWHERE' FEATURE
-          ============================================ */}
+          (temporarily hidden)
+          ============================================
       <section className="py-10 md:py-12 relative overflow-hidden">
-        {/* World Map Background */}
         <div className="absolute inset-0">
           <img 
             src={worldNetworkImg}
@@ -427,13 +427,10 @@ const About = () => {
 
         <div className="container mx-auto relative z-10">
           <div className="max-w-4xl mx-auto">
-            {/* Glassmorphism Panel */}
             <AnimatedSection animation="scale">
               <div className="relative">
-                {/* Glow behind */}
                 <div className="absolute -inset-4 bg-gradient-to-r from-vedic-gold/30 via-vedic-teal/20 to-vedic-gold/30 rounded-[3rem] blur-2xl opacity-60" />
                 
-                {/* Glass Panel */}
                 <div className="relative backdrop-blur-xl bg-card/70 border border-white/20 rounded-3xl p-10 md:p-16 shadow-2xl">
                   <div className="text-center space-y-8">
                     <AnimatedSection animation="pop-in" delay={200}>
@@ -463,7 +460,6 @@ const About = () => {
                       </p>
                     </AnimatedSection>
 
-                    {/* Feature badges */}
                     <AnimatedSection animation="fade-up" delay={600}>
                       <div className="flex flex-wrap justify-center gap-4 pt-4">
                         {["24/7 Access", "Expert Teachers", "Live Classes", "Global Community"].map((feature, i) => (
@@ -483,6 +479,7 @@ const About = () => {
           </div>
         </div>
       </section>
+      */}
 
       {/* ============================================
           PART 5: THE EINSTEIN QUOTE FINALE
@@ -733,8 +730,8 @@ const About = () => {
                     "Learning is not just about acquiring knowledge; it is about developing the confidence, curiosity,
                     and skills that help children navigate the world around them. At Tiny Vivid Minds, we believe every
                     child has the ability to learn and grow when given the right guidance, encouragement, and
-                    environment. Through our programs in Mathematics, Abacus, Vedic Mathematics, Handwriting, and
-                    Phonics, we aim to strengthen essential skills while making learning engaging, meaningful, and
+                    environment. Through our programs in Mathematics (with IXL), Abacus, Vedic Mathematics, Handwriting, and
+                    Phonics & Grammar, we aim to strengthen essential skills while making learning engaging, meaningful, and
                     enjoyable."
                   </p>
                   <p className="text-lg text-muted-foreground leading-relaxed mb-4">
@@ -804,7 +801,7 @@ const About = () => {
                 <span className="block text-vedic-gold">Learning Journey?</span>
               </h2>
               <p className="text-xl text-muted-foreground mb-10 max-w-2xl mx-auto">
-                Explore personalized programs in Mathematics, Abacus, Vedic Mathematics, Handwriting, and Phonics — and
+                Explore personalized programs in Mathematics (with IXL), Abacus, Vedic Mathematics, Handwriting, and Phonics & Grammar — and
                 give your child the opportunity to build strong skills, confidence, and a love for learning.
               </p>
               <div className="flex flex-wrap justify-center gap-4">

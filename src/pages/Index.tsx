@@ -37,7 +37,7 @@ const programs = [
     icon: Calculator,
     title: "Abacus Learning",
     description:
-      "Build number sense, concentration, visualization, and mental calculation skills through structured Abacus learning.",
+      "For ages 3–8. Build number sense, concentration, visualization, and mental calculation skills through structured Abacus learning.",
     color: "teal",
     to: "/courses/abacus",
   },
@@ -45,7 +45,7 @@ const programs = [
     icon: Brain,
     title: "Vedic Mathematics",
     description:
-      "Discover powerful calculation strategies that strengthen mathematical thinking, flexibility, and problem-solving confidence.",
+      "For ages 12+. Discover powerful calculation strategies that strengthen mathematical thinking, flexibility, and problem-solving confidence.",
     color: "gold",
     to: "/courses/vedic-math",
   },
@@ -53,7 +53,7 @@ const programs = [
     icon: GraduationCap,
     title: "Mathematics",
     description:
-      "Strengthen mathematical concepts, problem-solving, and confidence through clear instruction and personalized practice.",
+      "For any age group. Strengthen concepts and problem-solving with clear instruction, personalized practice, and IXL learning.",
     color: "navy",
     to: "/courses/signature-programs",
   },
@@ -61,15 +61,15 @@ const programs = [
     icon: PenLine,
     title: "Handwriting",
     description:
-      "Develop clear, legible, and confident handwriting through guided practice that builds control, consistency, and good writing habits.",
+      "For ages 5+. Develop clear, legible, and confident handwriting through guided practice that builds control, consistency, and good writing habits.",
     color: "teal",
     to: "/courses/signature-programs",
   },
   {
     icon: BookOpen,
-    title: "Phonics",
+    title: "Phonics & Grammar",
     description:
-      "Build sound awareness, pronunciation, and early reading confidence through engaging phonics activities and guided practice.",
+      "For ages 4+. Build sound awareness, pronunciation, grammar, and early reading confidence through engaging activities and guided practice.",
     color: "gold",
     to: "/courses/signature-programs",
   },
@@ -143,7 +143,7 @@ const faqs = [
   {
     question: "What programs does Tiny Vivid Minds offer?",
     answer:
-      "We currently offer Abacus, Vedic Mathematics, Mathematics, Handwriting, and Phonics programs. Each program is designed to support different learning needs and skill levels.",
+      "We currently offer Abacus (ages 3–8), Vedic Mathematics (ages 12+), Mathematics with IXL (any age), Handwriting (ages 5+), and Phonics & Grammar (ages 4+). Each program is designed to support different learning needs and skill levels.",
   },
   {
     question: "How do your online classes work?",
@@ -171,16 +171,18 @@ const Index = () => {
   const location = useLocation();
   const navigate = useNavigate();
   const [currentTestimonialIndex, setCurrentTestimonialIndex] = useState(0);
+  const [testimonialAutoplayPaused, setTestimonialAutoplayPaused] = useState(false);
   const [activeFaq, setActiveFaq] = useState<number | null>(null);
   const discoverSectionWasVisibleRef = useRef(false);
 
-  // Auto-rotate testimonials
+  // Auto-rotate testimonials (stops after user clicks next/back/dots)
   useEffect(() => {
+    if (testimonialAutoplayPaused || testimonials.length <= 1) return;
     const timer = setInterval(() => {
       setCurrentTestimonialIndex((prev) => (prev + 1) % testimonials.length);
     }, 5000);
     return () => clearInterval(timer);
-  }, []);
+  }, [testimonialAutoplayPaused]);
 
   useEffect(() => {
     if (location.hash !== `#${DISCOVER_PROGRAMS_HASH}`) return;
@@ -237,12 +239,21 @@ const Index = () => {
     };
   }, [location.pathname, location.hash, navigate]);
 
+  const pauseTestimonialAutoplay = () => setTestimonialAutoplayPaused(true);
+
   const nextTestimonial = () => {
+    pauseTestimonialAutoplay();
     setCurrentTestimonialIndex((prev) => (prev + 1) % testimonials.length);
   };
 
   const prevTestimonial = () => {
+    pauseTestimonialAutoplay();
     setCurrentTestimonialIndex((prev) => (prev - 1 + testimonials.length) % testimonials.length);
+  };
+
+  const goToTestimonial = (index: number) => {
+    pauseTestimonialAutoplay();
+    setCurrentTestimonialIndex(index);
   };
 
   const toggleFaq = (index: number) => {
@@ -280,7 +291,7 @@ const Index = () => {
               Our Programs That Build <span className="text-gold">Strong Foundations</span>
             </h2>
             <p className="text-muted-foreground text-lg max-w-5xl mx-auto">
-              From Mathematics and Abacus to Vedic Mathematics, Handwriting, and Phonics, our programs help children develop essential skills through engaging, structured, and personalized learning.
+              From Mathematics (with IXL) and Abacus to Vedic Mathematics, Handwriting, and Phonics & Grammar, our programs help children develop essential skills through engaging, structured, and personalized learning.
             </p>
           </AnimatedSection>
 
@@ -379,8 +390,8 @@ const Index = () => {
               </h2>
               <p className="text-muted-foreground text-lg leading-relaxed">
                 At Tiny Vivid Minds, we believe strong foundations are built one skill at a time. Through engaging
-                instruction and personalized support, we help children strengthen their Mathematics, Abacus, Vedic
-                Mathematics, Handwriting, and Phonics skills while developing confidence, curiosity, and independence.
+                instruction and personalized support, we help children strengthen their Mathematics (with IXL), Abacus, Vedic
+                Mathematics, Handwriting, and Phonics & Grammar skills while developing confidence, curiosity, and independence.
               </p>
             </AnimatedSection>
           </div>
@@ -553,7 +564,7 @@ const Index = () => {
                 {testimonials.map((_, index) => (
                   <button
                     key={index}
-                    onClick={() => setCurrentTestimonialIndex(index)}
+                    onClick={() => goToTestimonial(index)}
                     className={`h-2 rounded-full transition-all duration-500 ${
                       index === currentTestimonialIndex
                         ? "bg-gold w-8"
@@ -732,7 +743,7 @@ const Index = () => {
               Ready to Begin Your Child's <span className="text-gold">Learning Journey?</span>
             </h2>
             <p className="text-muted-foreground text-lg mb-10">
-              Explore Mathematics, Abacus, Vedic Mathematics, Handwriting, and Phonics programs designed to help your
+              Explore Mathematics (with IXL), Abacus, Vedic Mathematics, Handwriting, and Phonics & Grammar programs designed to help your
               child build strong skills, confidence, and a love for learning.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">

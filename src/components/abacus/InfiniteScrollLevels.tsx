@@ -14,7 +14,7 @@ const levels: Level[] = [
   {
     id: 1,
     title: "Foundation",
-    ageRange: "Ages 4-6",
+    ageRange: "Ages 3-4",
     description: "Introduction to abacus beads and basic number recognition.",
     icon: <Circle className="w-5 h-5" />,
     color: "bg-emerald-500"
@@ -22,7 +22,7 @@ const levels: Level[] = [
   {
     id: 2,
     title: "Elementary",
-    ageRange: "Ages 5-7",
+    ageRange: "Ages 4-5",
     description: "Developing speed with two-digit calculations.",
     icon: <Sparkles className="w-5 h-5" />,
     color: "bg-blue-500"
@@ -30,7 +30,7 @@ const levels: Level[] = [
   {
     id: 3,
     title: "Intermediate",
-    ageRange: "Ages 6-9",
+    ageRange: "Ages 5-6",
     description: "Mastering multiplication and visualization techniques.",
     icon: <Target className="w-5 h-5" />,
     color: "bg-violet-500"
@@ -38,7 +38,7 @@ const levels: Level[] = [
   {
     id: 4,
     title: "Advanced",
-    ageRange: "Ages 8-11",
+    ageRange: "Ages 6-7",
     description: "Complex calculations performed entirely in the mind.",
     icon: <Zap className="w-5 h-5" />,
     color: "bg-amber-500"
@@ -46,7 +46,7 @@ const levels: Level[] = [
   {
     id: 5,
     title: "Expert",
-    ageRange: "Ages 10-14",
+    ageRange: "Ages 7-8",
     description: "Competition-level calculations with speed and accuracy.",
     icon: <Trophy className="w-5 h-5" />,
     color: "bg-rose-500"
@@ -54,7 +54,7 @@ const levels: Level[] = [
   {
     id: 6,
     title: "Grand Master",
-    ageRange: "Ages 12+",
+    ageRange: "Ages 8",
     description: "Elite performance with instant mental calculations.",
     icon: <Crown className="w-5 h-5" />,
     color: "bg-yellow-500"

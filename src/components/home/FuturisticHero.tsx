@@ -261,7 +261,7 @@ export const FuturisticHero = () => {
               transition={{ delay: 0.4, duration: 0.6 }}
               className="text-white/75 text-base sm:text-lg md:text-xl max-w-3xl md:max-w-4xl mx-auto mb-8 sm:mb-12 leading-relaxed sm:leading-loose px-0"
             >
-              Make learning an exciting journey with engaging programs in Mathematics, Abacus, Vedic Mathematics, Handwriting, and Phonics — thoughtfully designed to build strong foundations, confidence, and a love for learning.
+              Make learning an exciting journey with engaging programs in Mathematics (with IXL), Abacus, Vedic Mathematics, Handwriting, and Phonics & Grammar — thoughtfully designed to build strong foundations, confidence, and a love for learning.
             </motion.p>
 
             {/* Action Buttons — Explore Programs first, Contact Us second */}

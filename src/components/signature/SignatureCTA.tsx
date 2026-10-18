@@ -95,7 +95,7 @@ const SignatureCTA = () => {
           </h2>
 
           <p className="text-lg md:text-xl text-white/80 mb-10 leading-relaxed">
-            Help your child build essential skills in Math, Handwriting, and Phonics —
+            Help your child build essential skills in Math (with IXL), Handwriting, and Phonics & Grammar —
             with structured, interactive live lessons designed to build strong fundamentals.
           </p>
 

@@ -75,44 +75,44 @@ const smoothScroll = (targetId: string) => {
 const testimonials = [
   {
     text: "My daughter is very much interested for class and doing home works easily. As of now, I saw a great improvement in solving sums using board. Madhuri mam is teaching that clearly.",
-    author: "Parent of Sahasra",
-    role: "Abacus learner",
+    author: "Jyoshna",
+    role: "Parent of Sahasra",
     rating: 5,
   },
   {
     text: "I am pretty much happy with Madhuri mam teaching. After joining her in this abacus class her calculation skills was so good. Thank you for your guidance mam.",
     author: "Gowthami",
-    role: "Abacus parent",
+    role: "Parent of Nishika",
     rating: 5,
   },
   {
     text: "We are extremely grateful for the abacus training provided by Sai Tejasvi mam in Tiny Vivid Minds. The step by step guidance and encouragement helped build strong foundational arithmetic skills, speed, and concentration. Highly recommend for any parent looking to strengthen their children's math skills. Thank you for teaching my child.",
     author: "Jyothi",
-    role: "Abacus parent",
+    role: "Parent of an Abacus student",
     rating: 5,
   },
   {
     text: "The Abacus online classes are well organized and engaging. My child enjoys attending the sessions, and I can already see improvements in concentration, calculation speed, and confidence. The teacher explains the concepts clearly and is patient with the students. Thank you for your efforts and support. We look forward to continued progress.",
     author: "Eligeti Meghana",
-    role: "Abacus parent",
+    role: "Parent of an Abacus student",
     rating: 5,
   },
   {
     text: "Teacher is patiently guiding students to improve their speed and concentration, to become confident in solving numbers. She is good and very supportive to the students and giving very good guidance.",
     author: "Rithika",
-    role: "Parent",
+    role: "Parent of an Abacus student",
     rating: 5,
   },
   {
     text: "Very clear explanation and impressed with the way Sai Tejasvi mam is teaching my child.",
     author: "Hiryanya",
-    role: "Abacus parent",
+    role: "Parent of an 8-year-old",
     rating: 5,
   },
   {
     text: "My son is doing good with calculations after joining in Tiny Vivid Minds. But the teacher is little strict.",
     author: "Shalini",
-    role: "Parent",
+    role: "Parent of a 9-year-old boy",
     rating: 5,
   },
   {
@@ -648,11 +648,11 @@ const Contact = () => {
                     }}
                     options={[
                       { value: "", label: "Select a program" },
-                      { value: "Abacus", label: "Abacus" },
-                      { value: "Vedic Mathematics", label: "Vedic Mathematics" },
-                      { value: "Mathematics", label: "Mathematics" },
-                      { value: "Handwriting", label: "Handwriting" },
-                      { value: "Phonics", label: "Phonics" },
+                      { value: "Abacus", label: "Abacus (ages 3–8)" },
+                      { value: "Vedic Mathematics", label: "Vedic Mathematics (ages 12+)" },
+                      { value: "Mathematics", label: "Mathematics + IXL (any age)" },
+                      { value: "Handwriting", label: "Handwriting (ages 5+)" },
+                      { value: "Phonics", label: "Phonics & Grammar (ages 4+)" },
 
                     ]}
                     required

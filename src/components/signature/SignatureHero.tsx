@@ -25,7 +25,7 @@ const subjects = [
     symbols: ["✎", "Aa", "Bb", "✍", "📝", "✒", "Cc", "Dd"]
   },
   { 
-    name: "Phonics", 
+    name: "Phonics & Grammar", 
     color: "from-purple-400 via-purple-300 to-purple-400",
     bgColor: "bg-purple-500",
     textColor: "text-white",
@@ -134,7 +134,7 @@ const SignatureHero = () => {
 
           <AnimatedSection animation="fade-up" delay={300}>
             <p className="text-xl md:text-2xl text-white/80 mb-10 leading-relaxed max-w-2xl mx-auto">
-              Live, instructor-led programs in Mathematics, Handwriting, and Phonics—structured paths
+              Live, instructor-led programs in Mathematics (with IXL), Handwriting, and Phonics & Grammar—structured paths
               that build clarity, confidence, and lasting habits.
             </p>
           </AnimatedSection>
