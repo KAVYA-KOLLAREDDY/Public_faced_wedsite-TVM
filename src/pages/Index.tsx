@@ -26,7 +26,7 @@ import { SocialSidebar } from "@/components/SocialSidebar";
 import { FuturisticHero } from "@/components/home/FuturisticHero";
 import { DiscoverProgramsLink } from "@/components/DiscoverProgramsLink";
 import { DISCOVER_PROGRAMS_HASH } from "@/lib/homeAnchors";
-import childrenLearning from "@/assets/students-learning/children-learning.jpg";
+import childrenLearning from "@/assets/students-learning/children-learning.png";
 import teamTeacher from "@/assets/students-learning/certified.png";
 import abacusHands from "@/assets/students-learning/abacus.png";
 import vedicCourse from "@/assets/students-learning/vedic-math.png";
