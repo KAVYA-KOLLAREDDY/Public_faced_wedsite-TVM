@@ -107,7 +107,7 @@ const testimonials: AbacusTestimonial[] = [
     name: "Jyothi",
     childName: "Unknown",
     content:
-      "We are extremely grateful for the abacus training provided by Si tejasvi mam in Tiny Vivid Minds. The step by step guidance and encouragement helped build strong foundational arithmetic skills, speed, and concentration. Highly recommend for any parent looking to strengthen their children's math skills. Thank you for teaching my child.",
+      "We are extremely grateful for the abacus training provided by Sai tejasvi mam in Tiny Vivid Minds. The step by step guidance and encouragement helped build strong foundational arithmetic skills, speed, and concentration. Highly recommend for any parent looking to strengthen their children's math skills. Thank you for teaching my child.",
     rating: 5,
   },
   {
@@ -164,6 +164,7 @@ const COLLAPSE_THRESHOLD = 220;
 
 export const TestimonialsWithPagination = () => {
   const [currentPage, setCurrentPage] = useState(0);
+  const [autoplayPaused, setAutoplayPaused] = useState(false);
   const [expandedIds, setExpandedIds] = useState<Record<number, boolean>>({});
   const totalPages = Math.ceil(testimonials.length / ITEMS_PER_PAGE);
 
@@ -172,33 +173,39 @@ export const TestimonialsWithPagination = () => {
     (currentPage + 1) * ITEMS_PER_PAGE
   );
 
+  const pauseAutoplay = () => setAutoplayPaused(true);
+
   const nextPage = () => {
+    pauseAutoplay();
     setExpandedIds({});
     setCurrentPage((prev) => (prev + 1) % totalPages);
   };
 
   const prevPage = () => {
+    pauseAutoplay();
     setExpandedIds({});
     setCurrentPage((prev) => (prev - 1 + totalPages) % totalPages);
   };
 
   const goToPage = (index: number) => {
+    pauseAutoplay();
     setExpandedIds({});
     setCurrentPage(index);
   };
 
   const toggleExpanded = (globalIndex: number) => {
+    pauseAutoplay();
     setExpandedIds((prev) => ({ ...prev, [globalIndex]: !prev[globalIndex] }));
   };
 
-  // Auto-rotate (pause while any card is expanded)
+  // Auto-rotate until the user navigates manually (or expands a card)
   useEffect(() => {
-    if (Object.values(expandedIds).some(Boolean)) return;
+    if (autoplayPaused || Object.values(expandedIds).some(Boolean) || totalPages <= 1) return;
     const timer = setInterval(() => {
       setCurrentPage((prev) => (prev + 1) % totalPages);
     }, 6000);
     return () => clearInterval(timer);
-  }, [totalPages, expandedIds]);
+  }, [totalPages, expandedIds, autoplayPaused]);
 
   return (
     <div>
@@ -219,7 +226,7 @@ export const TestimonialsWithPagination = () => {
               <div 
                 className={cn(
                   "group relative flex flex-col rounded-3xl p-6 border border-border/50 transition-all duration-500",
-                  !isExpanded && "min-h-[22rem]",
+                  !isExpanded && "sm:min-h-[22rem]",
                   "hover:shadow-xl hover:-translate-y-2",
                   cardColors[globalIndex % cardColors.length]
                 )}

@@ -204,7 +204,9 @@ function Abacus(parentDivId) {
 
   const measureLogicalSize = () => {
     const parent = document.getElementById(parentDivId);
-    const maxW = parent ? Math.max(320, parent.clientWidth - 24) : 800;
+    const raw = parent ? parent.clientWidth : 800;
+    // Fill the available width on phones; keep a sensible floor for bead hit targets
+    const maxW = Math.max(280, raw > 0 ? raw : 800);
     const logicalW = Math.floor(maxW);
     const logicalH = 420;
     return { logicalW, logicalH };
@@ -412,7 +414,7 @@ function Abacus(parentDivId) {
   };
 
   const loop = () => {
-    const moving = abacusCtrl.tickAnimation(0.3);
+    const moving = abacusCtrl.tickAnimation(0.45);
     drawFrame();
     if (moving) {
       rafId = requestAnimationFrame(loop);
@@ -474,8 +476,11 @@ function Abacus(parentDivId) {
     dpr = Math.min(window.devicePixelRatio || 1, DPR_CAP);
     canvas.width = Math.floor(abacusCtrl.m.logicalW * dpr);
     canvas.height = Math.floor(abacusCtrl.m.logicalH * dpr);
-    canvas.style.width = `${abacusCtrl.m.logicalW}px`;
-    canvas.style.height = `${abacusCtrl.m.logicalH}px`;
+    // CSS-scale to parent so phones don't need horizontal scroll; hit-testing uses getBoundingClientRect
+    canvas.style.width = "100%";
+    canvas.style.height = "auto";
+    canvas.style.maxWidth = "100%";
+    canvas.style.aspectRatio = `${abacusCtrl.m.logicalW} / ${abacusCtrl.m.logicalH}`;
     canvas.className =
       "abacus-canvas max-w-full cursor-pointer rounded-lg border border-black/40 shadow-md";
     canvas.style.display = "block";
@@ -543,8 +548,10 @@ function Abacus(parentDivId) {
       dpr = Math.min(window.devicePixelRatio || 1, DPR_CAP);
       canvas.width = Math.floor(abacusCtrl.m.logicalW * dpr);
       canvas.height = Math.floor(abacusCtrl.m.logicalH * dpr);
-      canvas.style.width = `${abacusCtrl.m.logicalW}px`;
-      canvas.style.height = `${abacusCtrl.m.logicalH}px`;
+      canvas.style.width = "100%";
+      canvas.style.height = "auto";
+      canvas.style.maxWidth = "100%";
+      canvas.style.aspectRatio = `${abacusCtrl.m.logicalW} / ${abacusCtrl.m.logicalH}`;
       drawFrame();
     };
     window.addEventListener("resize", onResize, { passive: true });

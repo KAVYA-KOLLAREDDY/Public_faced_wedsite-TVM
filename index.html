@@ -16,6 +16,18 @@
     <meta name="twitter:site" content="%VITE_TWITTER_SITE%" />
     <meta name="twitter:image" content="%VITE_OG_IMAGE%" />
 
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-JD69XGK13X"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'G-JD69XGK13X', {
+        send_page_view: false
+      });
+    </script>
+
     <style>
       /* Immediate splash — before React / CSS bundle load (matches site navy–gold–teal) */
       html, body {

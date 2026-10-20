@@ -2,17 +2,18 @@ import { useState, useEffect, useRef } from "react";
 import { motion } from "framer-motion";
 import AnimatedSection from "@/components/AnimatedSection";
 import { Check, ChevronLeft, ChevronRight, Play, Pause } from "lucide-react";
-import abacusHandsImg from "@/assets/students-learning/hand_writing.png";
-import curiousChildImg from "@/assets/students-learning/maths.png";
-import confidentChildrenImg from "@/assets/students-learning/phonetics.png";
+import abacusHandsImg from "@/assets/students-learning/hand_writing.jpg";
+import curiousChildImg from "@/assets/students-learning/math1.png";
+import confidentChildrenImg from "@/assets/students-learning/phonetics1.png";
 
 const courses = [
   {
     id: 1,
     title: "Mathematics Mastery",
-    description: "Build strong mathematical foundations with personalized problem-solving techniques and concept clarity.",
+    description:
+      "Build strong mathematical foundations with personalized problem-solving, concept clarity, and IXL learning for any age group.",
     image: curiousChildImg,
-    tags: ["Ages 5-14", "Weekly Reports", "Certified Tutors"],
+    tags: ["Any age", "IXL Learning", "Certified Tutors"],
     // Match SignatureHero subject colors
     ringActive: "ring-vedic-teal/50",
     ringIdle: "ring-vedic-teal/25",
@@ -22,10 +23,10 @@ const courses = [
   },
   {
     id: 2,
-    title: "HandWriting Excellence",
+    title: "Handwriting Excellence",
     description: "Develop beautiful, legible handwriting through structured practice and motor skill development.",
     image: abacusHandsImg,
-    tags: ["Ages 4-12", "Progress Tracking", "Custom Worksheets"],
+    tags: ["Ages 5+", "Progress Tracking", "Custom Worksheets"],
     ringActive: "ring-vedic-gold/50",
     ringIdle: "ring-vedic-gold/25",
     badge: "bg-vedic-gold/10 text-vedic-gold border-vedic-gold/20",
@@ -34,10 +35,11 @@ const courses = [
   },
   {
     id: 3,
-    title: "Phonetics Foundation",
-    description: "Master reading and pronunciation with phonetic awareness and fluency building exercises.",
+    title: "Phonics & Grammar",
+    description:
+      "Master reading, pronunciation, and grammar with sound awareness and fluency-building exercises.",
     image: confidentChildrenImg,
-    tags: ["Ages 3-10", "Audio Lessons", "Reading Support"],
+    tags: ["Ages 4+", "Audio Lessons", "Reading Support"],
     ringActive: "ring-purple-500/50",
     ringIdle: "ring-purple-500/25",
     badge: "bg-purple-500/10 text-purple-600 border-purple-500/20",
@@ -49,7 +51,21 @@ const courses = [
 const SpotlightCarousel = () => {
   const [currentSlide, setCurrentSlide] = useState(0);
   const [isAutoPlaying, setIsAutoPlaying] = useState(true);
+  const [sideOffset, setSideOffset] = useState(280);
   const autoPlayRef = useRef<NodeJS.Timeout | null>(null);
+
+  useEffect(() => {
+    const syncOffset = () => {
+      const w = window.innerWidth;
+      if (w < 640) setSideOffset(72);
+      else if (w < 768) setSideOffset(140);
+      else if (w < 1024) setSideOffset(220);
+      else setSideOffset(280);
+    };
+    syncOffset();
+    window.addEventListener("resize", syncOffset, { passive: true });
+    return () => window.removeEventListener("resize", syncOffset);
+  }, []);
 
   useEffect(() => {
     if (isAutoPlaying) {
@@ -86,19 +102,19 @@ const SpotlightCarousel = () => {
       };
     } else if (isLeft) {
       return {
-        x: -280,
+        x: -sideOffset,
         scale: 0.85,
-        rotateY: 20,
+        rotateY: sideOffset < 100 ? 0 : 20,
         z: 0,
-        opacity: 1,
+        opacity: sideOffset < 100 ? 0.35 : 1,
       };
     } else if (isRight) {
       return {
-        x: 280,
+        x: sideOffset,
         scale: 0.85,
-        rotateY: -20,
+        rotateY: sideOffset < 100 ? 0 : -20,
         z: 0,
-        opacity: 1,
+        opacity: sideOffset < 100 ? 0.35 : 1,
       };
     }
     return {

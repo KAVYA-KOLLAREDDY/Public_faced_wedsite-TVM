@@ -39,10 +39,10 @@ const GlobalHero = ({ onBookDemo, onContact }: GlobalHeroProps) => {
               Global Learning Community
             </motion.span>
 
-            <h1 className="font-display text-4xl md:text-5xl lg:text-6xl font-bold leading-[1.1] mb-6 text-white">
+            <h1 className="mb-6 font-display text-4xl font-bold leading-[1.1] text-white md:text-5xl lg:text-6xl">
               We're Here to Help Your Child{" "}
               <span className="relative inline-block">
-                <span className="text-gold">Shine in Maths!</span>
+                <span className="text-gold">Learn, Grow & Shine!</span>
                 {/* Teal underline accent */}
                 <svg className="absolute -bottom-2 left-0 w-full h-3" viewBox="0 0 200 12" preserveAspectRatio="none">
                   <path 
@@ -59,7 +59,7 @@ const GlobalHero = ({ onBookDemo, onContact }: GlobalHeroProps) => {
 
             <p className="text-lg md:text-xl text-white/70 max-w-lg mb-10 leading-relaxed">
               Join our global family of learners across {HIGHLIGHTED_COUNTRY_COUNT} countries. From India across the
-              globe, we empower children to discover the joy of mathematics.
+              globe, we empower children to discover the joy of learning.
             </p>
 
             <div className="flex flex-wrap gap-4">

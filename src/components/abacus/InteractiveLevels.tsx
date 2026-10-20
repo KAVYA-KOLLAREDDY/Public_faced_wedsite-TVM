@@ -10,7 +10,7 @@ import { AnimatedSection } from "@/components/AnimatedSection";
 const levels = [
   { 
     title: "Foundation Level", 
-    ages: "Ages 4-6", 
+    ages: "Ages 3-4", 
     badge: "The Counter",
     badgeIcon: Calculator,
     description: "Introduction to abacus basics, number recognition, and simple counting.",
@@ -19,7 +19,7 @@ const levels = [
   },
   { 
     title: "Basic Operations", 
-    ages: "Ages 6-8", 
+    ages: "Ages 4-5", 
     badge: "Addition Ace",
     badgeIcon: Sigma,
     description: "Addition and subtraction using abacus techniques.",
@@ -28,7 +28,7 @@ const levels = [
   },
   { 
     title: "Multiplication Mastery", 
-    ages: "Ages 8-10", 
+    ages: "Ages 5-6", 
     badge: "Multiplication Ninja",
     badgeIcon: Award,
     description: "Advanced multiplication and mental math strategies.",
@@ -37,7 +37,7 @@ const levels = [
   },
   { 
     title: "Division & Fractions", 
-    ages: "Ages 10-12", 
+    ages: "Ages 6-7", 
     badge: "Division Master",
     badgeIcon: Divide,
     description: "Complex division and fraction calculations.",
@@ -46,7 +46,7 @@ const levels = [
   },
   { 
     title: "Advanced Techniques", 
-    ages: "Ages 12-14", 
+    ages: "Ages 7-8", 
     badge: "Decimal Pro",
     badgeIcon: Percent,
     description: "Decimal operations and problem-solving.",
@@ -55,7 +55,7 @@ const levels = [
   },
   { 
     title: "Mastery Level", 
-    ages: "Ages 14+", 
+    ages: "Ages 8", 
     badge: "Grand Master",
     badgeIcon: Crown,
     description: "Complete mastery for competitive mathematics.",

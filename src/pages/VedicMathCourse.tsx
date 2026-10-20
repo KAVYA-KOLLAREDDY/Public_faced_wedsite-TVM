@@ -120,9 +120,10 @@ const VedicMathCourse = () => {
             </TextReveal>
 
             <AnimatedSection animation="fade-up" delay={300}>
-              <p className="text-xl md:text-2xl text-white/80 mb-10 leading-relaxed max-w-2xl mx-auto">
-                Empower your child with ancient Indian techniques that make math faster, easier, and fun. 
-                Designed for ages 8–14.
+              <p className="mx-auto mb-10 max-w-4xl text-xl leading-relaxed text-white/80 md:text-2xl">
+                Vedic Mathematics turns complex calculations into simple patterns and shortcuts. Tiny Vivid
+                Minds brings these ancient Indian techniques to life for ages 12+ through live, structured
+                classes — building speed, clarity, and a lasting confidence with numbers.
               </p>
             </AnimatedSection>
 
@@ -271,7 +272,7 @@ const VedicMathCourse = () => {
         <ParallaxWatermark text="LEVELS" className="-right-20 top-1/4" speed={0.12} />
 
         <div className="container mx-auto relative z-10">
-          <AnimatedSection className="relative z-[2] mx-auto mb-8 max-w-3xl text-center sm:mb-10 md:mb-12">
+          <AnimatedSection className="relative z-[2] mx-auto mb-3 max-w-3xl text-center sm:mb-4 md:mb-5">
             <span className="inline-block px-4 py-2 bg-gold/20 text-gold font-semibold tracking-wider uppercase text-sm rounded-full mb-4">
               Learning Path
             </span>
@@ -354,7 +355,7 @@ const VedicMathCourse = () => {
                 <div className="absolute -inset-4 bg-gradient-to-r from-gold/30 via-teal/20 to-gold/30 rounded-[3rem] blur-2xl opacity-60 border-glow-animate transition-opacity duration-500 group-hover/card:opacity-80" />
                 
                 {/* Glass Panel with warm hover */}
-                <div className="relative glass-warm p-10 md:p-16 transition-all duration-500 group-hover/card:border-gold/40">
+                <div className="relative glass-warm p-6 transition-all duration-500 group-hover/card:border-gold/40 sm:p-10 md:p-16">
                   <div className="text-center space-y-8">
                     {/* Floating Globe Icon */}
                     <AnimatedSection animation="pop-in" delay={200}>

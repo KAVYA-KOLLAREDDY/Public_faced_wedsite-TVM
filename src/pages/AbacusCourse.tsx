@@ -12,7 +12,10 @@ import {
   Sparkles,
   Globe,
   Mail,
-  RotateCcw
+  RotateCcw,
+  Trophy,
+  Headphones,
+  Users,
 } from "lucide-react";
 import FloatingMathSymbols from "@/components/FloatingMathSymbols";
 import HeroMathSymbols from "@/components/HeroMathSymbols";
@@ -34,6 +37,12 @@ import TestimonialsWithPagination from "@/components/abacus/TestimonialsWithPagi
 import PremiumAccordion from "@/components/abacus/PremiumAccordion";
 import StatsBar from "@/components/vedic/StatsBar";
 import Abacus from "@/utils/abacus";
+
+const abacusStats = [
+  { icon: Trophy, value: "Level 11", label: "Mastery" },
+  { icon: Headphones, value: "Live 1-on-1", label: "Support" },
+  { icon: Users, value: "Group Sessions", label: "Students" },
+];
 
 const benefits = [
   { icon: Brain, title: "Brain Development", description: "Stimulates both hemispheres, enhancing cognitive abilities." },
@@ -130,8 +139,11 @@ const AbacusCourse = () => {
             </TextReveal>
 
             <AnimatedSection animation="fade-up" delay={300}>
-              <p className="text-xl md:text-2xl text-white/80 mb-10 leading-relaxed max-w-2xl mx-auto">
-                Join our certified program designed for children aged 4-14. Transform how they learn numbers, calculation, and concentration through engaging digital learning.
+              <p className="mx-auto mb-10 max-w-4xl text-xl leading-relaxed text-white/80 md:text-2xl">
+                Abacus learning turns numbers into something children can touch and visualize. Tiny Vivid
+                Minds brings this ancient method to life for ages 3–8 through live, structured classes —
+                practice with beads, then without them, developing concentration, speed, and a lasting love
+                for numbers.
               </p>
             </AnimatedSection>
 
@@ -174,7 +186,7 @@ const AbacusCourse = () => {
       </section>
 
       {/* Stats Bar - Below Hero */}
-      <StatsBar stackedMobileThree />
+      <StatsBar stats={abacusStats} stackedMobileThree />
 
       {/* Benefits Section - Matching Programs Section Style */}
       <section className="py-16 bg-background relative overflow-hidden">
@@ -244,12 +256,12 @@ const AbacusCourse = () => {
         <ParallaxWatermark text="LEVELS" className="-right-20 top-[58%]" speed={0.12} />
 
         <div className="container mx-auto relative z-10">
-          <AnimatedSection className="relative z-[2] mx-auto mb-8 max-w-3xl text-center sm:mb-12 md:mb-16">
-            <span className="inline-block px-4 py-2 bg-gold/20 text-gold font-semibold tracking-wider uppercase text-sm rounded-full mb-4">
+          <AnimatedSection className="relative z-[2] mx-auto mb-3 max-w-3xl text-center sm:mb-4 md:mb-5">
+            <span className="inline-block px-4 py-2 bg-gold/20 text-gold font-semibold tracking-wider uppercase text-sm rounded-full mb-3">
               Learning Path
             </span>
-            <h2 className="font-display text-3xl font-bold text-white mb-4 sm:text-4xl md:mb-6 md:text-5xl">
-              Six Progressive <span className="text-gold">Levels</span>
+            <h2 className="font-display text-3xl font-bold text-white mb-2 sm:text-4xl md:mb-3 md:text-5xl">
+              Eleven Progressive <span className="text-gold">Levels</span>
             </h2>
             <p className="text-base text-white/70 sm:text-lg">
               Navigate through our carefully designed curriculum that builds mathematical confidence step by step.
@@ -285,7 +297,7 @@ const AbacusCourse = () => {
             <div className="relative mx-auto mt-8 rounded-2xl bg-white p-4 pb-10 shadow-inner ring-1 ring-black/10 md:p-6 md:pb-11">
               <div
                 id="abacus-container"
-                className="mx-auto flex min-h-[220px] w-full justify-center overflow-x-auto"
+                className="mx-auto flex min-h-[180px] w-full max-w-full justify-center overflow-x-auto sm:min-h-[220px] sm:overflow-x-hidden"
               />
               <button
                 type="button"
@@ -360,7 +372,7 @@ const AbacusCourse = () => {
                 <div className="absolute -inset-4 bg-gradient-to-r from-gold/30 via-teal/20 to-gold/30 rounded-[3rem] blur-2xl opacity-60 border-glow-animate transition-opacity duration-500 group-hover/card:opacity-80" />
                 
                 {/* Glass Panel with warm hover */}
-                <div className="relative glass-warm p-10 md:p-16 transition-all duration-500 group-hover/card:border-gold/40">
+                <div className="relative glass-warm p-6 transition-all duration-500 group-hover/card:border-gold/40 sm:p-10 md:p-16">
                   <div className="text-center space-y-8">
                     {/* Floating Globe Icon */}
                     <AnimatedSection animation="pop-in" delay={200}>

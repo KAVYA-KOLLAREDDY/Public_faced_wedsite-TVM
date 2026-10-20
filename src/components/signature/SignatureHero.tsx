@@ -18,14 +18,14 @@ const subjects = [
     symbols: ["÷", "×", "∑", "π", "√", "∞", "%", "="]
   },
   { 
-    name: "HandWriting", 
+    name: "Handwriting", 
     color: "from-vedic-gold via-vedic-gold-light to-vedic-gold",
     bgColor: "bg-vedic-gold",
     textColor: "text-vedic-navy",
     symbols: ["✎", "Aa", "Bb", "✍", "📝", "✒", "Cc", "Dd"]
   },
   { 
-    name: "Phonetics", 
+    name: "Phonics & Grammar", 
     color: "from-purple-400 via-purple-300 to-purple-400",
     bgColor: "bg-purple-500",
     textColor: "text-white",
@@ -63,7 +63,7 @@ const SignatureHero = () => {
   }, [currentSubject]);
 
   return (
-    <section className="relative min-h-screen flex items-center py-24 overflow-hidden">
+    <section className="relative flex min-h-screen items-center overflow-hidden pb-16 pt-28 sm:pb-24 sm:pt-32">
       {/* Background Gradient - Matching other pages */}
       <div 
         className="absolute inset-0"
@@ -114,40 +114,40 @@ const SignatureHero = () => {
 
           {/* Heading - Using TextReveal like other pages */}
           <TextReveal delay={100}>
-            <h1 className="font-display text-5xl md:text-6xl lg:text-7xl font-bold text-white mb-8 leading-[1.2] md:leading-[1.18]">
+            <h1 className="mb-8 px-1 font-display text-4xl font-bold leading-[1.2] text-white sm:px-0 sm:text-5xl md:text-6xl md:leading-[1.18] lg:text-7xl">
               Learning made personal —
               <motion.span 
                 key={currentSubject}
-                className={`block bg-gradient-to-r ${subjects[currentSubject].color} bg-clip-text pb-[0.12em] text-transparent mt-2 [box-decoration-break:clone]`}
+                className={`mt-2 block bg-gradient-to-r ${subjects[currentSubject].color} bg-clip-text pb-[0.12em] text-transparent [box-decoration-break:clone]`}
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 transition={{ duration: 0.3 }}
               >
                 tailored classes in{" "}
-                <span className="inline-block min-w-[280px] md:min-w-[320px] text-left">
+                <span className="inline-block max-w-full min-w-0 text-left align-bottom md:min-w-[280px] lg:min-w-[320px]">
                   {displayText}
-                  <span className={`${isTyping ? 'animate-pulse' : 'opacity-0'} ml-0.5`}>|</span>
+                  <span className={`${isTyping ? "animate-pulse" : "opacity-0"} ml-0.5`}>|</span>
                 </span>
               </motion.span>
             </h1>
           </TextReveal>
 
           <AnimatedSection animation="fade-up" delay={300}>
-            <p className="text-xl md:text-2xl text-white/80 mb-10 leading-relaxed max-w-2xl mx-auto">
-              Live, instructor-led programs in Mathematics, Handwriting, and Phonetics—structured paths
+            <p className="mx-auto mb-10 max-w-2xl text-lg leading-relaxed text-white/80 sm:text-xl md:text-2xl">
+              Live, instructor-led programs in Mathematics (with IXL), Handwriting, and Phonics & Grammar—structured paths
               that build clarity, confidence, and lasting habits.
             </p>
           </AnimatedSection>
 
           {/* Subject Tab Navigation */}
           <AnimatedSection animation="fade-up" delay={350}>
-            <div className="flex flex-wrap justify-center gap-3 mb-8">
+            <div className="mb-8 flex flex-wrap justify-center gap-3">
               {subjects.map((subject, index) => (
                 <button
                   key={subject.name}
                   onClick={() => setCurrentSubject(index)}
                   className={`
-                    relative px-6 py-3 rounded-full font-medium transition-all duration-300 overflow-hidden
+                    relative overflow-hidden rounded-full px-4 py-2.5 text-sm font-medium transition-all duration-300 sm:px-6 sm:py-3 sm:text-base
                     ${currentSubject === index 
                       ? `${subject.bgColor} ${subject.textColor} shadow-lg scale-105` 
                       : 'bg-white/10 text-white hover:bg-white/20 border border-white/20'

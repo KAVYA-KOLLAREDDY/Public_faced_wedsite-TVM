@@ -14,7 +14,7 @@ const moments = [
     when: "At school",
     title: "Confidence shows up on the page",
     detail:
-      "Clearer handwriting, stronger number sense, and better phonetic awareness help children participate more confidently in class and complete their work with greater independence.",
+      "Clearer handwriting, stronger number sense, and better sound awareness help children participate more confidently in class and complete their work with greater independence.",
     tone: "gold",
     time: "12:15 PM",
   },
@@ -53,7 +53,7 @@ const GlobalFoundationsSection = () => {
   return (
     <section
       id="learning-journey"
-      className="relative overflow-hidden py-14 md:py-20 bg-gradient-to-b from-muted/30 via-background to-background"
+      className="relative scroll-mt-24 overflow-hidden bg-gradient-to-b from-muted/30 via-background to-background py-14 md:scroll-mt-28 md:py-20"
     >
       <div className="pointer-events-none absolute inset-0" aria-hidden>
         <div className="absolute left-1/2 top-0 h-px w-[min(90%,40rem)] -translate-x-1/2 bg-gradient-to-r from-transparent via-vedic-gold/35 to-transparent" />
@@ -62,20 +62,20 @@ const GlobalFoundationsSection = () => {
       </div>
 
       <div className="container relative z-10 px-4">
-        <AnimatedSection animation="fade-up" className="mx-auto mb-12 max-w-3xl text-center md:mb-14">
+        <AnimatedSection animation="fade-up" className="mx-auto mb-12 max-w-5xl text-center md:mb-14">
           <span className="mb-4 inline-block rounded-full bg-vedic-teal/10 px-4 py-1.5 text-sm font-medium text-vedic-teal">
             What learning looks like beyond the classroom
           </span>
-          <h2 className="mb-4 text-3xl font-bold text-foreground md:text-4xl lg:text-5xl">
+          <h2 className="mb-4 whitespace-normal text-[clamp(1.2rem,3.6vw,3rem)] font-bold leading-tight text-foreground sm:whitespace-nowrap">
             From live lessons to{" "}
             <span className="bg-gradient-to-r from-vedic-gold to-vedic-gold-light bg-clip-text text-transparent">
               everyday confidence
             </span>
           </h2>
-          <p className="mx-auto max-w-2xl text-lg leading-relaxed text-muted-foreground">
-            A great lesson doesn&apos;t end when the class ends. The real impact appears in the little
-            moments that follow — when a child approaches a maths problem with confidence, writes more
-            clearly, or reads a new word without hesitation.
+          <p className="mx-auto max-w-[48rem] text-lg leading-relaxed text-muted-foreground">
+            A great lesson doesn&apos;t end when the class ends. The real impact appears in the
+            little moments that follow — when a child approaches a maths problem with confidence,
+            writes more clearly, or reads a new word without hesitation.
           </p>
         </AnimatedSection>
 

@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { motion } from "framer-motion";
 import {
   Send,
@@ -50,6 +50,14 @@ import {
 import { HIGHLIGHTED_COUNTRY_COUNT } from "@/config/globalNetworkCountries";
 import { DEFAULT_PHONE_COUNTRY_ID, formatPhoneWithCountry } from "@/config/phoneCountries";
 import { SITE_LINKS, getWhatsAppUrl } from "@/config/siteLinks";
+import {
+  formKindFromSubject,
+  trackFormStart,
+  trackFormSubmitError,
+  trackFormSubmitSuccess,
+  trackFormValidationError,
+  trackSocialClick,
+} from "@/lib/analytics";
 
 const SUBMIT_ERROR_MESSAGE =
   "We couldn't send your message right now. Please try again later.";
@@ -67,44 +75,44 @@ const smoothScroll = (targetId: string) => {
 const testimonials = [
   {
     text: "My daughter is very much interested for class and doing home works easily. As of now, I saw a great improvement in solving sums using board. Madhuri mam is teaching that clearly.",
-    author: "Parent of Sahasra",
-    role: "Abacus learner",
+    author: "Jyoshna",
+    role: "Parent of Sahasra",
     rating: 5,
   },
   {
     text: "I am pretty much happy with Madhuri mam teaching. After joining her in this abacus class her calculation skills was so good. Thank you for your guidance mam.",
     author: "Gowthami",
-    role: "Abacus parent",
+    role: "Parent of Nishika",
     rating: 5,
   },
   {
     text: "We are extremely grateful for the abacus training provided by Sai Tejasvi mam in Tiny Vivid Minds. The step by step guidance and encouragement helped build strong foundational arithmetic skills, speed, and concentration. Highly recommend for any parent looking to strengthen their children's math skills. Thank you for teaching my child.",
     author: "Jyothi",
-    role: "Abacus parent",
+    role: "Parent of an Abacus student",
     rating: 5,
   },
   {
     text: "The Abacus online classes are well organized and engaging. My child enjoys attending the sessions, and I can already see improvements in concentration, calculation speed, and confidence. The teacher explains the concepts clearly and is patient with the students. Thank you for your efforts and support. We look forward to continued progress.",
     author: "Eligeti Meghana",
-    role: "Abacus parent",
+    role: "Parent of an Abacus student",
     rating: 5,
   },
   {
     text: "Teacher is patiently guiding students to improve their speed and concentration, to become confident in solving numbers. She is good and very supportive to the students and giving very good guidance.",
     author: "Rithika",
-    role: "Parent",
+    role: "Parent of an Abacus student",
     rating: 5,
   },
   {
     text: "Very clear explanation and impressed with the way Sai Tejasvi mam is teaching my child.",
     author: "Hiryanya",
-    role: "Abacus parent",
+    role: "Parent of an 8-year-old",
     rating: 5,
   },
   {
     text: "My son is doing good with calculations after joining in Tiny Vivid Minds. But the teacher is little strict.",
     author: "Shalini",
-    role: "Parent",
+    role: "Parent of a 9-year-old boy",
     rating: 5,
   },
   {
@@ -120,14 +128,14 @@ const CONTACT_SHORT_MAX_CHARS = 220;
 const shortTestimonials = testimonials.filter((t) => t.text.length <= CONTACT_SHORT_MAX_CHARS);
 const longTestimonials = testimonials.filter((t) => t.text.length > CONTACT_SHORT_MAX_CHARS);
 const testimonialPages = [
-  { label: "Short notes", items: shortTestimonials, cols: "md:grid-cols-2 lg:grid-cols-3" },
+  { label: "Short notes", items: shortTestimonials, cols: "sm:grid-cols-2 lg:grid-cols-3" },
   { label: "Detailed stories", items: longTestimonials, cols: "md:grid-cols-1 lg:grid-cols-2" },
 ].filter((page) => page.items.length > 0);
 
 const faqs = [
   {
     question: "What age groups do you teach?",
-    answer: "We offer programs for children aged 4-14, with courses tailored to different skill levels and developmental stages.",
+    answer: "We offer programs for children across different age groups, with courses tailored to different skill levels and developmental stages.",
   },
   {
     question: "How do online classes work?",
@@ -218,6 +226,13 @@ const Contact = () => {
   const [contactForm, setContactForm] = useState(initialContactForm);
 
   const [feedbackForm, setFeedbackForm] = useState(initialFeedbackForm);
+  const formStartedRef = useRef(false);
+
+  const markFormStarted = () => {
+    if (formStartedRef.current) return;
+    formStartedRef.current = true;
+    trackFormStart(formKindFromSubject(contactForm.subject));
+  };
 
   useEffect(() => {
     setFieldErrors({});
@@ -225,9 +240,11 @@ const Contact = () => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    const formKind = formKindFromSubject(contactForm.subject);
     const errors = validateContactPageForm(contactForm, demoForm, feedbackForm);
     if (Object.keys(errors).length > 0) {
       setFieldErrors(errors);
+      trackFormValidationError(formKind);
       toast.error("Please fill in all required fields.");
       scrollToFirstContactError(errors);
       return;
@@ -265,6 +282,7 @@ const Contact = () => {
             "We've received your message and will get back to you within 24 hours.",
         });
       }
+      trackFormSubmitSuccess(formKind);
       setContactForm({ ...initialContactForm });
       setDemoForm({ ...initialDemoForm });
       setFeedbackForm({ ...initialFeedbackForm });
@@ -272,6 +290,7 @@ const Contact = () => {
       setFieldErrors({});
     } catch (err) {
       console.error(err);
+      trackFormSubmitError(formKind);
       setFormStatus({
         variant: "error",
         title: "We couldn't send your message",
@@ -307,11 +326,11 @@ const Contact = () => {
             <span className="inline-block px-4 py-2 bg-teal/10 text-teal font-semibold tracking-wider uppercase text-sm rounded-full mb-4">
               Global Network
             </span>
-            <h2 className="font-display text-4xl md:text-5xl font-bold text-foreground mb-6">
+            <h2 className="mb-6 font-display text-4xl font-bold text-foreground md:text-5xl">
               Learning <span className="text-gold">Without Borders</span>
             </h2>
             <p className="text-muted-foreground text-lg">
-              Connecting students across {HIGHLIGHTED_COUNTRY_COUNT} countries with world-class mathematics education.
+              Connecting students across {HIGHLIGHTED_COUNTRY_COUNT} countries through engaging learning experiences.
               Watch our learning network expand from India to the world.
             </p>
           </AnimatedSection>
@@ -323,7 +342,7 @@ const Contact = () => {
       {/* Forms Section with Diagonal Stripes */}
       <section
         id="contact-form"
-        className="py-16 relative overflow-hidden"
+        className="relative overflow-hidden py-16 pb-24 lg:pb-16"
         style={{
           background: `
             repeating-linear-gradient(
@@ -347,7 +366,7 @@ const Contact = () => {
             <span className="text-primary font-semibold tracking-wider uppercase text-sm">
               Get Started
             </span>
-            <h2 className="font-display text-4xl md:text-5xl font-bold mt-2 mb-3">
+            <h2 className="mb-3 mt-2 font-display text-4xl font-bold md:text-5xl">
               Connect With{" "}
               <span className="bg-gradient-to-r from-primary to-teal bg-clip-text text-transparent">
                 Our Team
@@ -371,7 +390,7 @@ const Contact = () => {
             }}
           >
             {/* Unified Contact Form */}
-            <form onSubmit={handleSubmit} noValidate>
+            <form onSubmit={handleSubmit} noValidate onFocusCapture={markFormStarted}>
               <div className="grid md:grid-cols-2 gap-6 mb-6">
                 <FloatingLabelInput
                   id="contactName"
@@ -422,7 +441,7 @@ const Contact = () => {
                   id="contactPhone"
                   label={
                     contactForm.subject === "demo" || contactForm.subject === "courses"
-                      ? "Contact number (WhatsApp preferred)"
+                      ? "WhatsApp / phone number"
                       : "Phone Number"
                   }
                   countryId={contactForm.phoneCountryId}
@@ -453,7 +472,7 @@ const Contact = () => {
                     dismissErrors("subject");
                   }}
                   options={[
-                    { value: "courses", label: "Ask about courses" },
+                    { value: "courses", label: "Ask About Programs" },
                     { value: "demo", label: "Request a free demo" },
                     { value: "feedback", label: "Share feedback" },
                     { value: "issue", label: "Report an issue" },
@@ -568,7 +587,7 @@ const Contact = () => {
                 <div className="mb-2">
                   <FloatingLabelTextarea
                     id="siblingsAndAge"
-                    label="Does the student have siblings? (If yes, mention age) (Optional)"
+                    label="Siblings? (ages, optional)"
                     value={demoForm.siblingsAndAge}
                     onChange={(v) => setDemoForm({ ...demoForm, siblingsAndAge: v })}
                     rows={1}
@@ -628,12 +647,12 @@ const Contact = () => {
                       dismissErrors("course");
                     }}
                     options={[
-                      { value: "", label: "Select a course" },
-                      { value: "Abacus", label: "Abacus" },
-                      { value: "Vedic Maths", label: "Vedic Maths" },
-                      { value: "Mathematics", label: "Mathematics" },
-                      { value: "Hand Writing", label: "Hand Writing" },
-                      { value: "Phonetics", label: "Phonetics" },
+                      { value: "", label: "Select a program" },
+                      { value: "Abacus", label: "Abacus (ages 3–8)" },
+                      { value: "Vedic Mathematics", label: "Vedic Mathematics (ages 12+)" },
+                      { value: "Mathematics", label: "Mathematics + IXL (any age)" },
+                      { value: "Handwriting", label: "Handwriting (ages 5+)" },
+                      { value: "Phonics", label: "Phonics & Grammar (ages 4+)" },
 
                     ]}
                     required
@@ -767,14 +786,14 @@ const Contact = () => {
             <span className="text-primary font-semibold tracking-wider uppercase text-sm">
               Wall of Love
             </span>
-            <h2 className="font-display text-4xl md:text-5xl font-bold mt-4 mb-6">
+            <h2 className="mb-6 mt-4 font-display text-4xl font-bold md:text-5xl">
               What Parents{" "}
               <span className="bg-gradient-to-r from-primary to-gold bg-clip-text text-transparent">
                 Say About Us
               </span>
             </h2>
             <p className="text-muted-foreground text-lg">
-              Real feedback from families who have experienced our program.
+              Real feedback from families who have experienced our programs.
             </p>
           </motion.div>
 
@@ -860,7 +879,7 @@ const Contact = () => {
             </p>
           </motion.div>
 
-          <div className="grid md:grid-cols-3 gap-6 max-w-4xl mx-auto">
+          <div className="mx-auto grid max-w-4xl grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3">
             {[
               {
                 icon: Instagram,
@@ -889,6 +908,7 @@ const Contact = () => {
                 href={social.href}
                 target="_blank"
                 rel="noopener noreferrer"
+                onClick={() => trackSocialClick(social.name, "contact_stay_connected")}
                 initial={{ opacity: 0, y: 30 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
@@ -931,7 +951,7 @@ const Contact = () => {
                 Have a Question?
               </h2>
               <p className="text-muted-foreground text-lg mb-8">
-                Find answers to common questions about our math learning programs.
+                Find answers to common questions about our learning programs.
               </p>
               <DiscoverProgramsLink>
                 <Button variant="outline" size="lg" className="rounded-xl">
@@ -992,11 +1012,11 @@ const Contact = () => {
             viewport={{ once: true }}
             className="max-w-3xl mx-auto"
           >
-            <h2 className="font-display text-3xl md:text-5xl font-bold mb-6">
-              Ready to Build Your Child's Confidence in Maths?
+            <h2 className="mb-6 font-display text-3xl font-bold md:text-5xl">
+              Ready to Build Your Child's Confidence in Learning?
             </h2>
             <p className="text-xl text-white/80 mb-10">
-              Join parents worldwide who trust Tiny Vivid Minds to make maths simple, smart, and joyful.
+              Join parents worldwide who trust Tiny Vivid Minds to make learning simple, engaging, and joyful.
             </p>
             <div className="flex flex-wrap justify-center gap-4">
               <Button
