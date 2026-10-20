@@ -1,8 +1,7 @@
-import { Link, useLocation } from "react-router-dom";
-import { Mail, Phone, MapPin, Instagram, Youtube, ArrowRight, MessageCircle, Send } from "lucide-react";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
+import { Link } from "react-router-dom";
+import { Mail, Phone, MapPin, Instagram, Youtube, ArrowRight, MessageCircle, Globe, MonitorPlay, Award } from "lucide-react";
 import { CONTACT_DETAILS, SITE_LINKS, getMailtoHref, getPhoneHref, getWhatsAppUrl } from "@/config/siteLinks";
+import { HIGHLIGHTED_COUNTRY_COUNT } from "@/config/globalNetworkCountries";
 import { trackSocialClick } from "@/lib/analytics";
 
 const whatsAppUrl = getWhatsAppUrl();
@@ -13,17 +12,14 @@ const footerSocialLinks = [
   { Icon: Youtube, href: SITE_LINKS.youtube, label: "YouTube" },
 ] as const;
 
-export const Footer = () => {
-  const location = useLocation();
-  const currentYear = new Date().getFullYear();
+const trustStats = [
+  { icon: Globe, value: `${HIGHLIGHTED_COUNTRY_COUNT}+`, label: "Countries" },
+  { icon: MonitorPlay, value: "Live", label: "Online Classes" },
+  { icon: Award, value: "20+", label: "Certificates Awarded" },
+] as const;
 
-  const scrollToContactForm = (e: React.MouseEvent) => {
-    if (location.pathname === "/contact") {
-      e.preventDefault();
-      document.getElementById("contact-form")?.scrollIntoView({ behavior: "smooth", block: "start" });
-      window.history.replaceState(null, "", "/contact#contact-form");
-    }
-  };
+export const Footer = () => {
+  const currentYear = new Date().getFullYear();
 
   const quickLinks = [
     { name: "Home", path: "/" },
@@ -75,6 +71,27 @@ export const Footer = () => {
             </div>
           </div>
 
+          {/* Trusted Worldwide */}
+          <div>
+            <h4 className="font-display font-bold text-lg mb-6 text-vedic-gold">Trusted Worldwide</h4>
+            <p className="text-white/70 text-sm mb-5">
+              A growing community of learners across the globe, connected through live online classes.
+            </p>
+            <ul className="space-y-4">
+              {trustStats.map(({ icon: Icon, value, label }) => (
+                <li key={label} className="flex items-center gap-3">
+                  <div className="w-9 h-9 rounded-full bg-vedic-gold/15 flex items-center justify-center shrink-0">
+                    <Icon className="w-4 h-4 text-vedic-gold" />
+                  </div>
+                  <div>
+                    <p className="text-white font-display font-semibold text-sm leading-tight">{value}</p>
+                    <p className="text-white/55 text-xs">{label}</p>
+                  </div>
+                </li>
+              ))}
+            </ul>
+          </div>
+
           {/* Quick Links */}
           <div>
             <h4 className="font-display font-bold text-lg mb-6 text-vedic-gold">Quick Links</h4>
@@ -124,33 +141,6 @@ export const Footer = () => {
                 </a>
               </li>
             </ul>
-          </div>
-
-          {/* Stay Updated */}
-          <div>
-            <h4 className="font-display font-bold text-lg mb-6 text-vedic-gold">Stay Updated</h4>
-            <p className="text-white/70 text-sm mb-4">
-              Stay connected with learning tips, updates, and moments from Tiny Vivid Minds.
-            </p>
-            <div className="flex gap-2 mb-6">
-              <Input
-                type="email"
-                placeholder="Your email"
-                className="bg-white/10 border-white/20 text-white placeholder:text-white/50 text-sm focus:border-vedic-gold"
-              />
-              <Button 
-                size="icon"
-                className="bg-vedic-gold text-vedic-navy hover:bg-vedic-gold-light transition-colors flex-shrink-0"
-              >
-                <Send className="w-4 h-4" />
-              </Button>
-            </div>
-            <Button asChild className="w-full bg-gradient-to-r from-vedic-gold to-vedic-gold-light text-vedic-navy font-semibold hover:shadow-lg hover:shadow-vedic-gold/30 transition-all">
-              <Link to="/contact#contact-form" onClick={scrollToContactForm}>
-                <Mail className="w-4 h-4 mr-2" />
-                Contact Us
-              </Link>
-            </Button>
           </div>
         </div>
       </div>

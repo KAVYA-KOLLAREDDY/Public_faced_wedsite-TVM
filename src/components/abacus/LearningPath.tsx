@@ -163,7 +163,7 @@ export const LearningPath = () => {
 
                   <div className="flex items-center gap-4 mt-4 pt-4 border-t border-white/10">
                     <Link 
-                      to="/contact" 
+                      to="/contact#contact-form" 
                       className="text-sm font-medium text-gold hover:text-gold-light transition-colors flex items-center gap-1"
                     >
                       Enroll <ArrowRight className="w-3.5 h-3.5" />

@@ -1,6 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { Link } from 'react-router-dom';
-import { Sparkles, ArrowRight, ChevronLeft, ChevronRight } from 'lucide-react';
+import { ChevronLeft, ChevronRight } from 'lucide-react';
 
 const LEVELS_PAGE_SIZE = 6;
 
@@ -354,28 +353,6 @@ export const StackedLevelCards: React.FC<StackedLevelCardsProps> = ({ variant = 
                         </li>
                       ))}
                     </ol>
-
-                    <div
-                      className={`flex shrink-0 justify-end border-t border-white/10 ${
-                        compactSyllabus ? "mt-1.5 pt-1.5" : "mt-2.5 pt-2.5"
-                      }`}
-                    >
-                      <Link
-                        to="/contact#contact-form"
-                        className={`
-                          inline-flex items-center gap-1.5 rounded-md px-3 py-1.5
-                          font-sans text-xs font-semibold tracking-tight sm:text-sm
-                          transition-all duration-300 hover:scale-[1.02]
-                          ${level.accentColor === 'gold'
-                            ? 'bg-gold text-navy-dark hover:bg-gold-light'
-                            : 'bg-teal text-white hover:bg-teal-light'
-                          }
-                        `}
-                      >
-                        Enroll
-                        <ArrowRight className="h-3.5 w-3.5" />
-                      </Link>
-                    </div>
                   </div>
                 </div>
               </div>
@@ -444,28 +421,6 @@ export const StackedLevelCards: React.FC<StackedLevelCardsProps> = ({ variant = 
         </div>
       </div>
 
-      {/* Bottom CTA with scroll reveal */}
-      <div 
-        className={`
-          mt-12 text-center transition-all duration-700 delay-700
-          ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-12'}
-        `}
-      >
-        <div className="inline-flex flex-col sm:flex-row items-center gap-4 p-6 rounded-2xl bg-white/5 backdrop-blur-sm border border-white/10 hover:bg-white/10 transition-colors duration-300">
-          <div className="text-center sm:text-left">
-            <p className="text-white font-display font-bold text-lg">Not sure which level?</p>
-            <p className="text-white/50 text-sm">Take our free assessment to find the perfect starting point</p>
-          </div>
-          <Link
-            to="/contact#contact-form"
-            className="px-6 py-3 rounded-xl bg-gold text-navy-dark font-display font-bold text-sm hover:bg-gold-light transition-all duration-300 hover:scale-105 flex items-center gap-2 shadow-lg shadow-gold/20"
-          >
-            <Sparkles className="w-4 h-4" />
-            Contact Us
-            <ArrowRight className="w-4 h-4" />
-          </Link>
-        </div>
-      </div>
     </div>
   );
 };
