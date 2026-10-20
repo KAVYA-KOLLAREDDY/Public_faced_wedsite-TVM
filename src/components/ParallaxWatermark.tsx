@@ -18,7 +18,6 @@ export const ParallaxWatermark = ({
   useEffect(() => {
     const handleScroll = () => {
       if (ref.current) {
-        const rect = ref.current.getBoundingClientRect();
         const scrolled = window.scrollY;
         const parallax = scrolled * speed;
         setOffset(parallax);
@@ -32,14 +31,14 @@ export const ParallaxWatermark = ({
   return (
     <div
       ref={ref}
-      className={cn(
-        "absolute inset-0 overflow-hidden pointer-events-none select-none",
-        className
-      )}
+      className="absolute inset-0 overflow-hidden pointer-events-none select-none"
       aria-hidden="true"
     >
       <span
-        className="absolute font-display font-black text-[20vw] md:text-[15vw] text-foreground/[0.03] whitespace-nowrap tracking-tighter leading-none"
+        className={cn(
+          "absolute font-display font-black text-[20vw] md:text-[15vw] text-foreground/[0.05] whitespace-nowrap tracking-tighter leading-none",
+          className
+        )}
         style={{
           transform: `translateY(${offset}px)`,
           transition: "transform 0.1s linear",

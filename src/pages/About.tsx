@@ -107,6 +107,7 @@ const aboutPrograms: {
   image: string;
   alt: string;
   accent: Accent;
+  watermark: string;
 }[] = [
   {
     name: "Abacus",
@@ -117,6 +118,7 @@ const aboutPrograms: {
     image: abacusCourseImg,
     alt: "Abacus Learning",
     accent: "gold",
+    watermark: "ABACUS",
   },
   {
     name: "Vedic Mathematics",
@@ -127,6 +129,7 @@ const aboutPrograms: {
     image: vedicMathImg,
     alt: "Vedic Mathematics",
     accent: "teal",
+    watermark: "VEDIC",
   },
   {
     name: "Mathematics",
@@ -137,6 +140,7 @@ const aboutPrograms: {
     image: mathematicsImg,
     alt: "Mathematics Learning",
     accent: "purple",
+    watermark: "MATH",
   },
   {
     name: "Handwriting",
@@ -147,6 +151,7 @@ const aboutPrograms: {
     image: handwritingImg,
     alt: "Handwriting Practice",
     accent: "rose",
+    watermark: "WRITE",
   },
   {
     name: "Phonics & Grammar",
@@ -157,6 +162,7 @@ const aboutPrograms: {
     image: phonicsImg,
     alt: "Phonics and Grammar Learning",
     accent: "orange",
+    watermark: "WORDS",
   },
 ];
 
@@ -207,7 +213,7 @@ const About = () => {
           ============================================ */}
       <section className="relative min-h-[58vh] flex items-center pt-20 pb-8">
         <ParallaxWatermark text="VIVID" className="top-1/3 -left-20" speed={0.15} />
-        
+
         {/* Subtle mesh background */}
         <div className="absolute inset-0 bg-gradient-to-br from-vedic-gold/5 via-transparent to-vedic-teal/5" />
         
@@ -266,9 +272,11 @@ const About = () => {
           PART 2: THE 'CURIOUS SOULS' SPLIT SECTION
           ============================================ */}
       <section className="py-10 md:py-12 relative overflow-hidden">
-        <ParallaxWatermark text="CURIOUS" className="-right-32 top-0" speed={0.2} />
+        <ParallaxWatermark text="CURIOUS" className="-left-24 top-1/4" speed={0.2} />
+        <div className="absolute inset-0 bg-gradient-to-br from-vedic-gold/[0.04] via-transparent to-vedic-teal/[0.05]" />
+        <div className="absolute top-0 left-1/4 w-72 h-72 bg-vedic-gold/10 rounded-full blur-[100px]" />
         
-        <div className="container mx-auto">
+        <div className="container mx-auto relative z-10">
           <div className="grid lg:grid-cols-2 gap-12 lg:gap-20 items-center">
             {/* Left: Artistic Image */}
             <AnimatedSection animation="fade-right" className="relative">
@@ -529,9 +537,16 @@ const About = () => {
           PROGRAMS SECTION - Z-Pattern Layout (5 programs)
           ============================================ */}
       <section className="py-10 md:py-12 relative overflow-hidden">
-        <ParallaxWatermark text="LEARN" className="top-1/4 -left-32" speed={0.2} />
+        <ParallaxWatermark text="PROGRAMS" className="top-[8%] -left-28" speed={0.12} />
+        <ParallaxWatermark text="LEARN" className="top-[45%] -right-28" speed={0.18} />
+        <ParallaxWatermark text="GROW" className="bottom-[12%] -left-20" speed={0.1} />
+        <div className="absolute inset-0 bg-gradient-to-br from-vedic-teal/[0.08] via-muted/30 to-vedic-gold/[0.09]" />
+        <div className="absolute inset-0 math-pattern opacity-[0.07]" />
+        <div className="absolute top-0 left-1/3 w-[28rem] h-[28rem] bg-vedic-gold/12 rounded-full blur-[130px]" />
+        <div className="absolute bottom-1/4 right-0 w-96 h-96 bg-vedic-teal/14 rounded-full blur-[120px]" />
+        <div className="absolute top-1/2 left-0 w-72 h-72 bg-vedic-gold/8 rounded-full blur-[100px]" />
         
-        <div className="container mx-auto">
+        <div className="container mx-auto relative z-10">
           <AnimatedSection className="text-center max-w-3xl mx-auto mb-12" animation="fade-up">
             <span className="text-vedic-gold font-semibold tracking-widest uppercase text-sm">Our Programs</span>
             <h2 className="font-display text-4xl md:text-5xl lg:text-6xl font-bold text-foreground mt-4 mb-6">
@@ -551,12 +566,27 @@ const About = () => {
             return (
               <div
                 key={program.name}
-                className={`grid lg:grid-cols-2 gap-12 lg:gap-24 items-center ${isLast ? "" : "mb-12 md:mb-10"}`}
+                className={`relative grid lg:grid-cols-2 gap-12 lg:gap-24 items-center ${isLast ? "" : "mb-12 md:mb-10"}`}
               >
+                <ParallaxWatermark
+                  text={program.watermark}
+                  className={
+                    flip
+                      ? "top-1/2 -translate-y-1/2 -right-20 md:-right-28"
+                      : "top-1/2 -translate-y-1/2 -left-20 md:-left-28"
+                  }
+                  speed={0.08}
+                />
+                <div
+                  className={`pointer-events-none absolute inset-y-8 ${
+                    flip ? "right-0 w-1/2" : "left-0 w-1/2"
+                  } rounded-full bg-gradient-to-br ${styles.glow} blur-[80px] opacity-70`}
+                  aria-hidden
+                />
                 <AnimatedSection
                   animation="fade-right"
                   delay={flip ? 200 : 0}
-                  className={`relative ${flip ? "lg:order-2" : ""}`}
+                  className={`relative z-10 ${flip ? "lg:order-2" : ""}`}
                 >
                   <div className="relative group">
                     <div
@@ -582,7 +612,7 @@ const About = () => {
                 <AnimatedSection
                   animation="fade-left"
                   delay={flip ? 0 : 200}
-                  className={flip ? "lg:order-1" : ""}
+                  className={`relative z-10 ${flip ? "lg:order-1" : ""}`}
                 >
                   <TextReveal>
                     <h3 className="font-display text-3xl md:text-4xl font-bold text-foreground mb-6">
@@ -611,10 +641,14 @@ const About = () => {
       {/* ============================================
           WHY CHOOSE US - Bento Grid
           ============================================ */}
-      <section className="py-10 md:py-12 bg-muted/30 relative overflow-hidden">
-        <ParallaxWatermark text="WHY" className="top-10 -right-20" speed={0.15} />
+      <section className="py-10 md:py-12 relative overflow-hidden">
+        <ParallaxWatermark text="WHY" className="top-10 -left-16" speed={0.15} />
+        <ParallaxWatermark text="US" className="bottom-8 -right-12" speed={0.12} />
+        <div className="absolute inset-0 bg-gradient-to-tr from-vedic-gold/[0.06] via-muted/40 to-vedic-teal/[0.05]" />
+        <div className="absolute top-0 right-1/3 w-72 h-72 bg-vedic-gold/10 rounded-full blur-[100px]" />
+        <div className="absolute bottom-0 left-1/4 w-64 h-64 bg-vedic-teal/10 rounded-full blur-[90px]" />
         
-        <div className="container mx-auto">
+        <div className="container mx-auto relative z-10">
           <AnimatedSection className="text-center max-w-3xl mx-auto mb-10" animation="blur-in">
             <span className="text-vedic-gold font-semibold tracking-widest uppercase text-sm">Why Choose Us</span>
             <h2 className="font-display text-4xl md:text-5xl font-bold text-foreground mt-4">
@@ -663,8 +697,13 @@ const About = () => {
           ============================================ */}
       <section className="py-10 md:py-12 relative overflow-hidden">
         <ParallaxWatermark text="VALUES" className="top-1/4 -left-20" speed={0.2} />
+        <ParallaxWatermark text="HEART" className="top-1/3 -right-20" speed={0.16} />
+        <ParallaxWatermark text="CARE" className="bottom-10 left-1/3" speed={0.1} />
+        <div className="absolute inset-0 bg-gradient-to-bl from-vedic-gold/[0.07] via-background to-vedic-teal/[0.06]" />
+        <div className="absolute top-1/3 right-0 w-80 h-80 bg-vedic-gold/12 rounded-full blur-[110px]" />
+        <div className="absolute bottom-0 left-1/5 w-72 h-72 bg-vedic-teal/10 rounded-full blur-[100px]" />
         
-        <div className="container mx-auto">
+        <div className="container mx-auto relative z-10">
           <AnimatedSection className="text-center max-w-3xl mx-auto mb-10" animation="fade-up">
             <span className="text-vedic-teal font-semibold tracking-widest uppercase text-sm">Our Core Values</span>
             <h2 className="font-display text-4xl md:text-5xl font-bold text-foreground mt-4">
@@ -789,6 +828,8 @@ const About = () => {
           CTA SECTION
           ============================================ */}
       <section className="py-10 md:py-12 relative overflow-hidden">
+        <ParallaxWatermark text="JOURNEY" className="top-1/3 -left-28" speed={0.15} />
+        <ParallaxWatermark text="START" className="-right-20 bottom-10" speed={0.12} />
         <div className="absolute inset-0 bg-gradient-to-br from-vedic-gold/10 via-transparent to-vedic-teal/10" />
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-vedic-gold/10 rounded-full blur-[150px]" />
         
