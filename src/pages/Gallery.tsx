@@ -488,13 +488,13 @@ const Lightbox = ({
   </motion.div>
 );
 
-const GALLERY_AUTO_ADVANCE_MS = 5000;
+const GALLERY_AUTO_ADVANCE_MS = 6000;
 
 const Gallery = () => {
   const [lightboxIndex, setLightboxIndex] = useState<number | null>(null);
   const [hoveredVideo, setHoveredVideo] = useState<number | null>(null);
   const [galleryPage, setGalleryPage] = useState(0);
-  const [galleryAutoplayPaused, setGalleryAutoplayPaused] = useState(false);
+  const [galleryHoverPaused, setGalleryHoverPaused] = useState(false);
 
   const gallerySlides = buildGallerySlides(galleryPhotos);
   const totalGalleryPages = Math.max(1, gallerySlides.length);
@@ -506,19 +506,16 @@ const Gallery = () => {
   }, [totalGalleryPages]);
 
   useEffect(() => {
-    if (galleryAutoplayPaused || lightboxIndex !== null || totalGalleryPages <= 1) return;
+    if (galleryHoverPaused || lightboxIndex !== null || totalGalleryPages <= 1) return;
 
     const timer = window.setInterval(() => {
       setGalleryPage((page) => (page + 1) % totalGalleryPages);
     }, GALLERY_AUTO_ADVANCE_MS);
 
     return () => window.clearInterval(timer);
-  }, [galleryAutoplayPaused, lightboxIndex, totalGalleryPages]);
-
-  const pauseGalleryAutoplay = () => setGalleryAutoplayPaused(true);
+  }, [galleryHoverPaused, lightboxIndex, totalGalleryPages]);
 
   const openLightbox = (sourceIndex: number) => {
-    pauseGalleryAutoplay();
     setLightboxIndex(sourceIndex);
   };
   const closeLightbox = () => setLightboxIndex(null);
@@ -538,11 +535,10 @@ const Gallery = () => {
       const postMatch = embedUrl.match(/instagram\.com\/p\/([A-Za-z0-9_-]+)/);
       if (postMatch?.[1]) postId = postMatch[1];
     }
-    // Redirect back to our app when user leaves the embed (rd=redirect URL, rp=redirect path)
-    const origin = typeof window !== "undefined" ? window.location.origin : "";
-    const path = typeof window !== "undefined" ? (window.location.pathname || "/") : "/";
-    const redirectParams = origin ? `&rd=${encodeURIComponent(origin)}&rp=${encodeURIComponent(path)}` : "";
-    return postId ? `https://www.instagram.com/reel/${postId}/embed/?cr=1&v=14&wp=540${redirectParams}#%7B%22ci%22%3A0%2C%22os%22%3A0%7D` : "";
+    // Stable embed URL (no per-render redirect params — those remount iframes and cause flicker)
+    return postId
+      ? `https://www.instagram.com/reel/${postId}/embed/?cr=1&v=14&wp=540#%7B%22ci%22%3A0%2C%22os%22%3A0%7D`
+      : "";
   };
 
   return (
@@ -849,48 +845,68 @@ const Gallery = () => {
             </h2>
           </AnimatedSection>
 
-          {/* Masonry grid — 6 images/slide from galleryPhotos; last slide padded to 6 */}
-          <div className="mx-auto max-w-6xl columns-1 gap-1 sm:columns-2 lg:columns-3 [column-gap:0.35rem]">
-            {visibleGalleryPhotos.map(({ photo, sourceIndex }, index) => {
-              const height = heightForSlot(index);
-              return (
-                <div
-                  key={`${safeGalleryPage}-${sourceIndex}-${index}`}
-                  className="mb-3 break-inside-avoid"
-                >
-                  <motion.button
-                    type="button"
-                    className="group relative block w-full cursor-pointer border-0 bg-transparent p-0 text-left"
-                    onClick={() => openLightbox(sourceIndex)}
-                    onPointerDown={pauseGalleryAutoplay}
-                    whileHover={{ scale: 1.02 }}
-                    transition={{ duration: 0.3 }}
-                  >
-                    <img
-                      src={photo.url}
-                      alt={photo.caption}
-                      className={cn(
-                        "mx-auto block h-auto max-w-full object-contain shadow-[0_10px_28px_rgba(0,0,0,0.18)] transition-all duration-500 group-hover:brightness-110 group-hover:shadow-[0_14px_36px_rgba(0,0,0,0.28)]",
-                        height === "tall" && "max-h-80",
-                        height === "normal" && "max-h-64",
-                        height === "short" && "max-h-48"
-                      )}
-                    />
-                    {/* Hover overlay + sliding caption */}
-                    <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-vedic-navy via-vedic-navy/40 to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-100">
-                      <div className="absolute bottom-0 left-0 right-0 translate-y-3 p-4 opacity-0 transition-all duration-300 group-hover:translate-y-0 group-hover:opacity-100">
-                        <p className="font-display font-semibold text-white">{photo.caption}</p>
-                        <p className="mt-1 text-sm text-vedic-gold">Click to view</p>
-                      </div>
+          {/* Masonry grid — 6 images/slide; auto-advances with soft fade */}
+          <div
+            className="relative mx-auto min-h-[20rem] max-w-6xl"
+            onMouseEnter={() => setGalleryHoverPaused(true)}
+            onMouseLeave={() => setGalleryHoverPaused(false)}
+            onFocusCapture={() => setGalleryHoverPaused(true)}
+            onBlurCapture={(e) => {
+              if (!e.currentTarget.contains(e.relatedTarget as Node | null)) {
+                setGalleryHoverPaused(false);
+              }
+            }}
+          >
+            <AnimatePresence mode="wait">
+              <motion.div
+                key={safeGalleryPage}
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                transition={{ duration: 0.35 }}
+                className="columns-1 gap-1 sm:columns-2 lg:columns-3 [column-gap:0.35rem]"
+              >
+                {visibleGalleryPhotos.map(({ photo, sourceIndex }, index) => {
+                  const height = heightForSlot(index);
+                  return (
+                    <div
+                      key={sourceIndex}
+                      className="mb-3 break-inside-avoid"
+                    >
+                      <motion.button
+                        type="button"
+                        className="group relative block w-full cursor-pointer border-0 bg-transparent p-0 text-left"
+                        onClick={() => openLightbox(sourceIndex)}
+                        whileHover={{ scale: 1.02 }}
+                        transition={{ duration: 0.3 }}
+                      >
+                        <img
+                          src={photo.url}
+                          alt={photo.caption}
+                          className={cn(
+                            "mx-auto block h-auto max-w-full object-contain shadow-[0_10px_28px_rgba(0,0,0,0.18)] transition-all duration-500 group-hover:brightness-110 group-hover:shadow-[0_14px_36px_rgba(0,0,0,0.28)]",
+                            height === "tall" && "max-h-80",
+                            height === "normal" && "max-h-64",
+                            height === "short" && "max-h-48"
+                          )}
+                        />
+                        {/* Hover overlay + sliding caption */}
+                        <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-vedic-navy via-vedic-navy/40 to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-100">
+                          <div className="absolute bottom-0 left-0 right-0 translate-y-3 p-4 opacity-0 transition-all duration-300 group-hover:translate-y-0 group-hover:opacity-100">
+                            <p className="font-display font-semibold text-white">{photo.caption}</p>
+                            <p className="mt-1 text-sm text-vedic-gold">Click to view</p>
+                          </div>
+                        </div>
+                        {/* Corner badge */}
+                        <div className="absolute top-3 right-3 flex h-8 w-8 items-center justify-center rounded-full bg-vedic-gold/90 opacity-0 transition-all duration-300 group-hover:rotate-12 group-hover:opacity-100">
+                          <Camera className="h-4 w-4 text-vedic-navy" />
+                        </div>
+                      </motion.button>
                     </div>
-                    {/* Corner badge */}
-                    <div className="absolute top-3 right-3 flex h-8 w-8 items-center justify-center rounded-full bg-vedic-gold/90 opacity-0 transition-all duration-300 group-hover:rotate-12 group-hover:opacity-100">
-                      <Camera className="h-4 w-4 text-vedic-navy" />
-                    </div>
-                  </motion.button>
-                </div>
-              );
-            })}
+                  );
+                })}
+              </motion.div>
+            </AnimatePresence>
           </div>
 
           {totalGalleryPages > 1 && (
@@ -898,7 +914,6 @@ const Gallery = () => {
               <button
                 type="button"
                 onClick={() => {
-                  pauseGalleryAutoplay();
                   setGalleryPage((page) =>
                     page <= 0 ? totalGalleryPages - 1 : page - 1
                   );
@@ -917,10 +932,7 @@ const Gallery = () => {
                     role="tab"
                     aria-selected={i === safeGalleryPage}
                     aria-label={`Gallery page ${i + 1}`}
-                    onClick={() => {
-                      pauseGalleryAutoplay();
-                      setGalleryPage(i);
-                    }}
+                    onClick={() => setGalleryPage(i)}
                     className={cn(
                       "h-2 rounded-full transition-all duration-300",
                       i === safeGalleryPage
@@ -934,7 +946,6 @@ const Gallery = () => {
               <button
                 type="button"
                 onClick={() => {
-                  pauseGalleryAutoplay();
                   setGalleryPage((page) => (page + 1) % totalGalleryPages);
                 }}
                 className="flex h-10 w-10 items-center justify-center rounded-full border border-border bg-card text-foreground transition-all duration-300 hover:scale-105 hover:bg-muted sm:h-11 sm:w-11"
