@@ -3,7 +3,6 @@ import { Link } from "react-router-dom";
 import { DiscoverProgramsLink } from "@/components/DiscoverProgramsLink";
 import { motion } from "framer-motion";
 import { 
-  ArrowRight, 
   ChevronDown, 
   Zap, 
   Puzzle, 
@@ -439,19 +438,9 @@ const VedicMathCourse = () => {
               <h2 className="font-display text-3xl md:text-4xl font-bold text-foreground mb-4">
                 Frequently Asked <span className="text-gold">Questions</span>
               </h2>
-              <p className="text-muted-foreground text-lg mb-6">
+              <p className="text-muted-foreground text-lg">
                 Find answers to common questions about our Vedic Math program.
               </p>
-              <Button
-                variant="outline"
-                className="border-2 border-foreground/20 text-foreground hover:border-gold hover:text-gold font-display px-6"
-                asChild
-              >
-                <Link to="/contact">
-                  Contact Us
-                  <ArrowRight className="w-4 h-4 ml-2" />
-                </Link>
-              </Button>
             </AnimatedSection>
 
             <VedicFAQ />

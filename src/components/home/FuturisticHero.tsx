@@ -3,284 +3,109 @@ import { DiscoverProgramsLink } from "@/components/DiscoverProgramsLink";
 import { motion } from "framer-motion";
 import { Mail, Play } from "lucide-react";
 import { Button } from "@/components/ui/button";
-
-// Sample student images for social proof
-const studentAvatars = [
-  "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=100&h=100&fit=crop&crop=face",
-  "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=100&h=100&fit=crop&crop=face",
-  "https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=100&h=100&fit=crop&crop=face",
-  "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=100&h=100&fit=crop&crop=face",
-];
-
-// Floating 3D icons data
-const floatingIcons = [
-  { symbol: "+", x: "8%", y: "25%", delay: 0, size: 48, color: "gold" },
-  { symbol: "×", x: "88%", y: "20%", delay: 0.5, size: 40, color: "teal" },
-  { symbol: "÷", x: "12%", y: "70%", delay: 1, size: 36, color: "teal" },
-  { symbol: "=", x: "85%", y: "65%", delay: 1.5, size: 44, color: "gold" },
-];
-
-// 3D floating elements
-const floating3DElements = [
-  { type: "cube", x: "5%", y: "45%", delay: 0.3 },
-  { type: "sphere", x: "92%", y: "40%", delay: 0.8 },
-  { type: "pyramid", x: "15%", y: "85%", delay: 1.2 },
-  { type: "pencil", x: "82%", y: "80%", delay: 0.6 },
-];
+import heroClassroomImg from "@/assets/students-learning/hero_Section.png";
 
 export const FuturisticHero = () => {
   return (
-    <section className="relative min-h-screen flex items-center justify-center overflow-hidden pt-0">
-      {/* Base gradient background using theme navy colors */}
+    <section className="relative min-h-[100svh] overflow-hidden">
+      {/* Full-bleed photo — kids stay bright on the right */}
+      <motion.div
+        className="absolute inset-0"
+        initial={{ scale: 1.1 }}
+        animate={{ scale: 1 }}
+        transition={{ duration: 1.6, ease: [0.22, 1, 0.36, 1] }}
+      >
+        <img
+          src={heroClassroomImg}
+          alt="Children exploring an abacus together in class"
+          className="absolute inset-0 h-full w-full object-cover object-[68%_40%] sm:object-[72%_35%]"
+        />
+      </motion.div>
+
+      {/* Left veil — lighter so more of the photo shows through */}
       <div
-        className="absolute inset-0 bg-gradient-to-br from-navy via-navy-dark to-navy-dark"
+        className="absolute inset-0"
+        style={{
+          background: `
+            linear-gradient(
+              100deg,
+              hsl(222 55% 8% / 0.86) 0%,
+              hsl(222 50% 10% / 0.72) 30%,
+              hsl(222 45% 12% / 0.34) 52%,
+              hsl(222 40% 14% / 0.1) 72%,
+              transparent 100%
+            ),
+            linear-gradient(
+              to top,
+              hsl(222 55% 8% / 0.28) 0%,
+              transparent 24%
+            )
+          `,
+        }}
       />
 
-      {/* Vibrant Glow Orbs - Behind everything */}
-      <div className="absolute inset-0 overflow-hidden">
-        {/* Emerald Green Glow - Right side */}
-        <motion.div
-          className="absolute w-[600px] h-[600px] rounded-full"
-          style={{
-            right: "-10%",
-            top: "20%",
-            background: "radial-gradient(circle, rgba(16, 185, 129, 0.4) 0%, rgba(16, 185, 129, 0.1) 40%, transparent 70%)",
-            filter: "blur(80px)",
-          }}
-          animate={{
-            scale: [1, 1.1, 1],
-            opacity: [0.6, 0.8, 0.6],
-          }}
-          transition={{
-            duration: 8,
-            repeat: Infinity,
-            ease: "easeInOut",
-          }}
-        />
-        {/* Deep Gold Glow - Left side */}
-        <motion.div
-          className="absolute w-[500px] h-[500px] rounded-full"
-          style={{
-            left: "-5%",
-            top: "30%",
-            background: "radial-gradient(circle, rgba(234, 179, 8, 0.35) 0%, rgba(234, 179, 8, 0.1) 40%, transparent 70%)",
-            filter: "blur(80px)",
-          }}
-          animate={{
-            scale: [1, 1.15, 1],
-            opacity: [0.5, 0.7, 0.5],
-          }}
-          transition={{
-            duration: 10,
-            repeat: Infinity,
-            ease: "easeInOut",
-            delay: 1,
-          }}
-        />
-        {/* Additional subtle teal glow at top */}
-        <motion.div
-          className="absolute w-[400px] h-[400px] rounded-full"
-          style={{
-            left: "40%",
-            top: "-10%",
-            background: "radial-gradient(circle, rgba(45, 212, 191, 0.2) 0%, transparent 60%)",
-            filter: "blur(60px)",
-          }}
-          animate={{
-            opacity: [0.3, 0.5, 0.3],
-          }}
-          transition={{
-            duration: 6,
-            repeat: Infinity,
-            ease: "easeInOut",
-          }}
-        />
-      </div>
-
-      {/* Faded world map projection */}
-      <div className="absolute inset-0 opacity-[0.05]">
-        <svg
-          viewBox="0 0 1000 500"
-          className="w-full h-full"
-          preserveAspectRatio="xMidYMid slice"
-        >
-          <g fill="none" stroke="hsl(var(--gold))" strokeWidth="0.8">
-            <path d="M150,120 Q180,100 220,110 L250,130 Q280,150 260,180 L220,200 Q180,190 150,160 Z" />
-            <path d="M220,220 Q250,240 240,280 L220,330 Q200,360 190,340 L200,280 Q210,240 220,220 Z" />
-            <path d="M450,100 Q480,90 520,100 L540,120 Q550,140 530,150 L480,140 Q450,130 450,100 Z" />
-            <path d="M480,160 Q520,150 540,180 L550,240 Q540,300 500,310 L470,280 Q460,220 480,160 Z" />
-            <path d="M560,80 Q620,60 700,80 L750,120 Q780,160 760,200 L700,220 Q620,200 580,160 L560,120 Z" />
-            <path d="M750,280 Q790,270 820,290 L830,320 Q820,350 780,340 L750,310 Q740,290 750,280 Z" />
-            <path d="M620,160 Q640,150 660,165 L665,200 Q655,230 635,235 L620,210 Q610,180 620,160 Z" />
-          </g>
-        </svg>
-      </div>
-
-      {/* Floating 3D Math Icons */}
-      {floatingIcons.map((icon, index) => (
-        <motion.div
-          key={index}
-          className="absolute flex items-center justify-center"
-          style={{ 
-            left: icon.x, 
-            top: icon.y,
-            width: icon.size,
-            height: icon.size,
-          }}
-          initial={{ opacity: 0, y: 20 }}
-          animate={{
-            opacity: 1,
-            y: [0, -15, 0],
-          }}
-          transition={{
-            delay: icon.delay,
-            duration: 4,
-            repeat: Infinity,
-            ease: "easeInOut",
-            y: { duration: 3 + index * 0.5, repeat: Infinity, ease: "easeInOut" },
-          }}
-        >
-          <div
-            className="w-full h-full rounded-xl flex items-center justify-center font-bold backdrop-blur-sm"
-            style={{
-              fontSize: icon.size * 0.6,
-              background: icon.color === "gold" 
-                ? "linear-gradient(135deg, rgba(234, 179, 8, 0.3) 0%, rgba(234, 179, 8, 0.1) 100%)"
-                : "linear-gradient(135deg, rgba(45, 212, 191, 0.3) 0%, rgba(45, 212, 191, 0.1) 100%)",
-              color: icon.color === "gold" ? "hsl(var(--gold))" : "hsl(var(--teal))",
-              boxShadow: icon.color === "gold"
-                ? "0 8px 32px rgba(234, 179, 8, 0.3), inset 0 1px 0 rgba(255,255,255,0.1)"
-                : "0 8px 32px rgba(45, 212, 191, 0.3), inset 0 1px 0 rgba(255,255,255,0.1)",
-              border: "1px solid rgba(255,255,255,0.1)",
-            }}
-          >
-            {icon.symbol}
-          </div>
-        </motion.div>
-      ))}
-
-      {/* 3D Floating Elements */}
-      {floating3DElements.map((element, index) => (
-        <motion.div
-          key={index}
-          className="absolute"
-          style={{ left: element.x, top: element.y }}
-          initial={{ opacity: 0 }}
-          animate={{
-            opacity: [0.4, 0.7, 0.4],
-            y: [0, -20, 0],
-            rotateY: [0, 180, 360],
-          }}
-          transition={{
-            delay: element.delay,
-            duration: 8,
-            repeat: Infinity,
-            ease: "easeInOut",
-          }}
-        >
-          {element.type === "cube" && (
-            <div 
-              className="w-8 h-8 border border-teal/40 rotate-45"
-              style={{ 
-                background: "linear-gradient(135deg, rgba(45, 212, 191, 0.15) 0%, transparent 100%)",
-                boxShadow: "0 0 20px rgba(45, 212, 191, 0.2)",
-              }}
-            />
-          )}
-          {element.type === "sphere" && (
-            <div 
-              className="w-6 h-6 rounded-full"
-              style={{ 
-                background: "radial-gradient(circle at 30% 30%, rgba(234, 179, 8, 0.4) 0%, rgba(234, 179, 8, 0.1) 100%)",
-                boxShadow: "0 0 25px rgba(234, 179, 8, 0.3)",
-              }}
-            />
-          )}
-          {element.type === "pyramid" && (
-            <div 
-              className="w-0 h-0"
-              style={{ 
-                borderLeft: "12px solid transparent",
-                borderRight: "12px solid transparent",
-                borderBottom: "20px solid rgba(45, 212, 191, 0.3)",
-                filter: "drop-shadow(0 0 15px rgba(45, 212, 191, 0.3))",
-              }}
-            />
-          )}
-          {element.type === "pencil" && (
-            <div 
-              className="w-3 h-10 rounded-t-sm rotate-45"
-              style={{ 
-                background: "linear-gradient(180deg, rgba(234, 179, 8, 0.4) 0%, rgba(234, 179, 8, 0.2) 80%, rgba(100, 100, 100, 0.3) 100%)",
-                boxShadow: "0 0 20px rgba(234, 179, 8, 0.2)",
-              }}
-            />
-          )}
-        </motion.div>
-      ))}
-
-      {/* Main Content - Softened Glass Container (wider so headline fits 2 lines like before) */}
       <motion.div
-        initial={{ opacity: 0, y: 30 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.8, ease: "easeOut" }}
-        className="relative z-10 mx-3 max-w-5xl w-full min-w-0 sm:mx-4 md:mx-6 lg:max-w-6xl"
-      >
-        <div
-          className="relative p-5 sm:p-8 md:p-12 lg:p-16 rounded-2xl sm:rounded-3xl"
-          style={{
-            background: "rgba(255, 255, 255, 0.02)",
-            backdropFilter: "blur(8px)",
-            WebkitBackdropFilter: "blur(8px)",
-          }}
-        >
-          {/* Content */}
-          <div className="relative z-10 text-center">
-            {/* Main Headline — line 1 white, line 2 gold (same rhythm as old hero) */}
-            <motion.h1
-              initial={{ opacity: 0, y: 20 }}
+        className="pointer-events-none absolute -left-20 top-1/3 h-[28rem] w-[28rem] rounded-full blur-3xl"
+        style={{ background: "hsl(45 100% 50% / 0.14)" }}
+        animate={{ opacity: [0.45, 0.75, 0.45], scale: [1, 1.06, 1] }}
+        transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }}
+        aria-hidden
+      />
+
+      <div className="relative z-10 flex min-h-[100svh] items-end pb-16 pt-28 sm:items-center sm:pb-20 sm:pt-24">
+        <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="max-w-xl lg:max-w-2xl">
+            <motion.div
+              initial={{ opacity: 0, y: 12 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.2, duration: 0.6 }}
-              className="font-display text-3xl sm:text-4xl md:text-[2.75rem] lg:text-5xl xl:text-[3.5rem] font-bold text-white mb-6 sm:mb-8 leading-tight"
+              transition={{ duration: 0.5 }}
+              className="mb-5 flex items-center gap-3"
             >
-              <span className="block">Unlock Your Child's Potential to</span>
-              <span
-                className="mt-1 block bg-clip-text text-transparent sm:mt-2"
-                style={{
-                  backgroundImage: "linear-gradient(135deg, hsl(45, 100%, 50%) 0%, hsl(50, 100%, 60%) 50%, hsl(40, 100%, 55%) 100%)",
-                }}
-              >
-                Learn, Grow & Shine
-              </span>
+              <span className="h-px w-8 bg-vedic-gold sm:w-10" />
+              <p className="font-display text-xs font-semibold uppercase tracking-[0.28em] text-vedic-gold sm:text-sm">
+                Tiny Vivid Minds
+              </p>
+            </motion.div>
+
+            <motion.h1
+              initial={{ opacity: 0, y: 28 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.1, duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
+              className="mb-5 font-display text-[2.1rem] font-bold leading-[1.08] tracking-tight text-white sm:mb-6 sm:text-5xl md:text-6xl lg:text-[3.6rem]"
+            >
+              Unlock Your Child&apos;s
+              <br />
+              Potential to{" "}
+              <span className="text-vedic-gold">Learn, Grow &amp; Shine</span>
             </motion.h1>
 
-            {/* Sub-headline — wider so it wraps fewer times, closer to old layout */}
             <motion.p
-              initial={{ opacity: 0, y: 20 }}
+              initial={{ opacity: 0, y: 18 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.4, duration: 0.6 }}
-              className="text-white/75 text-base sm:text-lg md:text-xl max-w-3xl md:max-w-4xl mx-auto mb-8 sm:mb-12 leading-relaxed sm:leading-loose px-0"
+              transition={{ delay: 0.25, duration: 0.55 }}
+              className="mb-8 max-w-md text-base leading-relaxed text-white sm:mb-10 sm:text-lg"
+              style={{ textShadow: "0 1px 12px hsl(222 55% 8% / 0.65)" }}
             >
-              Make learning an exciting journey with engaging programs in Mathematics (with IXL), Abacus, Vedic Mathematics, Handwriting, and Phonics & Grammar — thoughtfully designed to build strong foundations, confidence, and a love for learning.
+              Mathematics (with IXL), Abacus, Vedic Mathematics, Handwriting, and Phonics
+              &amp; Grammar — live classes that build confidence and curiosity.
             </motion.p>
 
-            {/* Action Buttons — Explore Programs first, Contact Us second */}
             <motion.div
-              initial={{ opacity: 0, y: 20 }}
+              initial={{ opacity: 0, y: 16 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.6, duration: 0.6 }}
-              className="flex flex-col sm:flex-row flex-wrap items-stretch sm:items-center justify-center gap-3 sm:gap-5 w-full"
+              transition={{ delay: 0.38, duration: 0.55 }}
+              className="flex flex-col gap-3 sm:flex-row sm:items-center sm:gap-4"
             >
               <Button
                 size="lg"
-                className="bg-gold hover:bg-gold-light text-navy-dark font-display font-semibold px-6 py-4 sm:px-8 sm:py-6 text-base sm:text-lg rounded-2xl group transform hover:-translate-y-1 transition-all duration-300 w-full sm:w-auto justify-center"
+                className="h-auto w-full rounded-full bg-gold px-8 py-4 font-display text-base font-semibold text-navy-dark transition-all duration-300 hover:-translate-y-0.5 hover:bg-gold-light sm:w-auto sm:py-5 sm:text-lg"
                 style={{
-                  boxShadow: "0 0 30px rgba(234, 179, 8, 0.4), 0 0 60px rgba(234, 179, 8, 0.2), 0 4px 20px rgba(0,0,0,0.3)",
+                  boxShadow: "0 12px 40px hsl(45 100% 45% / 0.35)",
                 }}
                 asChild
               >
-                <DiscoverProgramsLink className="flex items-center justify-center gap-2">
-                  <Play className="w-5 h-5 shrink-0 fill-white/20" />
+                <DiscoverProgramsLink className="inline-flex items-center justify-center gap-2">
+                  <Play className="h-5 w-5 shrink-0 fill-current opacity-30" />
                   Explore Programs
                 </DiscoverProgramsLink>
               </Button>
@@ -288,30 +113,22 @@ export const FuturisticHero = () => {
               <Button
                 size="lg"
                 variant="outline"
-                className="bg-transparent border border-white/30 text-white hover:bg-white/10 hover:border-white/50 font-display font-medium px-6 py-4 sm:px-8 sm:py-6 text-base sm:text-lg rounded-2xl backdrop-blur-sm transition-all duration-300 w-full sm:w-auto justify-center"
+                className="h-auto w-full rounded-full border-2 border-white bg-transparent px-8 py-4 font-display text-base font-medium text-white transition-all duration-300 hover:bg-white hover:text-navy-dark sm:w-auto sm:py-5 sm:text-lg"
                 asChild
               >
-                <Link to="/contact#contact-form" className="flex items-center justify-center gap-2">
-                  <motion.span
-                    className="inline-flex"
-                    animate={{ translateY: [0, -3, 0] }}
-                    transition={{ duration: 1.5, repeat: Infinity, ease: "easeInOut" }}
-                  >
-                    <Mail className="w-5 h-5" />
-                  </motion.span>
+                <Link
+                  to="/contact#contact-form"
+                  className="inline-flex items-center justify-center gap-2"
+                >
+                  <Mail className="h-5 w-5" />
                   Contact Us
                 </Link>
               </Button>
             </motion.div>
           </div>
         </div>
-      </motion.div>
+      </div>
 
-      {/* Soft blend into next section — use navy, not page background (avoids a white band on dark hero) */}
-      <div
-        className="pointer-events-none absolute bottom-0 left-0 right-0 h-16 bg-gradient-to-t from-navy-dark to-transparent sm:h-20"
-        aria-hidden
-      />
     </section>
   );
 };

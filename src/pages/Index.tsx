@@ -9,7 +9,6 @@ import {
   ChevronRight,
   ChevronDown,
   ChevronLeft,
-  ArrowRight,
   Layers,
   Sparkles,
   HeartHandshake,
@@ -335,23 +334,6 @@ const Index = () => {
             ))}
           </div>
 
-          <AnimatedSection delay={400} className="text-center mt-12">
-            <div className="flex flex-wrap gap-4 justify-center">
-              <Button
-                variant="outline"
-                className="border-2 border-foreground/20 text-foreground hover:border-gold hover:text-gold font-display px-6"
-                asChild
-              >
-                <DiscoverProgramsLink>Explore Programs</DiscoverProgramsLink>
-              </Button>
-              <Button variant="link" className="text-gold hover:text-gold-dark font-display group" asChild>
-                <Link to="/about">
-                  Learn More
-                  <ArrowRight className="ml-2 w-4 h-4 group-hover:translate-x-1 transition-transform" />
-                </Link>
-              </Button>
-            </div>
-          </AnimatedSection>
         </div>
       </section>
 
@@ -485,21 +467,6 @@ const Index = () => {
                 ))}
               </div>
 
-              <div className="flex flex-wrap gap-4">
-                <Button
-                  variant="outline"
-                  className="border-2 border-foreground/20 text-foreground hover:border-gold hover:text-gold font-display px-6"
-                  asChild
-                >
-                  <DiscoverProgramsLink>Explore Programs</DiscoverProgramsLink>
-                </Button>
-                <Button variant="link" className="text-gold hover:text-gold-dark font-display group" asChild>
-                  <Link to="/about">
-                    Learn More
-                    <ArrowRight className="ml-2 w-4 h-4 group-hover:translate-x-1 transition-transform" />
-                  </Link>
-                </Button>
-              </div>
             </AnimatedSection>
 
             <AnimatedSection animation="zoom" delay={300}>
@@ -720,7 +687,7 @@ const Index = () => {
                 className="border-2 border-foreground/20 text-foreground hover:border-gold hover:text-gold font-display px-8 transition-all duration-300 hover:scale-105 hover:-translate-y-1"
                 asChild
               >
-                <Link to="/contact">Contact Us</Link>
+                <Link to="/contact#contact-form">Ask a Question</Link>
               </Button>
             </AnimatedSection>
           </div>

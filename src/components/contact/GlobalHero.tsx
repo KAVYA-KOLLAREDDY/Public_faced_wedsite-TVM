@@ -3,11 +3,10 @@ import { Clock, Mail, Sparkles, GraduationCap, Star } from "lucide-react";
 import { HIGHLIGHTED_COUNTRY_COUNT } from "@/config/globalNetworkCountries";
 
 interface GlobalHeroProps {
-  onBookDemo: () => void;
-  onContact: () => void;
+  onScrollToForm: () => void;
 }
 
-const GlobalHero = ({ onBookDemo, onContact }: GlobalHeroProps) => {
+const GlobalHero = ({ onScrollToForm }: GlobalHeroProps) => {
   return (
     <section className="relative min-h-[85vh] sm:min-h-[88vh] lg:min-h-[90vh] flex items-center pt-20 lg:pt-24 pb-24 sm:pb-28 overflow-hidden bg-gradient-to-br from-navy via-navy-light to-teal-dark">
       {/* Subtle pattern overlay */}
@@ -63,14 +62,12 @@ const GlobalHero = ({ onBookDemo, onContact }: GlobalHeroProps) => {
             </p>
 
             <div className="flex flex-wrap gap-4">
-              {/* Primary CTA with pulse */}
               <motion.button
                 whileHover={{ scale: 1.02, y: -2 }}
                 whileTap={{ scale: 0.98 }}
-                onClick={onBookDemo}
+                onClick={onScrollToForm}
                 className="relative flex items-center gap-2 px-6 py-3.5 sm:px-7 sm:py-4 rounded-2xl font-display font-semibold text-lg bg-gold text-navy-dark hover:bg-gold-light transition-colors shadow-lg shadow-gold/30"
               >
-                {/* Pulsing shadow effect */}
                 <motion.span
                   className="absolute inset-0 rounded-2xl bg-gold -z-10"
                   animate={{
@@ -84,17 +81,6 @@ const GlobalHero = ({ onBookDemo, onContact }: GlobalHeroProps) => {
                     repeat: Infinity,
                   }}
                 />
-                <Mail className="w-5 h-5" />
-                Contact Us
-              </motion.button>
-
-              {/* Secondary Button */}
-              <motion.button
-                whileHover={{ scale: 1.02, y: -2 }}
-                whileTap={{ scale: 0.98 }}
-                onClick={onContact}
-                className="flex items-center gap-2 px-6 py-3.5 sm:px-7 sm:py-4 rounded-2xl font-display font-semibold text-lg border-2 border-white/30 text-white hover:bg-white/10 transition-colors backdrop-blur-sm"
-              >
                 <Mail className="w-5 h-5" />
                 Send a Message
               </motion.button>

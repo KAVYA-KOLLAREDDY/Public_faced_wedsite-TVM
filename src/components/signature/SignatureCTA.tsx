@@ -2,7 +2,8 @@ import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
 import AnimatedSection from "@/components/AnimatedSection";
 import MagneticButton from "@/components/MagneticButton";
-import { Mail, Phone } from "lucide-react";
+import { DiscoverProgramsLink } from "@/components/DiscoverProgramsLink";
+import { GraduationCap, Images } from "lucide-react";
 
 // Course-related symbols for background
 const courseSymbols = [
@@ -102,11 +103,9 @@ const SignatureCTA = () => {
           {/* CTA Buttons */}
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
             <MagneticButton strength={0.3}>
-              <Link
-                to="/contact#contact-form"
+              <DiscoverProgramsLink
                 className="group relative inline-flex items-center gap-3 px-8 py-4 rounded-full bg-vedic-gold text-vedic-navy font-bold text-lg shadow-xl overflow-hidden"
               >
-                {/* Pulse animation background */}
                 <motion.div
                   className="absolute inset-0 bg-vedic-gold"
                   animate={{
@@ -122,48 +121,21 @@ const SignatureCTA = () => {
                     ease: "easeInOut"
                   }}
                 />
-                <motion.span
-                  animate={{ translateY: [0, -3, 0] }}
-                  transition={{ duration: 1.5, repeat: Infinity, ease: "easeInOut" }}
-                  className="relative z-10 inline-flex"
-                >
-                  <Mail className="w-5 h-5" />
-                </motion.span>
-                <span className="relative z-10">Contact Us</span>
-              </Link>
+                <GraduationCap className="relative z-10 w-5 h-5" />
+                <span className="relative z-10">Explore Programs</span>
+              </DiscoverProgramsLink>
             </MagneticButton>
 
             <MagneticButton strength={0.2}>
               <Link
-                to="/contact"
+                to="/gallery"
                 className="inline-flex items-center gap-3 px-8 py-4 rounded-full bg-white/10 backdrop-blur-sm text-white font-medium text-lg border border-vedic-gold/30 hover:bg-white/20 hover:border-vedic-gold/50 transition-colors"
               >
-                <Phone className="w-5 h-5" />
-                <span>Contact Us</span>
+                <Images className="w-5 h-5" />
+                <span>View Gallery</span>
               </Link>
             </MagneticButton>
           </div>
-
-          {/* Trust indicators */}
-          <motion.div
-            initial={{ opacity: 0 }}
-            whileInView={{ opacity: 1 }}
-            transition={{ delay: 0.5 }}
-            className="mt-12 flex flex-wrap justify-center gap-8 text-white/60 text-sm"
-          >
-            <div className="flex items-center gap-2">
-              <span className="text-vedic-gold">✓</span>
-              Free Trial Session
-            </div>
-            <div className="flex items-center gap-2">
-              <span className="text-vedic-gold">✓</span>
-              No Credit Card Required
-            </div>
-            <div className="flex items-center gap-2">
-              <span className="text-vedic-gold">✓</span>
-              100% Satisfaction Guarantee
-            </div>
-          </motion.div>
         </AnimatedSection>
       </div>
     </section>

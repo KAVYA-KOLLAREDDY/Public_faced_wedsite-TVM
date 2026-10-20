@@ -95,13 +95,15 @@ export const Navbar = ({ transparent = false }: NavbarProps) => {
 
           {/* Desktop Navigation */}
           <div className="hidden lg:flex items-center gap-6">
-            {navLinks.slice(0, 2).map((link) => (
+            {navLinks.slice(0, 2).map((link) => {
+              const isActive = location.pathname === link.path.split("#")[0];
+              return (
               <Link
                 key={link.path}
                 to={link.path}
                 className={cn(
                   "relative font-semibold transition-colors duration-300 hover:text-vedic-gold group",
-                  location.pathname === link.path
+                  isActive
                     ? "text-vedic-gold"
                     : transparent && !scrolled ? "text-white/90" : "text-foreground/80"
                 )}
@@ -110,11 +112,12 @@ export const Navbar = ({ transparent = false }: NavbarProps) => {
                 <span
                   className={cn(
                     "absolute -bottom-1 left-0 h-0.5 bg-vedic-gold transition-all duration-300",
-                    location.pathname === link.path ? "w-full" : "w-0 group-hover:w-full"
+                    isActive ? "w-full" : "w-0 group-hover:w-full"
                   )}
                 />
               </Link>
-            ))}
+              );
+            })}
 
             {/* Courses Dropdown */}
             <DropdownMenu open={coursesOpen} onOpenChange={setCoursesOpen} modal={false}>
@@ -162,13 +165,15 @@ export const Navbar = ({ transparent = false }: NavbarProps) => {
               </DropdownMenuContent>
             </DropdownMenu>
 
-            {navLinks.slice(2).map((link) => (
+            {navLinks.slice(2).map((link) => {
+              const isActive = location.pathname === link.path.split("#")[0];
+              return (
               <Link
                 key={link.path}
                 to={link.path}
                 className={cn(
                   "relative font-semibold transition-colors duration-300 hover:text-vedic-gold group",
-                  location.pathname === link.path
+                  isActive
                     ? "text-vedic-gold"
                     : transparent && !scrolled ? "text-white/90" : "text-foreground/80"
                 )}
@@ -177,11 +182,12 @@ export const Navbar = ({ transparent = false }: NavbarProps) => {
                 <span
                   className={cn(
                     "absolute -bottom-1 left-0 h-0.5 bg-vedic-gold transition-all duration-300",
-                    location.pathname === link.path ? "w-full" : "w-0 group-hover:w-full"
+                    isActive ? "w-full" : "w-0 group-hover:w-full"
                   )}
                 />
               </Link>
-            ))}
+              );
+            })}
           </div>
 
           {/* Right Side Actions */}
@@ -216,7 +222,7 @@ export const Navbar = ({ transparent = false }: NavbarProps) => {
               asChild
               className="bg-gradient-to-r from-vedic-gold to-vedic-gold-light text-vedic-navy font-semibold hover:shadow-lg hover:shadow-vedic-gold/30 transform hover:-translate-y-0.5 transition-all duration-300"
             >
-              <Link to="/contact#contact-form">Book Free Demo</Link>
+              <Link to="/contact?subject=demo#contact-form">Book Free Demo</Link>
             </Button>
           </div>
 
@@ -240,14 +246,14 @@ export const Navbar = ({ transparent = false }: NavbarProps) => {
           )}
         >
           <div className="bg-card/95 backdrop-blur-md rounded-2xl p-4 space-y-2 border border-vedic-gold/20 overflow-y-auto max-h-[calc(100dvh-6rem)]">
-            {navLinks.slice(0, 2).map((link, index) => (
+            {navLinks.slice(0, 2).map((link) => (
               <Link
                 key={link.path}
                 to={link.path}
                 onClick={() => setIsOpen(false)}
                 className={cn(
                   "block py-3 px-4 rounded-xl transition-all duration-300",
-                  location.pathname === link.path
+                  location.pathname === link.path.split("#")[0]
                     ? "bg-vedic-gold/20 text-vedic-gold"
                     : "text-foreground/80 hover:bg-vedic-gold/10 hover:text-vedic-gold"
                 )}
@@ -281,7 +287,7 @@ export const Navbar = ({ transparent = false }: NavbarProps) => {
                 onClick={() => setIsOpen(false)}
                 className={cn(
                   "block py-3 px-4 rounded-xl transition-all duration-300",
-                  location.pathname === link.path
+                  location.pathname === link.path.split("#")[0]
                     ? "bg-vedic-gold/20 text-vedic-gold"
                     : "text-foreground/80 hover:bg-vedic-gold/10 hover:text-vedic-gold"
                 )}
@@ -300,7 +306,7 @@ export const Navbar = ({ transparent = false }: NavbarProps) => {
               </button>
               */}
               <Link
-                to="/contact"
+                to="/contact#contact-form"
                 onClick={() => setIsOpen(false)}
                 className="p-2 rounded-full bg-vedic-gold/10 text-vedic-gold"
               >
@@ -313,7 +319,7 @@ export const Navbar = ({ transparent = false }: NavbarProps) => {
                 asChild
                 className="w-full bg-gradient-to-r from-vedic-gold to-vedic-gold-light text-vedic-navy font-semibold"
               >
-                <Link to="/contact#contact-form" onClick={() => setIsOpen(false)}>Book Free Demo</Link>
+                <Link to="/contact?subject=demo#contact-form" onClick={() => setIsOpen(false)}>Book Free Demo</Link>
               </Button>
             </div>
           </div>

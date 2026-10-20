@@ -251,7 +251,7 @@ const About = () => {
                   size="lg"
                   className="bg-gradient-to-r from-vedic-gold to-vedic-gold-light text-vedic-navy font-semibold px-10 py-6 text-lg hover:shadow-2xl hover:shadow-vedic-gold/30 transition-all duration-500 hover:-translate-y-1"
                 >
-                  <Link to="/contact">
+                  <Link to="/contact#contact-form">
                     Start Your Journey
                     <ArrowRight className="ml-2 h-5 w-5" />
                   </Link>

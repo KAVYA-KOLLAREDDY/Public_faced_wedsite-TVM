@@ -355,7 +355,7 @@ export const LevelsCarousel = () => {
                       {/* CTA - only on center card */}
                       {isCenter && (
                         <Link
-                          to="/contact"
+                          to="/contact#contact-form"
                           className={`
                             flex flex-shrink-0 px-4 py-2 rounded-xl
                             bg-gradient-to-r ${level.gradient}

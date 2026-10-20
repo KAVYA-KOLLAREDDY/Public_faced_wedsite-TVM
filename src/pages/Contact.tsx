@@ -213,13 +213,6 @@ const Contact = () => {
     });
   };
 
-  // Scroll to form and switch tab when navigating with #contact-form and ?tab= (e.g. from footer)
-  useEffect(() => {
-    if (location.hash === "#contact-form") {
-      smoothScroll("contact-form");
-    }
-  }, [location.hash]);
-
   // Form states
   const [demoForm, setDemoForm] = useState(initialDemoForm);
 
@@ -227,6 +220,21 @@ const Contact = () => {
 
   const [feedbackForm, setFeedbackForm] = useState(initialFeedbackForm);
   const formStartedRef = useRef(false);
+
+  // Scroll to form; pre-select "How can we help you?" from ?subject= (e.g. Book Free Demo → demo)
+  useEffect(() => {
+    if (location.hash === "#contact-form") {
+      smoothScroll("contact-form");
+    }
+
+    const subject = new URLSearchParams(location.search).get("subject");
+    const allowed = ["courses", "demo", "feedback", "issue", "enquiry"] as const;
+    if (subject && (allowed as readonly string[]).includes(subject)) {
+      setContactForm((prev) =>
+        prev.subject === subject ? prev : { ...prev, subject }
+      );
+    }
+  }, [location.hash, location.search]);
 
   const markFormStarted = () => {
     if (formStartedRef.current) return;
@@ -309,10 +317,7 @@ const Contact = () => {
       <FormStatusModal status={formStatus} onClose={() => setFormStatus(null)} />
 
       {/* Global Impact Hero */}
-      <GlobalHero
-        onBookDemo={() => smoothScroll("contact-form")}
-        onContact={() => smoothScroll("contact-form")}
-      />
+      <GlobalHero onScrollToForm={() => smoothScroll("contact-form")} />
 
       {/* World Map Section - Bento-style shell (matches Vedic About Program) */}
       <section className="py-16 bg-muted/30 relative overflow-hidden">
@@ -950,14 +955,9 @@ const Contact = () => {
               <h2 className="font-display text-3xl md:text-4xl font-bold mt-4 mb-6">
                 Have a Question?
               </h2>
-              <p className="text-muted-foreground text-lg mb-8">
+              <p className="text-muted-foreground text-lg">
                 Find answers to common questions about our learning programs.
               </p>
-              <DiscoverProgramsLink>
-                <Button variant="outline" size="lg" className="rounded-xl">
-                  Explore Our Courses
-                </Button>
-              </DiscoverProgramsLink>
             </motion.div>
 
             <div className="space-y-4">
