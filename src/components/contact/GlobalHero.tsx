@@ -39,7 +39,7 @@ const GlobalHero = ({ onBookDemo, onContact }: GlobalHeroProps) => {
               Global Learning Community
             </motion.span>
 
-            <h1 className="font-display text-4xl md:text-5xl lg:text-6xl font-bold leading-[1.1] mb-6 text-white">
+            <h1 className="mb-6 font-display text-4xl font-bold leading-[1.1] text-white md:text-5xl lg:text-6xl">
               We're Here to Help Your Child{" "}
               <span className="relative inline-block">
                 <span className="text-gold">Learn, Grow & Shine!</span>

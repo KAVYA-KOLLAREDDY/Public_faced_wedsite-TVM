@@ -226,7 +226,7 @@ export const TestimonialsWithPagination = () => {
               <div 
                 className={cn(
                   "group relative flex flex-col rounded-3xl p-6 border border-border/50 transition-all duration-500",
-                  !isExpanded && "min-h-[22rem]",
+                  !isExpanded && "sm:min-h-[22rem]",
                   "hover:shadow-xl hover:-translate-y-2",
                   cardColors[globalIndex % cardColors.length]
                 )}

@@ -227,18 +227,18 @@ const About = () => {
 
             {/* Main Heading - Large Scale */}
             <TextReveal delay={100}>
-              <h1 className="font-display text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-bold text-foreground leading-[1.1] mb-8">
+              <h1 className="mb-8 font-display text-5xl font-bold leading-[1.1] text-foreground sm:text-6xl md:text-7xl lg:text-8xl">
                 Nurturing the
                 <span className="block bg-gradient-to-r from-vedic-gold via-vedic-gold-light to-vedic-gold bg-clip-text text-transparent">
                   Next Generation
                 </span>
-                <span className="block text-4xl sm:text-5xl md:text-6xl lg:text-7xl mt-2">of Vivid Minds</span>
+                <span className="mt-2 block text-4xl sm:text-5xl md:text-6xl lg:text-7xl">of Vivid Minds</span>
               </h1>
             </TextReveal>
 
             {/* Sub-headline - Lead paragraph with larger font */}
             <AnimatedSection animation="fade-up" delay={400}>
-              <p className="text-xl md:text-2xl lg:text-3xl text-muted-foreground font-light max-w-4xl mx-auto leading-relaxed">
+              <p className="mx-auto max-w-4xl px-1 text-lg font-light leading-relaxed text-muted-foreground sm:text-xl md:text-2xl lg:text-3xl">
               A globally recognized online academy committed to children's overall learning & skill development through well-researched, need-based, quality programs for ages 3 and above.
               </p>
             </AnimatedSection>

@@ -355,7 +355,7 @@ const VedicMathCourse = () => {
                 <div className="absolute -inset-4 bg-gradient-to-r from-gold/30 via-teal/20 to-gold/30 rounded-[3rem] blur-2xl opacity-60 border-glow-animate transition-opacity duration-500 group-hover/card:opacity-80" />
                 
                 {/* Glass Panel with warm hover */}
-                <div className="relative glass-warm p-10 md:p-16 transition-all duration-500 group-hover/card:border-gold/40">
+                <div className="relative glass-warm p-6 transition-all duration-500 group-hover/card:border-gold/40 sm:p-10 md:p-16">
                   <div className="text-center space-y-8">
                     {/* Floating Globe Icon */}
                     <AnimatedSection animation="pop-in" delay={200}>

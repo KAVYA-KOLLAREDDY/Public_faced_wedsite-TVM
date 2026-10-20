@@ -297,7 +297,7 @@ const AbacusCourse = () => {
             <div className="relative mx-auto mt-8 rounded-2xl bg-white p-4 pb-10 shadow-inner ring-1 ring-black/10 md:p-6 md:pb-11">
               <div
                 id="abacus-container"
-                className="mx-auto flex min-h-[220px] w-full justify-center overflow-x-auto"
+                className="mx-auto flex min-h-[180px] w-full max-w-full justify-center overflow-x-auto sm:min-h-[220px] sm:overflow-x-hidden"
               />
               <button
                 type="button"
@@ -372,7 +372,7 @@ const AbacusCourse = () => {
                 <div className="absolute -inset-4 bg-gradient-to-r from-gold/30 via-teal/20 to-gold/30 rounded-[3rem] blur-2xl opacity-60 border-glow-animate transition-opacity duration-500 group-hover/card:opacity-80" />
                 
                 {/* Glass Panel with warm hover */}
-                <div className="relative glass-warm p-10 md:p-16 transition-all duration-500 group-hover/card:border-gold/40">
+                <div className="relative glass-warm p-6 transition-all duration-500 group-hover/card:border-gold/40 sm:p-10 md:p-16">
                   <div className="text-center space-y-8">
                     {/* Floating Globe Icon */}
                     <AnimatedSection animation="pop-in" delay={200}>

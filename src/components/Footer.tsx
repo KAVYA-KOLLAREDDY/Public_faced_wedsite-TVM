@@ -36,7 +36,7 @@ export const Footer = () => {
   ];
 
   return (
-    <footer className="bg-gradient-to-br from-vedic-navy via-vedic-navy-light to-vedic-navy text-white relative overflow-hidden">
+    <footer className="relative overflow-hidden bg-gradient-to-br from-vedic-navy via-vedic-navy-light to-vedic-navy pb-20 text-white lg:pb-0">
       {/* Decorative Elements */}
       <div className="absolute top-0 left-0 w-64 h-64 bg-vedic-gold/5 rounded-full blur-3xl" />
       <div className="absolute bottom-0 right-0 w-96 h-96 bg-vedic-teal/5 rounded-full blur-3xl" />

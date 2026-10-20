@@ -147,12 +147,12 @@ export const SocialSidebar = () => {
         />
       </motion.div>
 
-      {/* Mobile FAB - Bottom Right */}
+      {/* Mobile FAB - Bottom Right (clear of form CTAs / safe area) */}
       <div
         className="fixed z-50 lg:hidden"
         style={{
-          bottom: "max(1.25rem, env(safe-area-inset-bottom, 0px))",
-          right: "max(1.25rem, env(safe-area-inset-right, 0px))",
+          bottom: "max(1.5rem, env(safe-area-inset-bottom, 0px))",
+          right: "max(1rem, env(safe-area-inset-right, 0px))",
         }}
       >
         <AnimatePresence>

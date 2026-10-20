@@ -576,7 +576,7 @@ const Gallery = () => {
               </motion.div>
               
               {/* Main heading with handwritten accent */}
-              <h1 className="font-display text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-bold text-white mb-6 leading-[1.1]">
+              <h1 className="mb-6 font-display text-4xl font-bold leading-[1.1] text-white md:text-5xl lg:text-6xl xl:text-7xl">
                 <motion.span
                   initial={{ opacity: 0, y: 30 }}
                   animate={{ opacity: 1, y: 0 }}
@@ -776,11 +776,11 @@ const Gallery = () => {
             </p>
           </AnimatedSection>
 
-          <div className="grid md:grid-cols-3 gap-6 max-w-5xl mx-auto">
+          <div className="mx-auto grid max-w-5xl grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3">
             {instagramReels.map((reel, index) => (
               <AnimatedSection key={index} animation="pop" delay={index * 150}>
                 <motion.div 
-                  className="group relative rounded-[24px] overflow-hidden bg-gradient-to-br from-pink-500/10 to-purple-500/10 aspect-[9/16] border-2 border-transparent hover:border-pink-500/50 transition-all duration-500"
+                  className="group relative mx-auto aspect-[9/16] max-h-[min(70vh,28rem)] w-full max-w-sm overflow-hidden rounded-[24px] border-2 border-transparent bg-gradient-to-br from-pink-500/10 to-purple-500/10 transition-all duration-500 hover:border-pink-500/50 sm:max-h-none sm:max-w-none"
                   whileHover={{ 
                     scale: 1.03,
                     boxShadow: "0 0 40px rgba(236,72,153,0.4)"
@@ -959,7 +959,7 @@ const Gallery = () => {
             </p>
           </AnimatedSection>
 
-          <div className="grid md:grid-cols-3 gap-6 max-w-5xl mx-auto mb-8">
+          <div className="mx-auto mb-8 grid max-w-5xl grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3">
             {playlistVideoIds.map((id, index) => (
               <AnimatedSection key={id} animation="pop" delay={index * 150}>
                 <motion.div
@@ -1070,7 +1070,7 @@ const Gallery = () => {
             </p>
           </AnimatedSection>
 
-          <div className="mx-auto grid max-w-4xl grid-cols-1 items-stretch gap-8 md:grid-cols-3">
+          <div className="mx-auto grid max-w-4xl grid-cols-1 items-stretch gap-8 sm:grid-cols-2 md:grid-cols-3">
             {achievementsStats.map((stat, index) => (
               <AnimatedSection
                 key={stat.label}
@@ -1113,7 +1113,7 @@ const Gallery = () => {
             </p>
           </AnimatedSection>
 
-          <div className="grid md:grid-cols-3 gap-6 max-w-4xl mx-auto">
+          <div className="mx-auto grid max-w-4xl grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3">
             {behindScenes.map((item, index) => (
               <AnimatedSection key={item.label} animation="pop" delay={index * 150}>
                 <motion.div 

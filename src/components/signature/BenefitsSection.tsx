@@ -115,7 +115,7 @@ const BenefitsSection = () => {
               <img 
                 src={childrenLearningImg} 
                 alt="Children engaged in live learning" 
-                className="w-full h-[500px] object-cover"
+                className="h-64 w-full object-cover sm:h-80 md:h-[500px]"
               />
               {/* Gradient overlay */}
               <div className="absolute inset-0 bg-gradient-to-t from-vedic-navy/80 via-vedic-navy/20 to-transparent" />

@@ -51,7 +51,21 @@ const courses = [
 const SpotlightCarousel = () => {
   const [currentSlide, setCurrentSlide] = useState(0);
   const [isAutoPlaying, setIsAutoPlaying] = useState(true);
+  const [sideOffset, setSideOffset] = useState(280);
   const autoPlayRef = useRef<NodeJS.Timeout | null>(null);
+
+  useEffect(() => {
+    const syncOffset = () => {
+      const w = window.innerWidth;
+      if (w < 640) setSideOffset(72);
+      else if (w < 768) setSideOffset(140);
+      else if (w < 1024) setSideOffset(220);
+      else setSideOffset(280);
+    };
+    syncOffset();
+    window.addEventListener("resize", syncOffset, { passive: true });
+    return () => window.removeEventListener("resize", syncOffset);
+  }, []);
 
   useEffect(() => {
     if (isAutoPlaying) {
@@ -88,19 +102,19 @@ const SpotlightCarousel = () => {
       };
     } else if (isLeft) {
       return {
-        x: -280,
+        x: -sideOffset,
         scale: 0.85,
-        rotateY: 20,
+        rotateY: sideOffset < 100 ? 0 : 20,
         z: 0,
-        opacity: 1,
+        opacity: sideOffset < 100 ? 0.35 : 1,
       };
     } else if (isRight) {
       return {
-        x: 280,
+        x: sideOffset,
         scale: 0.85,
-        rotateY: -20,
+        rotateY: sideOffset < 100 ? 0 : -20,
         z: 0,
-        opacity: 1,
+        opacity: sideOffset < 100 ? 0.35 : 1,
       };
     }
     return {

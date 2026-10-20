@@ -128,7 +128,7 @@ const CONTACT_SHORT_MAX_CHARS = 220;
 const shortTestimonials = testimonials.filter((t) => t.text.length <= CONTACT_SHORT_MAX_CHARS);
 const longTestimonials = testimonials.filter((t) => t.text.length > CONTACT_SHORT_MAX_CHARS);
 const testimonialPages = [
-  { label: "Short notes", items: shortTestimonials, cols: "md:grid-cols-2 lg:grid-cols-3" },
+  { label: "Short notes", items: shortTestimonials, cols: "sm:grid-cols-2 lg:grid-cols-3" },
   { label: "Detailed stories", items: longTestimonials, cols: "md:grid-cols-1 lg:grid-cols-2" },
 ].filter((page) => page.items.length > 0);
 
@@ -326,7 +326,7 @@ const Contact = () => {
             <span className="inline-block px-4 py-2 bg-teal/10 text-teal font-semibold tracking-wider uppercase text-sm rounded-full mb-4">
               Global Network
             </span>
-            <h2 className="font-display text-4xl md:text-5xl font-bold text-foreground mb-6">
+            <h2 className="mb-6 font-display text-4xl font-bold text-foreground md:text-5xl">
               Learning <span className="text-gold">Without Borders</span>
             </h2>
             <p className="text-muted-foreground text-lg">
@@ -342,7 +342,7 @@ const Contact = () => {
       {/* Forms Section with Diagonal Stripes */}
       <section
         id="contact-form"
-        className="py-16 relative overflow-hidden"
+        className="relative overflow-hidden py-16 pb-24 lg:pb-16"
         style={{
           background: `
             repeating-linear-gradient(
@@ -366,7 +366,7 @@ const Contact = () => {
             <span className="text-primary font-semibold tracking-wider uppercase text-sm">
               Get Started
             </span>
-            <h2 className="font-display text-4xl md:text-5xl font-bold mt-2 mb-3">
+            <h2 className="mb-3 mt-2 font-display text-4xl font-bold md:text-5xl">
               Connect With{" "}
               <span className="bg-gradient-to-r from-primary to-teal bg-clip-text text-transparent">
                 Our Team
@@ -441,7 +441,7 @@ const Contact = () => {
                   id="contactPhone"
                   label={
                     contactForm.subject === "demo" || contactForm.subject === "courses"
-                      ? "Contact number (WhatsApp preferred)"
+                      ? "WhatsApp / phone number"
                       : "Phone Number"
                   }
                   countryId={contactForm.phoneCountryId}
@@ -587,7 +587,7 @@ const Contact = () => {
                 <div className="mb-2">
                   <FloatingLabelTextarea
                     id="siblingsAndAge"
-                    label="Does the student have siblings? (If yes, mention age) (Optional)"
+                    label="Siblings? (ages, optional)"
                     value={demoForm.siblingsAndAge}
                     onChange={(v) => setDemoForm({ ...demoForm, siblingsAndAge: v })}
                     rows={1}
@@ -786,7 +786,7 @@ const Contact = () => {
             <span className="text-primary font-semibold tracking-wider uppercase text-sm">
               Wall of Love
             </span>
-            <h2 className="font-display text-4xl md:text-5xl font-bold mt-4 mb-6">
+            <h2 className="mb-6 mt-4 font-display text-4xl font-bold md:text-5xl">
               What Parents{" "}
               <span className="bg-gradient-to-r from-primary to-gold bg-clip-text text-transparent">
                 Say About Us
@@ -879,7 +879,7 @@ const Contact = () => {
             </p>
           </motion.div>
 
-          <div className="grid md:grid-cols-3 gap-6 max-w-4xl mx-auto">
+          <div className="mx-auto grid max-w-4xl grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3">
             {[
               {
                 icon: Instagram,
@@ -1012,7 +1012,7 @@ const Contact = () => {
             viewport={{ once: true }}
             className="max-w-3xl mx-auto"
           >
-            <h2 className="font-display text-3xl md:text-5xl font-bold mb-6">
+            <h2 className="mb-6 font-display text-3xl font-bold md:text-5xl">
               Ready to Build Your Child's Confidence in Learning?
             </h2>
             <p className="text-xl text-white/80 mb-10">

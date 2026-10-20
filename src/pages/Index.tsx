@@ -273,7 +273,7 @@ const Index = () => {
       {/* Programs Section */}
       <section
         id={DISCOVER_PROGRAMS_HASH}
-        className="scroll-mt-[1.5rem] pt-6 pb-16 sm:pt-10 md:pt-14 lg:pt-16 bg-background relative overflow-hidden"
+        className="relative scroll-mt-24 overflow-hidden bg-background pt-6 pb-16 sm:pt-10 md:scroll-mt-28 md:pt-14 lg:pt-16"
       >
         <MathBackground />
         <div className="absolute top-20 right-10 w-32 h-32 border border-gold/10 rounded-full animate-float-slow" />
@@ -287,7 +287,7 @@ const Index = () => {
             <span className="inline-block px-4 py-2 bg-gold/10 text-gold font-semibold tracking-wider uppercase text-sm rounded-full mb-4">
               Discover
             </span>
-            <h2 className="font-display text-3xl sm:text-4xl md:text-5xl font-bold text-foreground mb-6 lg:whitespace-nowrap">
+            <h2 className="font-display text-4xl md:text-5xl font-bold text-foreground mb-6 lg:whitespace-nowrap">
               Our Programs That Build <span className="text-gold">Strong Foundations</span>
             </h2>
             <p className="text-muted-foreground text-lg max-w-5xl mx-auto">
@@ -407,7 +407,7 @@ const Index = () => {
             <span className="inline-block px-4 py-2 bg-teal/10 text-teal font-semibold tracking-wider uppercase text-sm rounded-full mb-4">
               Why Choose Us
             </span>
-            <h2 className="font-display text-3xl sm:text-4xl md:text-5xl font-bold text-foreground mb-6 lg:whitespace-nowrap">
+            <h2 className="font-display text-4xl md:text-5xl font-bold text-foreground mb-6 lg:whitespace-nowrap">
               Build Skills. Grow Confidence. <span className="text-gold">Love Learning.</span>
             </h2>
             <p className="text-muted-foreground text-lg max-w-4xl mx-auto">
@@ -415,7 +415,7 @@ const Index = () => {
             </p>
           </AnimatedSection>
 
-          <div className="grid md:grid-cols-3 gap-8">
+          <div className="grid grid-cols-1 gap-8 sm:grid-cols-2 md:grid-cols-3">
             {whyChooseFeatures.map((feature, index) => (
               <AnimatedSection key={feature.title} delay={index * 150} animation="pop" className="h-full">
                 <div className="group bg-card p-8 rounded-3xl shadow-lg hover:shadow-xl text-center transition-all duration-500 transform hover:-translate-y-3 border border-transparent hover:border-teal/20 h-full flex flex-col">
