@@ -61,6 +61,7 @@ const AbacusCourse = () => {
   const levelsRef = useRef<HTMLElement>(null);
   const abacusRef = useRef<InstanceType<typeof Abacus> | null>(null);
   const [isResetting, setIsResetting] = useState(false);
+  const [hasMovedBeads, setHasMovedBeads] = useState(false);
 
   const scrollToLevels = () => {
     levelsRef.current?.scrollIntoView({ behavior: "smooth" });
@@ -70,6 +71,7 @@ const AbacusCourse = () => {
     if (isResetting) return;
     setIsResetting(true);
     abacusRef.current?.reset();
+    setHasMovedBeads(false);
     window.setTimeout(() => setIsResetting(false), 600);
   };
 
@@ -83,7 +85,9 @@ const AbacusCourse = () => {
       ?.querySelectorAll("canvas.abacus-canvas")
       .forEach((node) => node.remove());
 
-    const abacus = new Abacus("abacus-container");
+    const abacus = new Abacus("abacus-container", {
+      onChange: () => setHasMovedBeads(true),
+    });
     abacus.init();
     abacusRef.current = abacus;
     return () => {
@@ -298,21 +302,23 @@ const AbacusCourse = () => {
                 id="abacus-container"
                 className="mx-auto flex min-h-[180px] w-full max-w-full justify-center overflow-x-auto sm:min-h-[220px] sm:overflow-x-hidden"
               />
-              <button
-                type="button"
-                onClick={resetAbacus}
-                className="group absolute bottom-2.5 left-1/2 z-10 inline-flex -translate-x-1/2 items-center gap-1.5 rounded-sm text-sm text-muted-foreground underline-offset-2 transition-colors hover:text-gold hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold/40 md:bottom-3"
-                aria-label="Reset abacus"
-              >
-                <RotateCcw
-                  className={
-                    isResetting
-                      ? "h-3.5 w-3.5 animate-[spin_0.55s_ease-out]"
-                      : "h-3.5 w-3.5 transition-transform duration-300 group-hover:-rotate-45"
-                  }
-                />
-                Reset
-              </button>
+              {hasMovedBeads && (
+                <button
+                  type="button"
+                  onClick={resetAbacus}
+                  className="group absolute bottom-2.5 left-1/2 z-10 inline-flex -translate-x-1/2 items-center gap-1.5 rounded-sm text-sm font-semibold text-foreground underline-offset-2 transition-colors hover:text-gold hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold/40 md:bottom-3"
+                  aria-label="Reset abacus"
+                >
+                  <RotateCcw
+                    className={
+                      isResetting
+                        ? "h-3.5 w-3.5 animate-[spin_0.55s_ease-out]"
+                        : "h-3.5 w-3.5 transition-transform duration-300 group-hover:-rotate-45"
+                    }
+                  />
+                  Reset
+                </button>
+              )}
             </div>
           </AnimatedSection>
         </div>

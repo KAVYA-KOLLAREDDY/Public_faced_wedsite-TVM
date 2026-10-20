@@ -188,8 +188,9 @@ function beadShapePath(ctx, cx, cy, rx, ry) {
   ctx.ellipse(cx, cy, rx, ry, 0, 0, Math.PI * 2);
 }
 
-function Abacus(parentDivId) {
+function Abacus(parentDivId, options = {}) {
   const abacusCtrl = new AbacusCtrl();
+  const onChange = typeof options.onChange === "function" ? options.onChange : null;
   let canvas = null;
   let uiElements = [];
   let onResize = null;
@@ -509,6 +510,7 @@ function Abacus(parentDivId) {
         const el = uiElements[i];
         if (lx > el.x && lx < el.x2 && ly > el.y && ly < el.y2) {
           abacusCtrl.activated(el.ref);
+          if (onChange) onChange();
           stopRaf();
           rafId = requestAnimationFrame(loop);
           break;
